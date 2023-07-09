@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.png">
+    <script src="./vendor/jquery/jquery-3.2.1.min.js"></script>
+
 </head>
 
 <body>
@@ -47,8 +49,7 @@
                             </li>
                             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
                                 <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="index.html">Homepage</a><a class="dropdown-item border-0 transition-link" href="shop.html">Category</a><a class="dropdown-item border-0 transition-link" href="detail.html">Product detail</a>
-                                    <a
-                                        class="dropdown-item border-0 transition-link" href="cart.html">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.html">Checkout</a></div>
+                                    <a class="dropdown-item border-0 transition-link" href="cart.html">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.html">Checkout</a></div>
                             </li>
                         </ul>
                         <ul class="navbar-nav ms-auto">
@@ -138,6 +139,11 @@
                             <table class="table text-nowrap">
                                 <thead class="bg-light">
                                     <tr>
+                                        <th class="border-0 p-3" scope="col">
+                                            <strong class="text-sm text-uppercase">
+                                                <input class="form-check-input" id="check-all" type="checkbox">
+                                                <label class="form-check-label" for="exampleCheck1">All</label>
+                                            </strong></th>
                                         <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Product</strong></th>
                                         <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Price</strong></th>
                                         <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Quantity</strong></th>
@@ -147,6 +153,9 @@
                                 </thead>
                                 <tbody class="border-0">
                                     <tr>
+                                        <td class="p-3 align-middle border-light">
+                                            <input class="check-item form-check-input" id="exampleCheck1" type="checkbox">
+                                        </td>
                                         <th class="ps-0 py-3 border-light" scope="row">
                                             <div class="d-flex align-items-center">
                                                 <a class="reset-anchor d-block animsition-link" href="detail.html"><img src="img/product-detail-3.jpg" alt="..." width="70" /></a>
@@ -171,6 +180,9 @@
                                         <td class="p-3 align-middle border-light"><a class="reset-anchor" href="#!"><i class="fas fa-trash-alt small text-muted"></i></a></td>
                                     </tr>
                                     <tr>
+                                        <td class="p-3 align-middle border-light">
+                                            <input class="check-item form-check-input" id="exampleCheck1" type="checkbox">
+                                        </td>
                                         <th class="ps-0 py-3 border-0" scope="row">
                                             <div class="d-flex align-items-center">
                                                 <a class="reset-anchor d-block animsition-link" href="detail.html"><img src="img/product-detail-2.jpg" alt="..." width="70" /></a>
@@ -280,6 +292,7 @@
         <script src="vendor/swiper/swiper-bundle.min.js"></script>
         <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
         <script src="js/front.js"></script>
+        <script src="./js/cart.js"></script>
         <script>
             // ------------------------------------------------------- //
             //   Inject SVG Sprite - 
