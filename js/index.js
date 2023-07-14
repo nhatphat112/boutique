@@ -5,35 +5,35 @@ $(document).ready(function () {
   let contentProduct = "";
   let stock = "";
   window.addEventListener("load", function () {
-    jQuery.ajax({
-      url: "http://localhost:8080/product",
-      type: "GET",
-      async: false,
-      success: function (res) {
-        if (res != null && res != "") {
-          listProduct = res.data;
-          res.data.map(function (currentItem, index, arr) {
-            contentProduct += `<div class="product-item col-xl-3 col-lg-4 col-sm-6">
-                            <div class="product text-center">
-                                <div class="position-relative mb-3">
-                                    <div class="badge text-white bg-"></div>
-                                    <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
-                                    <div class="product-overlay">
-                                        <ul class="mb-0 list-inline">
-                                            <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>
-                                        </ul>
-                                    </div>
+$.ajax({
+  url: "http://localhost:8080/product",
+  type: "GET",
+  async: false,
+  success: function (res) {
+    if (res != null && res != "") {
+      listProduct = res.data;
+      res.data.map(function (currentItem, index, arr) {
+        contentProduct += `<div class="product-item col-xl-3 col-lg-4 col-sm-6">
+                        <div class="product text-center">
+                            <div class="position-relative mb-3">
+                                <div class="badge text-white bg-"></div>
+                                <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
+                                <div class="product-overlay">
+                                    <ul class="mb-0 list-inline">
+                                        <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>
+                                    </ul>
                                 </div>
-                                <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
-                                <p class="small text-muted">$${currentItem.price}</p>
                             </div>
-                        </div>`;
-          });
-          productContainer.innerHTML = contentProduct;
-          console.log("check product container :", productContainer);
-        }
-      },
-    });
+                            <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
+                            <p class="small text-muted">$${currentItem.price}</p>
+                        </div>
+                    </div>`;
+      });
+      productContainer.innerHTML = contentProduct;
+      console.log("check product container :", productContainer);
+    }
+  },
+});
     $(".btn-add-to-cart").click(function () {
       let quantityQuickView = document
         .getElementById("product-quantity")
