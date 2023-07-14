@@ -25,12 +25,12 @@ $(document).ready(function() {
                 var row =
                     '<tr>' +
                     '<td class="p-3 align-middle border-light">' +
-                    '<input class="check-item form-check-input" id="exampleCheck1" type="checkbox">' +
+                    '<input class="check-item form-check-input" id="' + cart.id + '" type="checkbox">' +
                     '</td>' +
                     '<th class="ps-0 py-3 border-light" scope="row">' +
                     '<div class="d-flex align-items-center">' +
                     '<a class="reset-anchor d-block animsition-link" href="detail.html">' + '<img src="img/product-detail-3.jpg" alt="..." width="70" />' + '</a>' +
-                    '<div class="ms-3">' + '<strong class="h6">' + '<a id="cart-name" class="cart-name reset-anchor animsition-link" href="detail.html">' + cart.stockName + '</a>' + '</strong>' + '</div>' +
+                    '<div class="ms-3">' + '<strong class="h6">' + '<a id="cart-name" class="cart-name reset-anchor animsition-link" href="detail.html">' + cart.productName + '</a>' + '</strong>' + '</div>' +
                     '</div>' +
                     '</th>' +
                     '<td class="p-3 align-middle border-light">' +
@@ -60,3 +60,25 @@ $(document).ready(function() {
     })
 
 })
+
+$(document).ready(function() {
+    $('#to-checkout-btn').click(function() {
+        console.log("hello checkout btn")
+        alert("checkout btn clicked");
+        //Nếu mấy cái check-item được check 
+        var checkboxes = $('input[type="checkbox"].check-item');
+        //console.log(checkboxes);
+        var listCheckedCartId = [];
+        checkboxes.each(function() {
+            if (this.checked) {
+                console.log('Checkbox id: ' + this.id + ' đã được chọn.');
+                listCheckedCartId.push(this.id)
+            }
+        });
+        console.log("các giá trị trong checkedList" + listCheckedCartId);
+        // $('.check-item').prop('checked', this.checked);
+        var checkedCartIdJSON = JSON.stringify(listCheckedCartId);
+        localStorage.setItem("checkedCartId", checkedCartIdJSON);
+
+    });
+});
