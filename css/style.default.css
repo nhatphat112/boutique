@@ -12208,3 +12208,17 @@ STYLE SWITCHER FOR DEMO
 #style-switch h4, #style-switch .h4 {
   color: #495057;
 }
+.rating {
+  display: inline-block;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.rating-star {
+  color: #ccc;
+}
+
+.rating-star.active,
+.rating-star:hover {
+  color: gold;
+}
