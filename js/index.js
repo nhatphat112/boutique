@@ -34,34 +34,16 @@ $.ajax({
     }
   },
 });
+var inputElement = document.querySelector(".quantity input");
+    var decButton = document.querySelector(".quantity .dec-btn");
+    var incButton = document.querySelector(".quantity .inc-btn");
     $(".btn-add-to-cart").click(function () {
+      document.getElementById('sold-out').classList.add("d-none")
       let quantityQuickView = document
-        .getElementById("product-quantity")
+        .getElementById("product-quantity-quick-view")
         .classList.add("d-none");
-      // <div id="product-quantity" class="border d-flex align-items-center justify-content-between py-1 px-3">
-      //               <span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
-      //               <div class="quantity">
-      //                 <button class="dec-btn p-0">
-      //                   <i class="fas fa-caret-left"></i>
-      //                 </button>
-      //                 <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
-      //                 <button class="inc-btn p-0">
-      //                   <i class="fas fa-caret-right"></i>
-      //                 </button>
-      //               </div>
-      //             </div>
-      // <div id="product-quantity" class="">
-      //               <span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
-      //               <div class="quantity">
-      //                 <button class="dec-btn p-0">
-      //                   <i class="fas fa-caret-left"></i>
-      //                 </button>
-      //                 <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
-      //                 <button class="inc-btn p-0">
-      //                   <i class="fas fa-caret-right"></i>
-      //                 </button>
-      //               </div>
-      //             </div>
+        console.log("check quantityQuickView",quantityQuickView)
+      
       let colorSelector = document.getElementById("color-selector");
       console.log("check colorSelector", colorSelector);
       let productId = $(this).attr("product-id");
@@ -118,35 +100,50 @@ $.ajax({
     this.document
       .getElementById("color-selector")
       .addEventListener("change", function () {
-        let productQuantity = document.getElementById("product-quantity");
+        incButton.disabled = false;
+        decButton.disabled = false;
+        let productQuantity = document.getElementById("product-quantity-quick-view");
         let colorSelectorValue = this.value;
         console.log("colorSelectorValue", colorSelectorValue);
         document.getElementById('input-quantity').value=1
-        productQuantity.classList.remove("d-none");
+       
         stock.map(function (currentItem, index, arr) {
           if (colorSelectorValue == currentItem.colorId) {
             quantityQuickViewMax = currentItem.quantity
-            console.log("active map");
+            console.log("currentItem.quantity",currentItem.quantity)
             document.getElementById("price-quick-view").textContent =
               currentItem.price + "$";
             document.getElementById(
               "image-product-quick-view"
             ).style.background = `url('/img/${currentItem.image}')`;
+            if(currentItem.quantity>1){
+              productQuantity.classList.remove("d-none");
+              document.getElementById('sold-out').classList.add("d-none")
+            }else{
+                document.getElementById('sold-out').classList.remove("d-none")
+                document.getElementById('product-quantity-quick-view').classList.add("d-none")
+            }
+            
           }
         });
       });
-    var inputElement = document.querySelector(".quantity input");
-    var decButton = document.querySelector(".quantity .dec-btn");
-    var incButton = document.querySelector(".quantity .inc-btn");
+    
 
     decButton.addEventListener("click", function () {
       var value = parseInt(inputElement.value);
-    });
+      if (value >= quantityQuickViewMax) {
+        decButton.disabled = true
+      }else{
+        incButton.disabled = false
+      }
 
+    });
     incButton.addEventListener("click", function () {
       var value = parseInt(inputElement.value);
-      if (value == quantityQuickViewMax) {
+      if (value >= quantityQuickViewMax) {
         incButton.disabled = true
+      }else{
+        decButton.disabled = false
       }
     });
   });
