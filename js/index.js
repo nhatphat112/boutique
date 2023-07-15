@@ -24,6 +24,7 @@ $.ajax({
                                     </ul>
                                 </div>
                             </div>
+
                             <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
                             <p class="small text-muted">$${currentItem.price}</p>
                         </div>
@@ -84,70 +85,101 @@ $.ajax({
             "href",
             `url('/img/${currentItem.image}')`
           );
+                    productNameQuickView.textContent = currentItem.name;
+                    priceQuickView.textContent = currentItem.price + "$";
+                    descriptionQuickView.textContent = currentItem.desciption;
+                    console.log("check currentItem.name", currentItem.name);
+                }
+            });
 
-          productNameQuickView.textContent = currentItem.name;
-          priceQuickView.textContent = currentItem.price + "$";
-          descriptionQuickView.textContent = currentItem.desciption;
-          console.log("check currentItem.name", currentItem.name);
-        }
-      });
+            console.log("check list Product :" + listProduct);
+            let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
 
-      console.log("check list Product :" + listProduct);
-      let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
-
-      jQuery.ajax({
-        url: "http://localhost:8080/stock/product?id=" + productId,
-        type: "GET",
-        async: false,
-        success: function (res) {
-          console.log(res);
-          if (res != null && res != "") {
-            stock = res.data;
-            res.data.map(function (currentItem, index, arr) {
-              contentColor += ` 
+            jQuery.ajax({
+                url: "http://localhost:8080/stock/product?id=" + productId,
+                type: "GET",
+                async: false,
+                success: function(res) {
+                    console.log(res);
+                    if (res != null && res != "") {
+                        stock = res.data;
+                        res.data.map(function(currentItem, index, arr) {
+                            contentColor += ` 
                          <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
                          `;
+                        });
+                        console.log(contentColor);
+                        colorSelector.innerHTML = contentColor;
+                    }
+                }
             });
-            console.log(contentColor);
-            colorSelector.innerHTML = contentColor;
-          }
-        },
-      });
-    });
-    let quantityQuickViewMax = "";
-    this.document
-      .getElementById("color-selector")
-      .addEventListener("change", function () {
-        let productQuantity = document.getElementById("product-quantity");
-        let colorSelectorValue = this.value;
-        console.log("colorSelectorValue", colorSelectorValue);
-        document.getElementById('input-quantity').value=1
-        productQuantity.classList.remove("d-none");
-        stock.map(function (currentItem, index, arr) {
-          if (colorSelectorValue == currentItem.colorId) {
-            quantityQuickViewMax = currentItem.quantity
-            console.log("active map");
-            document.getElementById("price-quick-view").textContent =
-              currentItem.price + "$";
-            document.getElementById(
-              "image-product-quick-view"
-            ).style.background = `url('/img/${currentItem.image}')`;
-          }
+            /*Bắt đầu submit add to cart*/
+            $("#btn-submit-add-to-cart").click(function() {
+                //console.log("hello bạn đã bấm vào nút submit");
+                //console.log("đây là id của sp " + productId);
+                var colorId = $("#color-selector").val();;
+                var quantity = $("#input-quantity").val();
+                //console.log("đây là id color của sp " + colorId);
+                //console.log("đây là quantity của sp " + quantity);
+                var email = "";
+                email = localStorage.getItem("email");
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + email,
+                    data: {
+                        productId: productId,
+                        colorId: colorId,
+                        quantity: quantity,
+                        email: email
+                    },
+                    success: function(response) {
+                        console.log("User created successfully", response)
+                        console.log("User created successfully", response.data)
+                    },
+                    error: function(error) {
+                        console.error("Error creating user", error),
+                            console.log("User created failed", data)
+                    }
+
+                });
+            });
+            /*Kết thúc submit add to cart*/
+
         });
-      });
-    var inputElement = document.querySelector(".quantity input");
-    var decButton = document.querySelector(".quantity .dec-btn");
-    var incButton = document.querySelector(".quantity .inc-btn");
+        let quantityQuickViewMax = "";
+        this.document
+            .getElementById("color-selector")
+            .addEventListener("change", function() {
+                let productQuantity = document.getElementById("product-quantity");
+                let colorSelectorValue = this.value;
+                console.log("colorSelectorValue", colorSelectorValue);
+                document.getElementById('input-quantity').value = 1
+                productQuantity.classList.remove("d-none");
+                stock.map(function(currentItem, index, arr) {
+                    if (colorSelectorValue == currentItem.colorId) {
+                        quantityQuickViewMax = currentItem.quantity
+                        console.log("active map");
+                        document.getElementById("price-quick-view").textContent =
+                            currentItem.price + "$";
+                        document.getElementById(
+                            "image-product-quick-view"
+                        ).style.background = `url('/img/${currentItem.image}')`;
+                    }
+                });
+            });
+        var inputElement = document.querySelector(".quantity input");
+        var decButton = document.querySelector(".quantity .dec-btn");
+        var incButton = document.querySelector(".quantity .inc-btn");
 
-    decButton.addEventListener("click", function () {
-      var value = parseInt(inputElement.value);
-    });
+        decButton.addEventListener("click", function() {
+            var value = parseInt(inputElement.value);
+        });
 
-    incButton.addEventListener("click", function () {
-      var value = parseInt(inputElement.value);
-      if (value == quantityQuickViewMax) {
-        incButton.disabled = true
-      }
+        incButton.addEventListener("click", function() {
+            var value = parseInt(inputElement.value);
+            if (value == quantityQuickViewMax) {
+                incButton.disabled = true
+            }
+        });
     });
-  });
 });
