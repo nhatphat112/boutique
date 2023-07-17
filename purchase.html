@@ -201,20 +201,20 @@
                   <tr>
                     <th class="border-bottom-0">
                       <div id="reviewForm" class="mt-3" style="display: none;">
-                        <form>
+                        <form action="#">
                           <div class="form-group">
                             <label for="reviewText">Your Review:</label>
                             <textarea class="form-control" id="reviewText" rows="4"></textarea>
                           </div>
                           <div class="rating">
-                            <span class="rating-star">&#9733;</span>
+                            <span class="rating-star active">&#9733;</span>
                             <span class="rating-star">&#9733;</span>
                             <span class="rating-star">&#9733;</span>
                             <span class="rating-star">&#9733;</span>
                             <span class="rating-star">&#9733;</span>
                           </div>    
                           <p class="mt-3" id="ratingResult">Bạn đã đánh giá: <span id="selectedRating">0</span> sao</p>
-                          <button type="submit" class="btn btn-dark"><a class="link-light text-decoration-none" href="#">Submit</a><i class="fas fa-paper-plane"></i></button>
+                          <button type="submit" id="btn-submit" class="btn btn-dark">Submit<i class="fas fa-paper-plane"></i></button>
                         </form>
                       </div>
                     </th> 
