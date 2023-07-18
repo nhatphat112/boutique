@@ -59,6 +59,7 @@ var inputElement = document.querySelector(".quantity input");
       let descriptionQuickView = document.getElementById(
         "description-quick-view"
       );
+      console.log('check descriptionQuickView:',descriptionQuickView)
       listProduct.map(function (currentItem, index, arr) {
         if (currentItem.id == productId) {
           imageProductQuickView.style.background = `url('/img/${currentItem.image}')`;
@@ -70,7 +71,8 @@ var inputElement = document.querySelector(".quantity input");
           productNameQuickView.textContent = currentItem.name;
           priceQuickView.textContent = currentItem.price + "$";
           descriptionQuickView.textContent = currentItem.desciption;
-          console.log("check currentItem.name", currentItem.name);
+          console.log('check currentItem.desciption:',currentItem.desciption)
+
         }
       });
 
