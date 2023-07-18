@@ -8,10 +8,8 @@ $(document).ready(function () {
     async:false
     
   }).done(function(res) {
-    console.log(res)
     if(res.data!=null&&res.data!=""){
       let theadProduct = document.getElementById('thead-product')
-      console.log("check productContainer:"+theadProduct)
       let productContainerContent = "";
       res.data.map(function(currentItem,index,arr){
         productContainerContent+= 
@@ -54,11 +52,11 @@ $(document).ready(function () {
         </tr>
         <tr>
           <th class="ps-0">
-            <button class="btn btn-dark" id="toggleReviewBtn">
-              <a class="btn-rate link-light text-decoration-none" href="#">Rate</a>
+            <button class="btn-rate btn btn-dark" id="toggleReviewBtn">
+              <a class=" link-light text-decoration-none" href="#">Rate</a>
             </button>&ensp;
             <button class="btn btn-dark">
-              <a class="link-light text-decoration-none" href="#">Buy again</a>
+              <a class="btn-buy-again link-light text-decoration-none" href="#">Buy again</a>
             </button>
           </th>
         </tr>
@@ -68,7 +66,7 @@ $(document).ready(function () {
               <form class="form-review">
                 <div class="form-group">
                   <label for="reviewText">Your Review:</label>
-                  <textarea class="form-control" id="reviewText" rows="4"></textarea>
+                  <textarea class="form-control" name="review-text" id="reviewText" rows="4"></textarea>
                 </div>
                 <div class="rating">
                   <span class="rating-star">&#9733;</span>
@@ -77,9 +75,9 @@ $(document).ready(function () {
                   <span class="rating-star">&#9733;</span>
                   <span class="rating-star">&#9733;</span>
                 </div>
-                <p class="mt-3" id="ratingResult">Bạn đã đánh giá: <span id="selectedRating">0</span> sao</p>
-                <button type="submit" class="btn btn-dark">
-                  <a class="link-light text-decoration-none" href="#">Submit</a>
+                <p class="mt-3" id="ratingResult">Bạn đã đánh giá: <span class="selected-rating" id="selectedRating">0</span> sao</p>
+                <button type="submit" class="btn-submit btn btn-dark">
+                  <a class=" link-light text-decoration-none" href="#">Submit</a>
                   <i class="fas fa-paper-plane"></i>
                 </button>
               </form>
@@ -96,35 +94,54 @@ $(document).ready(function () {
     }
     
   });
-  $('#selectedRating').text(1);
-  $("#selectedRating").val(1)
+  $('.selected-rating').text(1);
+  $(".selected-rating").val(1)
+  $('.rating').each(function(index,element){
+    element.getElementsByClassName('rating-star')[0].classList.add('active')
+  })
+
+  //  let rating = document.getElementsByClassName('rating')
+  //  Array.from(rating).map(function(currentItem){
+  //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
+  //  })
+
   $('.rating-star').click(function () {
     $(this).addClass('active');
     $(this).prevAll('.rating-star').addClass('active');
     $(this).nextAll('.rating-star').removeClass('active');
     var selectedRating = $(this).index() + 1;
-    $('#selectedRating').text(selectedRating);
-    $('#selectedRating').val(selectedRating);
+    $(this).closest('.product-item').find('.selected-rating').text(selectedRating);
+    $(this).closest('.product-item').find('.selected-rating').val(selectedRating);
   });
-  $("#btn-submit").click(function () {
-    var text = $("#reviewText").val()
-    var star = $("#selectedRating").val()
+  // hidden / appear form review
+    $('.btn-rate').click(function(event){
+      event.preventDefault()
+      let reviewForm= $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+
+    })
+    // submit form
+  $(".btn-submit").click(function (event) {
+    event.preventDefault()
+    let reviewText = $(this).closest('.product-item').find("textarea[name='review-text']").val()
+    let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
+    
+    let isSuccess = false;
+
     $.ajax({
       method: "POST",
       url: "http://localhost:8080/purchase/rate",
+      async:false,
       data: {
-        content: text,
-        starNumber: parseInt(star)
+        content: reviewText,
+        starNumber: parseInt(reviewStar)
       }
     })
       .done(function () {
-        $('#reviewForm').toggle()
-        $("#reviewText").val("")
-        $(".rating-star").removeClass('active');
-        $('#selectedRating').text(0);
-        $("#selectedRating").val(0)
-        alert("Review succesful")
-
+        isSuccess =true
       });
+      if(isSuccess==true){
+        $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+        alert("Success !")
+      }
   })
 });
