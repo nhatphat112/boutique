@@ -87,7 +87,7 @@
             </div>
         </header>
         <!--  Modal -->
-        <div class="modal fade" id="productView" tabindex="-1">
+        <!-- <div class="modal fade" id="productView" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content overflow-hidden border-0">
                     <button class="btn-close p-4 position-absolute top-0 end-0 z-index-20 shadow-0" type="button"
@@ -149,15 +149,15 @@
                                         <div class="col-sm-5"><a
                                                 class="btn btn-dark btn-sm w-100 h-100 d-flex align-items-center justify-content-center px-0"
                                                 href="cart.html">Add to cart</a></div>
-                                    </div>
-                                    <!--<a class="btn btn-link text-dark text-decoration-none p-0" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a>-->
-                                </div>
+                                    </div> -->
+        <!--<a class="btn btn-link text-dark text-decoration-none p-0" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a>-->
+        <!-- </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <section class="py-5">
             <div class="container">
                 <div class="row mb-5">
@@ -166,7 +166,7 @@
                         <div class="row m-sm-0">
                             <div class="col-sm-2 p-sm-0 order-2 order-sm-1 mt-2 mt-sm-0 px-xl-2">
                                 <div class="swiper product-slider-thumbs">
-                                    <div class="swiper-wrapper">
+                                    <div class="swiper-wrapper" id="wrapper-mini">
                                         <div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100"
                                                 src="img/product-detail-1.jpg" alt="..."></div>
                                         <div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100"
@@ -180,7 +180,7 @@
                             </div>
                             <div class="col-sm-10 order-1 order-sm-2">
                                 <div class="swiper product-slider">
-                                    <div class="swiper-wrapper">
+                                    <div class="swiper-wrapper" id="wrapper-main">
                                         <div class="swiper-slide h-auto">
                                             <a class="glightbox product-view" href="img/product-detail-1.jpg"
                                                 data-gallery="gallery2" data-glightbox="Product item 1"><img
@@ -217,7 +217,8 @@
                         </ul>
                         <h1>Red digital smartwatch</h1>
                         <p class="text-muted lead">$250</p>
-                        <p class="text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut
+                        <p class="text-sm mb-4" id="description">Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. In ut
                             ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient
                             montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.</p>
                         <div class="row align-items-stretch mb-4">
@@ -234,7 +235,7 @@
                                 <button class="btn btn-secondary dropdown-toggle py-1 px-3" id="dropdownMenuButton"
                                     type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">Select Color</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item"
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="listcolor"><a class="dropdown-item"
                                         href="#!">Red</a><a class="dropdown-item" href="#!">Black</a><a
                                         class="dropdown-item" href="#!">White</a></div>
                             </div>
@@ -268,7 +269,8 @@
                         aria-labelledby="description-tab">
                         <div class="p-4 p-lg-5 bg-white">
                             <h6 class="text-uppercase">Product description </h6>
-                            <p class="text-muted text-sm mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                            <p class="text-muted text-sm mb-0" id="product-description">Lorem ipsum dolor sit amet,
+                                consectetur adipisicing elit,
                                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                                 veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                                 consequat.
@@ -481,7 +483,8 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/front.js"></script>
-        <script src="./js/detail.js"></script>
+        <script src="js/detail.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             // ------------------------------------------------------- //
             //   Inject SVG Sprite - 
