@@ -603,7 +603,7 @@ $(document).ready(function () {
                               <div class="product text-center">
                                   <div class="position-relative mb-3">
                                       <div class="badge text-white bg-"></div>
-                                      <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
+                                      <a class="d-block" href="detail.html?id=${currentItem.id}"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
                                       <div class="product-overlay">
                                           <ul class="mb-0 list-inline">
                                               <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>
