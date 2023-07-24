@@ -5,7 +5,7 @@ $(document).ready(function() {
     let contentProduct = "";
     let stock = "";
     window.addEventListener("load", function() {
-        jQuery.ajax({
+        $.ajax({
             url: "http://localhost:8080/product",
             type: "GET",
             async: false,
@@ -14,20 +14,21 @@ $(document).ready(function() {
                     listProduct = res.data;
                     res.data.map(function(currentItem, index, arr) {
                         contentProduct += `<div class="product-item col-xl-3 col-lg-4 col-sm-6">
-                            <div class="product text-center">
-                                <div class="position-relative mb-3">
-                                    <div class="badge text-white bg-"></div>
-                                    <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
-                                    <div class="product-overlay">
-                                        <ul class="mb-0 list-inline">
-                                            <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>
-                                        </ul>
-                                    </div>
+                        <div class="product text-center">
+                            <div class="position-relative mb-3">
+                                <div class="badge text-white bg-"></div>
+                                <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
+                                <div class="product-overlay">
+                                    <ul class="mb-0 list-inline">
+                                        <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>
+                                    </ul>
                                 </div>
-                                <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
-                                <p class="small text-muted">$${currentItem.price}</p>
                             </div>
-                        </div>`;
+
+                            <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
+                            <p class="small text-muted">$${currentItem.price}</p>
+                        </div>
+                    </div>`;
                     });
                     productContainer.innerHTML = contentProduct;
                     console.log("check product container :", productContainer);
@@ -84,7 +85,6 @@ $(document).ready(function() {
                         "href",
                         `url('/img/${currentItem.image}')`
                     );
-
                     productNameQuickView.textContent = currentItem.name;
                     priceQuickView.textContent = currentItem.price + "$";
                     descriptionQuickView.textContent = currentItem.desciption;
@@ -115,13 +115,13 @@ $(document).ready(function() {
             });
             /*Bắt đầu submit add to cart*/
             $("#btn-submit-add-to-cart").click(function() {
-                console.log("hello bạn đã bấm vào nút submit");
-                console.log("đây là id của sp " + productId);
+                //console.log("hello bạn đã bấm vào nút submit");
+                //console.log("đây là id của sp " + productId);
                 var colorId = $("#color-selector").val();;
                 var quantity = $("#input-quantity").val();
-                console.log("đây là id color của sp " + colorId);
-                console.log("đây là quantity của sp " + quantity);
-                var email = "nguyenvana@gmail.com";
+                //console.log("đây là id color của sp " + colorId);
+                //console.log("đây là quantity của sp " + quantity);
+                var email = "";
                 email = localStorage.getItem("email");
                 $.ajax({
                     method: "GET",
