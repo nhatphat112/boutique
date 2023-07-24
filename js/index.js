@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
   // console.log("index.js active")
   let productContainer = document.getElementById("product-container");
@@ -24,6 +25,7 @@ $(document).ready(function () {
                                     </ul>
                                 </div>
                             </div>
+
                             <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
                             <p class="small text-muted">$${currentItem.price}</p>
                         </div>
@@ -76,21 +78,26 @@ $(document).ready(function () {
         }
       });
 
-      console.log("check list Product :" + listProduct);
-      let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
+            console.log("check list Product :" + listProduct);
+            let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
 
-      jQuery.ajax({
-        url: "http://localhost:8080/stock/product?id=" + productId,
-        type: "GET",
-        async: false,
-        success: function (res) {
-          console.log(res);
-          if (res != null && res != "") {
-            stock = res.data;
-            res.data.map(function (currentItem, index, arr) {
-              contentColor += ` 
+            jQuery.ajax({
+                url: "http://localhost:8080/stock/product?id=" + productId,
+                type: "GET",
+                async: false,
+                success: function(res) {
+                    console.log(res);
+                    if (res != null && res != "") {
+                        stock = res.data;
+                        res.data.map(function(currentItem, index, arr) {
+                            contentColor += ` 
                          <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
                          `;
+                        });
+                        console.log(contentColor);
+                        colorSelector.innerHTML = contentColor;
+                    }
+                }
             });
             console.log(contentColor);
             colorSelector.innerHTML = contentColor;
@@ -148,5 +155,4 @@ $(document).ready(function () {
         decButton.disabled = false
       }
     });
-  });
 });
