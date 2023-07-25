@@ -1,4 +1,3 @@
-/*Bắt đầu nút check all*/
 $(document).ready(function() {
 
     $('#check-all').click(function() {
@@ -6,8 +5,7 @@ $(document).ready(function() {
         $('.check-item').prop('checked', this.checked);
     });
 });
-/*Kết thúc nút check all*/
-/*Bắt đầu API /cart*/
+
 $(document).ready(function() {
 
     var email = localStorage.getItem("email");
@@ -19,17 +17,17 @@ $(document).ready(function() {
         },
 
         success: function(response) {
-            /*Bắt đầu bảng table các sản phẩm trong cart*/
             var carts = response.data;
             var cartTable = $('#cart-table tbody');
             console.log("success congratulation", carts)
-            var subtotalValue = 0;
-            var subTotal = ('#subtotal');
+
             $.each(carts, function(index, cart) {
+                var currentQuantity = cart.quantity;
+
                 var row =
-                    '<tr id="' + cart.id + '">' +
+                    '<tr>' +
                     '<td class="p-3 align-middle border-light">' +
-                    '<input id="' + cart.id + '" class="check-item form-check-input" type="checkbox">' +
+                    '<input class="check-item form-check-input" id="' + cart.id + '" type="checkbox">' +
                     '</td>' +
                     '<th class="ps-0 py-3 border-light" scope="row">' +
                     '<div class="d-flex align-items-center">' +
@@ -44,70 +42,36 @@ $(document).ready(function() {
                     '<div class="border d-flex align-items-center justify-content-between px-3"><span class="small text-uppercase text-gray headings-font-family">Quantity</span>' +
                     '<div class="quantity" id ="' + 'quantity' + cart.id + '">' +
                     '<button class="dec-btn p-0">' + '<i class="fas fa-caret-left">' + '</i>' + '</button>' +
-                    '<input class="stock-quantity form-control form-control-sm border-0 shadow-0 p-0" type="test" value="' + cart.quantity +
+                    '<input class="stock-quantity form-control form-control-sm border-0 shadow-0 p-0" type="number" value="' + cart.quantity +
                     '" />' +
                     '<button class="inc-btn p-0">' + '<i class="fas fa-caret-right">' + '</i>' + '</button>' +
                     '</div>' +
                     '</div>' +
                     '</td>' +
-
                     '<td class="p-3 align-middle border-light">' +
                     '<p class="totalEachItem mb-0 small">' + "$" + cart.stockPrice * cart.quantity + '</p>' +
                     '</td>' +
                     '<td class="p-3 align-middle border-light">' + '<a class="reset-anchor" href="#!">' + '<i class="fas fa-trash-alt small text-muted">' + '</i>' + '</a>' + '</td>' +
                     '</tr>';
+                //var inputEl = $('#quantity' + cart.id, cartTable).find('.stock-quantity'); // Lấy input element tại vị trí index
+
                 cartTable.append(row);
+                // $('.inc-btn').on('mousedown', function() {
+                //     console.log("++")
+                //     currentQuantity++; // Tăng giá trị số lượng lên 1 đơn vị
+                //     inputEl.val(currentQuantity);
+                // });
+                // inputEl.val(currentQuantity);
+                // // Lắng nghe sự kiện click cho nút giảm số lượng
+                // $('.dec-btn').on('mousedown', function() {
+                //     console.log("--")
 
-                var div = $('div.quantity:last')
-                var input = $(div).find("input.stock-quantity");
-                var incBtn = $(div).find("button.inc-btn");
-                var decBtn = $(div).find("button.dec-btn");
-                var tr = $(div).closest("tr");
-                var totalItem = $(tr).find('p.totalEachItem');
-
-                var currentQuantity = parseInt(input.val());
-                var checkedItem = $(tr).find('input.check-item');
-
-                incBtn.on('click', function() {
-                    console.log('tang roi');
-                    //currenQuantity++;
-                    input.val(currentQuantity += 1);
-                    totalItem.text('$' + cart.stockPrice * input.val())
-                    totalItem.val(cart.stockPrice * input.val())
-                    console.log(totalItem.text() + 'day la totalcheckeditem');
-
-                })
-                decBtn.on('click', function() {
-                    console.log('giam roi');
-                    if (currentQuantity > 1) {
-                        //currenQuantity--;
-                        input.val(currentQuantity -= 1);
-                        totalItem.text('$' + cart.stockPrice * input.val())
-                        totalItem.val(cart.stockPrice * input.val())
-                        console.log(totalItem.text() + 'day la totalcheckeditem');
-
-                    }
-                });
-                /*Kết bảng table các sản phẩm trong cart*/
-                
-                /*Bắt đầu tính subtotal*/
-                checkedItem.click(function() {
-                    console.log('hello checked already');
-                    //totalItem.text();
-                    console.log(totalItem.text() +
-                        'day la subtotal');
-                    var b = totalItem.text().replace('$', '');
-                    console.log(b + 'day la subtotal');
-                    var c = parseInt(b);
-                    subtotalValue += c;
-                    console.log(subtotalValue + 'day la subtotal');
-                    $(subTotal).text('$' + subtotalValue);
-
-                });
-                /*Kết thúc tính subtotal*/
-
+                //     if (currentQuantity > 1) { // Kiểm tra nếu số lượng hiện tại lớn hơn 1
+                //         currentQuantity--; // Giảm giá trị số lượng đi 1 đơn vị
+                //         inputEl.val(currentQuantity); // Hiển thị lại giá trị số lượng mới lên input
+                //     }
+                // });
             })
-
 
         },
         error: function(error) {
@@ -116,8 +80,14 @@ $(document).ready(function() {
     })
 
 });
-/*Kết thúc API /cart*/
-/*Bắt đầu nút procceed to checkout */
+$(document).ready(function() {
+    $('.inc-btn').click(function() {
+        var incre_value = $(this).parents('.quantity').find('.stock-quantity').val();
+        console.log(incre_value);
+        var value = parseInt(incre_value) + 1;
+        $(this).parents('.quantity').find('.stock-quantity').val(value);
+    })
+});
 
 $(document).ready(function() {
 
@@ -126,28 +96,49 @@ $(document).ready(function() {
         console.log("checkboxs size II " + checkboxes.length);
         console.log("hello checkout btn")
         alert("checkout btn clicked");
+        //Nếu mấy cái check-item được check 
+        //console.log(checkboxes);
         var listCheckedCartId = [];
-
-        $(checkboxes).each(function() {
+        var subTotal = 0;
+        checkboxes.each(function() {
             if (this.checked) {
-                var tr = $(this).closest("tr");
-                var quantity = $(tr).find('input.stock-quantity').val();
-                console.log('quantity ' + quantity)
+                //Bắt đầu lấy danh sách cách cart_id
                 console.log("This " + this);
-                var cartIndex = {
-                    id: this.id,
-                    quantity: quantity
-                }
                 console.log('Checkbox id: ' + this.id + ' đã được chọn.');
-                listCheckedCartId.push(cartIndex);
+                listCheckedCartId.push(this.id);
+                //Bắt đầu tính xem hàng này bao nhiêu tiền
+                var closetRow = $(this).closet('tr');
+                console.log("closetRow " + closetRow);
             }
         });
         console.log("các giá trị trong checkedList" + listCheckedCartId);
-        console.log("các giá trị trong checkedList" + listCheckedCartId[0].id + 'quantity ' + listCheckedCartId[0].quantity);
-
+        // $('.check-item').prop('checked', this.checked);
         var checkedCartIdJSON = JSON.stringify(listCheckedCartId);
         localStorage.setItem("checkedCartId", checkedCartIdJSON);
 
     });
 });
-/*Kết thúc nút procceed to checkout */
+//var checkboxes = $('input[type="checkbox"].check-item');
+
+
+// console.log("có subtotal nè");
+
+// console.log("checkboxs nè " + checkboxes);
+// checkboxes.each(function() {
+//     if (this.checked) {
+//         console.log(this + " đã một đồng chí bị chọn");
+//console.log('Checkbox id: ' + this.id + ' đã được chọn.');
+//         var TrTag = this.closest("tr");
+
+//         var totalEachItemTag = TrTag.find(".totalEachItem");
+//         subTotal += totalEachItemTag.val();
+
+
+//     }
+
+// });
+//$("#subtotal").text("$" + subTotal);
+
+//     }
+// })
+//})
