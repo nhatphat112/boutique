@@ -65,11 +65,11 @@
                 <li class="nav-item">
                   <!-- Link--><a class="nav-link" href="shop.html">Shop</a>
                 </li>
-                <li class="nav-item">
-                  <!-- Link--><a class="nav-link" href="detail.html"
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="detail.html"
                     >Product detail</a
                   >
-                </li>
+                </li> -->
                 <li class="nav-item dropdown">
                   <a
                     class="nav-link dropdown-toggle"
@@ -92,11 +92,12 @@
                       class="dropdown-item border-0 transition-link"
                       href="shop.html"
                       >Category</a
-                    ><a
+                >
+        <!--                   <a
                       class="dropdown-item border-0 transition-link"
                       href="detail.html"
                       >Product detail</a
-                    >
+                    > -->
                     <a
                       class="dropdown-item border-0 transition-link"
                       href="cart.html"
@@ -293,7 +294,7 @@
 
                   <input
                     type="radio"
-                    id="3"
+                    id="0"
                     name="numberOption"
                     value="newNumber"
                   />
@@ -305,15 +306,19 @@
                   >
                     <div class="col-lg-6">
                       <input
-                        class="form-control form-control-lg"
+                        class=" form-control form-control-lg"
                         type="tel"
-                        id="phone"
+                        id="newPhoneNumber"
                         placeholder="e.g. +02 245354745"
                       />
+                      <span class="phone-warnning d-none text-danger">Cannot be empty !</span>
                     </div>
                   </div>
-                  <br />
+                  <span class="phone-required d-none text-danger">Please select a phone number !</span>
+
+                  <br/>
                 </div>
+               
                 <div >
                   <label class="form-label text-sm text-uppercase" for="address"
                     >Address </label
@@ -329,6 +334,7 @@
                     value="newAddress"
                   />
                   <label for="">New Address</label>
+                  <span id="address-required" class=" d-none row text-danger">Please select a address !</span>
                   <div
                     class="row gy-3"
                     id="newAddressInput"
@@ -364,8 +370,28 @@
                       >
                         <option value>Choose your country</option>
                       </select>
+                      <span id="country-address-required" class="d-none text-danger">Please select a country !</span>
+
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6 form-group d-none" id="townCity-container">
+                      <label
+                        class="form-label text-sm text-uppercase"
+                        for="townCity"
+                        >Town/City</label
+                      >
+                      <select
+                        class="townCity country d-none"
+                        id="townCity"
+                        data-customclass="form-control form-control-lg rounded-0"
+                      >
+                        <option value>Choose your town/city</option>
+                      </select>
+                      <span id="town-ity-address-required" class="d-none text-danger">Please select a town/city !</span>
+
+
+                    </div>
+
+                    <div class="col-lg-12 d-none" id="address-line-container">
                       <label
                         class="form-label text-sm text-uppercase"
                         for="address"
@@ -377,23 +403,13 @@
                         id="address"
                         placeholder="House number and street name"
                       />
+                      <span id="address-line-warnning" class="address-line-warnning d-none text-danger">Cannot be empty !</span>
                     </div>
                     <!--<div class="col-lg-12">
                                         <label class="form-label text-sm text-uppercase" for="addressalt">Address line 2 </label>
                                         <input class="form-control form-control-lg" type="text" id="addressalt" placeholder="Apartment, Suite, Unit, etc (optional)">
                                     </div>-->
-                    <div class="col-lg-6">
-                      <label
-                        class="form-label text-sm text-uppercase"
-                        for="city"
-                        >Town/City
-                      </label>
-                      <input
-                        class="form-control form-control-lg"
-                        type="text"
-                        id="city"
-                      />
-                    </div>
+                    
                     <!--div class="col-lg-6">
                                         <label class="form-label text-sm text-uppercase" for="state">State/County </label>
                                         <input class="form-control form-control-lg" type="text" id="state">
@@ -439,7 +455,7 @@
                     style="margin-top: 20px !important"
                     class="col-lg-12 form-group"
                   >
-                    <button class="btn btn-dark" type="submit">
+                    <button id="place-order" class="btn btn-dark" type="submit">
                       Place order
                     </button>
                   </div>
@@ -451,7 +467,7 @@
               <div class="card border-0 rounded-0 p-lg-4 bg-light">
                 <div class="card-body">
                   <h5 class="text-uppercase mb-4">Your order</h5>
-                  <ul class="list-unstyled mb-0">
+                  <ul id="your-order-container" class="list-unstyled mb-0">
                     <li
                       class="d-flex align-items-center justify-content-between"
                     >
