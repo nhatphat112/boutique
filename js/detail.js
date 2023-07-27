@@ -1,21 +1,21 @@
-$(document).ready(function () {
+$(document).ready(function() {
     let contentDetailMini = "";
     let contentDetailMain = "";
     let contentProductColor = "";
     var urlParams = new URLSearchParams(window.location.search);
     let productId = parseInt(urlParams.get('id'))
     $.ajax({
-        method: "GET",
-        url: "http://localhost:8080/detail?id=" + productId,
-        // data: {
-        //     id: productId
-        // }
-    })
-        .done(function (result) {
+            method: "GET",
+            url: "http://localhost:8080/detail?id=" + productId,
+            // data: {
+            //     id: productId
+            // }
+        })
+        .done(function(result) {
             if (result != null && result != "") {
                 // listProduct = result.data;
                 let stockResponseList = result.data.stockResponseList;
-                $.each(stockResponseList, function (index, currentItem) {
+                $.each(stockResponseList, function(index, currentItem) {
                     contentDetailMini += `<div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100"
                      src = "img/${currentItem.image}" alt = "..." ></div >`;
                     contentDetailMain += `<div class="swiper-slide h-auto">
