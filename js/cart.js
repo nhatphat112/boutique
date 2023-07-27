@@ -7,6 +7,7 @@ $(document).ready(function() {
     });
 });
 /*Kết thúc nút check all*/
+
 /*Bắt đầu API /cart*/
 $(document).ready(function() {
 
@@ -54,7 +55,7 @@ $(document).ready(function() {
                     '<td class="p-3 align-middle border-light">' +
                     '<p class="totalEachItem mb-0 small">' + "$" + cart.stockPrice * cart.quantity + '</p>' +
                     '</td>' +
-                    '<td class="p-3 align-middle border-light">' + '<a class="reset-anchor" href="#!">' + '<i class="fas fa-trash-alt small text-muted">' + '</i>' + '</a>' + '</td>' +
+                    '<td class="p-3 align-middle border-light">' + '<a class="reset-anchor-delete">' + '<i class="fas fa-trash-alt small text-muted" cartId = "' + cart.id + '">' + '</i>' + '</a>' + '</td>' +
                     '</tr>';
                 cartTable.append(row);
 
@@ -89,22 +90,30 @@ $(document).ready(function() {
                     }
                 });
                 /*Kết bảng table các sản phẩm trong cart*/
-                
+
                 /*Bắt đầu tính subtotal*/
-                checkedItem.click(function() {
-                    console.log('hello checked already');
+                checkedItem.change(function() {
+                    //console.log('hello checked already');
                     //totalItem.text();
-                    console.log(totalItem.text() +
-                        'day la subtotal');
+                    //console.log(totalItem.text() + 'day la subtotal');
                     var b = totalItem.text().replace('$', '');
-                    console.log(b + 'day la subtotal');
+                    //console.log(b + 'day la totalItem');
                     var c = parseInt(b);
-                    subtotalValue += c;
-                    console.log(subtotalValue + 'day la subtotal');
+                    if (this.checked) {
+                        subtotalValue += c;
+                        //console.log(subtotalValue + 'day la subtotal');
+
+                    } else {
+                        subtotalValue -= c;
+                        //console.log(subtotalValue + 'day la subtotal');
+                        //$(subTotal).text('$' + subtotalValue);
+                    }
                     $(subTotal).text('$' + subtotalValue);
+
 
                 });
                 /*Kết thúc tính subtotal*/
+
 
             })
 
@@ -147,7 +156,67 @@ $(document).ready(function() {
 
         var checkedCartIdJSON = JSON.stringify(listCheckedCartId);
         localStorage.setItem("checkedCartId", checkedCartIdJSON);
-
     });
 });
 /*Kết thúc nút procceed to checkout */
+/*Bắt đầu xoá*/
+//$(document).ready(function() {
+// var deleteButtons = document.querySelectorAll('#my-table .delete-button');
+//     var id = $(this).attr("cartId");
+//     console.log(id);
+
+
+
+//     var tr = $(this).closest("tr");
+//     console.log(tr.id);
+//     $(this).closest("tr").remove();
+//     console.log('da remove');
+// });
+$('#cart-table').on('click', '.fa-trash-alt', function() {
+    console.log($(this).attr("cartId"));
+    //console.log($(this).closest('tr').attr('id'));
+    var cartId = $(this).closest('tr').attr('id');
+    $(this).closest('tr').remove();
+
+    $.ajax({
+        method: 'GET',
+        url: "http://localhost:8080/cart/delete/" + encodeURIComponent(cartId),
+        data: {
+            cartId: cartId
+        },
+
+        success: function(response) {
+            console.log(response.data);
+        },
+        error: function(error) {
+            console.error("Error return productList", error);
+        }
+
+    });
+
+});
+/*Kết thúc xoá*/
+
+
+/*Bắt đầu đếm cart*/
+$(document).ready(function() {
+    var email = localStorage.getItem("email");
+    var totalQuantity = ('small#totalQuantity');
+    $.ajax({
+        method: 'GET',
+        url: "http://localhost:8080/cart/count/" + encodeURIComponent(email),
+        data: {
+            email: email
+        },
+
+        success: function(response) {
+            console.log(response.data + ' totalQuantity');
+            $(totalQuantity).text('(' + response.data + ')');
+        },
+        error: function(error) {
+            console.error("Error return productList", error);
+        }
+
+    });
+});
+/*Kết thúc đếm cart*/
