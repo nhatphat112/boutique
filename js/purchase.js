@@ -1,19 +1,19 @@
-$(document).ready(function () {
-  localStorage.setItem('userId','1')
-  // show list product was ordered
-  let userId = localStorage.getItem('userId');
-  $.ajax({
-    type: 'GET',
-    url: "http://localhost:8080/order-detail/user?id="+userId,
-    async:false
-    
-  }).done(function(res) {
-    if(res.data!=null&&res.data!=""){
-      let theadProduct = document.getElementById('thead-product')
-      let productContainerContent = "";
-      res.data.map(function(currentItem,index,arr){
-        productContainerContent+= 
-        `<tbody class="product-item">
+$(document).ready(function() {
+    localStorage.setItem('userId', '1')
+        // show list product was ordered
+    let userId = localStorage.getItem('userId');
+    $.ajax({
+        type: 'GET',
+        url: "http://localhost:8080/order-detail/user?id=" + userId,
+        async: false
+
+    }).done(function(res) {
+        if (res.data != null && res.data != "") {
+            let theadProduct = document.getElementById('thead-product')
+            let productContainerContent = "";
+            res.data.map(function(currentItem, index, arr) {
+                productContainerContent +=
+                    `<tbody class="product-item">
         <tr>
           <th class="ps-0 py-3 border-light" scope="row">
             <div class="d-flex align-items-center">
@@ -87,61 +87,61 @@ $(document).ready(function () {
         </tbody>
   
       `
-   
-      
-      })
-      theadProduct.insertAdjacentHTML('afterend',productContainerContent)
-    }
-    
-  });
-  $('.selected-rating').text(1);
-  $(".selected-rating").val(1)
-  $('.rating').each(function(index,element){
-    element.getElementsByClassName('rating-star')[0].classList.add('active')
-  })
 
-  //  let rating = document.getElementsByClassName('rating')
-  //  Array.from(rating).map(function(currentItem){
-  //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
-  //  })
 
-  $('.rating-star').click(function () {
-    $(this).addClass('active');
-    $(this).prevAll('.rating-star').addClass('active');
-    $(this).nextAll('.rating-star').removeClass('active');
-    var selectedRating = $(this).index() + 1;
-    $(this).closest('.product-item').find('.selected-rating').text(selectedRating);
-    $(this).closest('.product-item').find('.selected-rating').val(selectedRating);
-  });
-  // hidden / appear form review
-    $('.btn-rate').click(function(event){
-      event.preventDefault()
-      let reviewForm= $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+            })
+            theadProduct.insertAdjacentHTML('afterend', productContainerContent)
+        }
 
+    });
+    $('.selected-rating').text(1);
+    $(".selected-rating").val(1)
+    $('.rating').each(function(index, element) {
+        element.getElementsByClassName('rating-star')[0].classList.add('active')
     })
-    // submit form
-  $(".btn-submit").click(function (event) {
-    event.preventDefault()
-    let reviewText = $(this).closest('.product-item').find("textarea[name='review-text']").val()
-    let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
-    
-    let isSuccess = false;
 
-    $.ajax({
-      method: "POST",
-      url: "http://localhost:8080/purchase/rate",
-      async:false,
-      data: {
-        content: reviewText,
-        starNumber: parseInt(reviewStar)
-      }
+    //  let rating = document.getElementsByClassName('rating')
+    //  Array.from(rating).map(function(currentItem){
+    //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
+    //  })
+
+    $('.rating-star').click(function() {
+        $(this).addClass('active');
+        $(this).prevAll('.rating-star').addClass('active');
+        $(this).nextAll('.rating-star').removeClass('active');
+        var selectedRating = $(this).index() + 1;
+        $(this).closest('.product-item').find('.selected-rating').text(selectedRating);
+        $(this).closest('.product-item').find('.selected-rating').val(selectedRating);
+    });
+    // hidden / appear form review
+    $('.btn-rate').click(function(event) {
+            event.preventDefault()
+            let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+
+        })
+        // submit form
+    $(".btn-submit").click(function(event) {
+        event.preventDefault()
+        let reviewText = $(this).closest('.product-item').find("textarea[name='review-text']").val()
+        let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
+
+        let isSuccess = false;
+
+        $.ajax({
+                method: "POST",
+                url: "http://localhost:8080/purchase/rate",
+                async: false,
+                data: {
+                    content: reviewText,
+                    starNumber: parseInt(reviewStar)
+                }
+            })
+            .done(function() {
+                isSuccess = true
+            });
+        if (isSuccess == true) {
+            $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+            alert("Success !")
+        }
     })
-      .done(function () {
-        isSuccess =true
-      });
-      if(isSuccess==true){
-        $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
-        alert("Success !")
-      }
-  })
 });
