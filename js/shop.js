@@ -3,7 +3,12 @@
 let listAllProduct = "";
 let listCategoryProduct = "";
 let listCategory = "";
+
+
+
 $(document).ready(function() {
+
+    
     //Gửi yêu cầu GET đến API để lấy danh sách sản phẩm
     //window.addEventListener("load", function() {
     $.ajax({
@@ -11,6 +16,7 @@ $(document).ready(function() {
         contentType: "application/json",
         url: "http://localhost:8080/category",
         dataType: 'json',
+        async : false,
         success: function(response) {
             listCategory = response.data;
             // Nếu thành công, hiển thị danh sách category trong bảng
@@ -228,6 +234,7 @@ $(document).ready(function() {
     let contentProduct = "";
     let stock = "";
     window.addEventListener("load", function() {
+        console.log("Load_______3")
         $.ajax({
             url: "http://localhost:8080/product",
             type: "GET",
@@ -266,18 +273,20 @@ $(document).ready(function() {
         var inputElement = document.querySelector(".quantity input");
         var decButton = document.querySelector(".quantity .dec-btn");
         var incButton = document.querySelector(".quantity .inc-btn");
-        $(".btn-add-to-cart").click(function() {
+     
+        $('#product-container').on('click', '.btn-add-to-cart', function() {
+            console.log("active quickview 2")
+
             document.getElementById('sold-out').classList.add("d-none")
             let quantityQuickView = document
                 .getElementById("product-quantity-quick-view")
                 .classList.add("d-none");
-            console.log("check quantityQuickView", quantityQuickView)
 
             let colorSelector = document.getElementById("color-selector");
-            console.log("check colorSelector", colorSelector);
+
             let productId = parseInt($(this).attr("product-id"));
-            console.log('check btn add to cart ' + productId);
-            console.log("check product id :", productId);
+
+
             let imageProductQuickView = document.getElementById(
                 "image-product-quick-view"
             );
@@ -288,7 +297,7 @@ $(document).ready(function() {
             let descriptionQuickView = document.getElementById(
                 "description-quick-view"
             );
-            console.log('check descriptionQuickView:', descriptionQuickView)
+
             console.log(listAllProduct.length + 'so luong product');
             listAllProduct.map(function(currentItem, index, arr) {
                 if (currentItem.id == productId) {
@@ -301,11 +310,11 @@ $(document).ready(function() {
                     productNameQuickView.textContent = currentItem.name;
                     priceQuickView.textContent = currentItem.price + "$";
                     descriptionQuickView.textContent = currentItem.desciption;
-                    console.log('check currentItem.desciption:', currentItem.desciption)
+
 
                 }
             });
-            console.log("check list Product :" + listAllProduct);
+
             let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
             /*Bắt đầu submit add to cart*/
             $("#btn-submit-add-to-cart").click(function() {
@@ -322,6 +331,7 @@ $(document).ready(function() {
                         quantity: quantity,
                         email: email
                     },
+                    async:false,
                     success: function(response) {
                         console.log("User created successfully", response)
                         console.log("User created successfully", response.data)
@@ -340,7 +350,6 @@ $(document).ready(function() {
                 type: "GET",
                 async: false,
                 success: function(res) {
-                    console.log(res);
                     if (res != null && res != "") {
                         stock = res.data;
                         res.data.map(function(currentItem, index, arr) {
@@ -403,5 +412,8 @@ $(document).ready(function() {
                 decButton.disabled = false
             }
         });
+      
     });
+    
+  
 });
