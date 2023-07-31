@@ -28,6 +28,7 @@ $(document).ready(function() {
                 });
                 $("#wrapper-mini").html(contentDetailMini)
                 $("#wrapper-main").html(contentDetailMini)
+                $("#product-name").html(result.data.name)
                 $("#description").html(`${result.data.description}`)
                 $("#product-description").html(`${result.data.description}`)
                 $("#listcolor").html(contentProductColor)
