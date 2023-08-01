@@ -86,16 +86,15 @@ $(document).ready(function() {
                 var quantity = $("#input-quantity").val();
                 //console.log("đây là id color của sp " + colorId);
                 //console.log("đây là quantity của sp " + quantity);
-                var email = "";
-                email = localStorage.getItem("email");
+                var userId = localStorage.getItem("userId");
                 $.ajax({
                     method: "GET",
-                    url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + email,
+                    url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
                     data: {
                         productId: productId,
                         colorId: colorId,
                         quantity: quantity,
-                        email: email
+                        userId: userId
                     },
                     success: function(response) {
                         console.log("User created successfully", response)

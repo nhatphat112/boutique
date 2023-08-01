@@ -41,8 +41,8 @@ $(document).ready(function() {
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
-        data: {
-            userId : userId
+        data: {  
+            userId: userId
         },
 
         success: function(response) {
@@ -225,6 +225,7 @@ $(document).ready(function() {
                 }
                 console.log('Checkbox id: ' + this.id + ' đã được chọn.');
                 listCheckedCart.push(cartIndex);
+
             }
         });
         console.log("các giá trị trong checkedList" + listCheckedCart);
@@ -232,6 +233,10 @@ $(document).ready(function() {
 
         //var checkedCartJSON = JSON.stringify(listCheckedCart);
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
+        if (listCheckedCart != null) {
+            console.log('not null');
+            window.location.href = "checkout.html"
+        }
     });
 });
 /*Kết thúc nút procceed to checkout */

@@ -53,6 +53,7 @@ $(document).ready(function () {
       if (response != null && response != "") {
         addressList = response.data;
       }
+
     });
     // get list country and town/city
     let countryList;
