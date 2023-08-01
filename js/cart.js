@@ -41,7 +41,7 @@ $(document).ready(function() {
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
-        data: {
+        data: {  
             userId: userId
         },
 
