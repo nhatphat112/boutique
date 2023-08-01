@@ -37,12 +37,12 @@ $(document).ready(function() {
 /*Bắt đầu API /cart*/
 $(document).ready(function() {
 
-    var email = localStorage.getItem("email");
+    var userId = localStorage.getItem("userId");
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
         data: {
-            email: email
+            userId : userId
         },
 
         success: function(response) {
