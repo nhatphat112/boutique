@@ -46,6 +46,7 @@ $(document).ready(function() {
     }).done(function(response) {
         if (response != null && response != "") {
             addressList = response.data;
+            console.log(addressList);
         }
     });
     // get list country and town/city
@@ -140,8 +141,8 @@ $(document).ready(function() {
     content = ""
     let total = 0;
     let subTotal = 0;
-    //$.each(list, function(currentItem)
-    checkedCartList.forEach(function(currentItem) {
+    $.each(list, function(currentItem) {
+        //checkedCartList.forEach(function(currentItem) {
 
         //checkedCartList.map(function(currentItem, index, arr) {
         subTotal = currentItem.quantity * currentItem.price
