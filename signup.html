@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -183,21 +184,34 @@
                                     <label class="form-label text-sm text-uppercase" for="email">Email address </label>
                                     <input class="form-control form-control-lg" type="email" id="email"
                                         placeholder="Enter your valid email">
+                                        <div id="email-warning" class="d-none alert alert-warning m-0" role="alert">
+                                            Đây là cảnh báo!
+                                          </div>
                                 </div>
+                              
                                 <div class="col-lg-12">
-                                    <label class="form-label text-sm text-uppercase" for="firstName2">Username</label>
+                                    <label class="form-label text-sm text-uppercase" for="username">Username</label>
                                     <input class="form-control form-control-lg" type="text" id="username"
                                         placeholder="Enter your username">
+                                        <div id="username-warning" class="d-none alert alert-warning m-0" role="alert">
+                                            Đây là cảnh báo!
+                                          </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <label class="form-label text-sm text-uppercase" for="phone">Password </label>
-                                    <input class="form-control form-control-lg" type="tel" id="pass" placeholder="">
+                                    <label class="form-label text-sm text-uppercase" for="pass">Password </label>
+                                    <input class="form-control form-control-lg" type="password" id="pass" placeholder="">
+                                    <div id="pass-warning" class="d-none alert alert-warning m-0" role="alert">
+                                        Đây là cảnh báo!
+                                      </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <label class="form-label text-sm text-uppercase" for="phone">Confirm password
+                                    <label class="form-label text-sm text-uppercase" for="confirmPass">Confirm password
                                     </label>
-                                    <input class="form-control form-control-lg" type="tel" id="confirmPass"
+                                    <input class="form-control form-control-lg" type="password" id="confirmPass"
                                         placeholder="">
+                                        <div id="confirmPass-warning" class="d-none alert alert-warning m-0" role="alert">
+                                            Đây là cảnh báo!
+                                          </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-check">
@@ -205,9 +219,15 @@
                                         <label class="form-check-label" for="alternateAddressCheckbox">I agree to the
                                             BOTIQUE’s TERMS OF USE and PRIVACY POLICY</label>
                                     </div>
+                                    <div id="alternateAddressCheckbox-warning" class="d-none alert alert-warning m-0" role="alert">
+                                        Đây là cảnh báo!
+                                      </div>
                                 </div>
                                 <div class="col-lg-12 form-group">
-                                    <button class="btn btn-dark" type="submit">REGISTER</button>
+                                    <button id="btn-submit" class="btn btn-dark" type="submit">REGISTER</button>
+                                    <div id="submit-warning" class="d-none alert alert-warning mt-2" role="alert">
+                                        Đây là cảnh báo!
+                                      </div>
                                 </div>
                             </div>
 
@@ -274,8 +294,9 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="js/signup.js"></script>
     <script src="js/front.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // ------------------------------------------------------- //
         //   Inject SVG Sprite - 
