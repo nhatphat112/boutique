@@ -164,7 +164,9 @@
                     <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Price</strong></th>
                     <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Quantity</strong></th>
                     <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Total</strong></th>
+                    <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Status</strong></th>
                     <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong></th>
+
                   </tr>
                 </thead>
               </table>
@@ -274,6 +276,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- <script src="/js/purchase.js"></script> -->
 
+  </div>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">
+    Quick view
+  </button>
+  
+  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="content-quick-view-confirm">Are you sure you want to proceed?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button id="btn-quick-view-confirm" data-dismiss="modal" type="button" class="btn btn-primary">Confirm</button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 

@@ -9,6 +9,7 @@ $(document).ready(function() {
 
     }).done(function(res) {
         if (res.data != null && res.data != "") {
+          console.log("check response :",res)
             let theadProduct = document.getElementById('thead-product')
             let productContainerContent = "";
             res.data.map(function(currentItem, index, arr) {
@@ -45,19 +46,25 @@ $(document).ready(function() {
             <p class="mb-0 small">$${currentItem.prices}</p>
           </td>
           <td class="p-3 align-middle border-light">
-            <a class="reset-anchor" href="#!">
+          <p class="mb-0 small">${currentItem.statusName}</p>
+        </td>
+          <td class="p-3 align-middle border-light">
+            <a order-detail-id=${currentItem.id} class="reset-anchor btn-delete-ordered" data-toggle="modal" data-target="#confirmModal" href="#!">
               <i class="fas fa-trash-alt small text-muted"></i>
             </a>
           </td>
         </tr>
         <tr>
           <th class="ps-0">
-            <button class="btn-rate btn btn-dark" id="toggleReviewBtn">
+            <button statusId=${currentItem.statusId} class="btn-rate btn btn-dark" id="toggleReviewBtn">
               <a class=" link-light text-decoration-none" href="#">Rate</a>
             </button>&ensp;
-            <button class="btn btn-dark">
+            <button productId=${currentItem.productId} class="btn-buy-again btn btn-dark">
               <a class="btn-buy-again link-light text-decoration-none" href="#">Buy again</a>
             </button>
+            <div class=" d-none alert alert-warning mt-2 mb-0" role="alert">
+            The product is being shipped, you cannot rate it at the moment.
+                                      </div>
           </th>
         </tr>
         <tr class="reviewForm d-none">
@@ -76,7 +83,7 @@ $(document).ready(function() {
                   <span class="rating-star">&#9733;</span>
                 </div>
                 <p class="mt-3" id="ratingResult">Bạn đã đánh giá: <span class="selected-rating" id="selectedRating">0</span> sao</p>
-                <button type="submit" class="btn-submit btn btn-dark">
+                <button type="submit"  class=" btn-submit btn btn-dark">
                   <a class=" link-light text-decoration-none" href="#">Submit</a>
                   <i class="fas fa-paper-plane"></i>
                 </button>
@@ -116,7 +123,12 @@ $(document).ready(function() {
     // hidden / appear form review
     $('.btn-rate').click(function(event) {
             event.preventDefault()
+            if($(this).attr("statusId")==1){
+              let warningAlert = $(this).closest("tr").find(".alert-warning").removeClass("d-none")
+              console.log("check warningAlert:",warningAlert)
+            }else{
             let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+            }
 
         })
         // submit form
@@ -143,5 +155,48 @@ $(document).ready(function() {
             $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
             alert("Success !")
         }
+    })
+    $(".btn-buy-again").click(function(event){
+     let productIdBuyAgain = $(this).attr("productId")
+      event.preventDefault();
+      let url = "detail.html?id="+productIdBuyAgain
+
+       window.location.href= url
+
+    })
+    let orderDetailIdNeedDelete
+    $(".btn-delete-ordered").click(function(){
+      orderDetailIdNeedDelete = $(this).attr("order-detail-id")
+      $("#content-quick-view-confirm").text("Are you sure delete?")
+      $("#btn-quick-view-confirm").addClass("btn-delete-ordered")
+    })
+    $("#btn-quick-view-confirm").click(function(){
+      let buttonQuickViewConfirm = $(this)
+      console.log("check buttonQuickViewConfirm :",buttonQuickViewConfirm)
+      if(buttonQuickViewConfirm.hasClass("btn-delete-ordered")){
+        buttonQuickViewConfirm.removeClass("btn-delete-ordered")
+        let deleteIsSuccess = true;
+        $.ajax({
+          method: "GET",
+          url: "http://localhost:8080/order-detail/delete?id="+orderDetailIdNeedDelete,
+      })
+      .done(function(response) {
+          console.log("check response:",response)
+          if(response!=""&&response!=null){
+            if(response.statusCode==200){
+              deleteIsSuccess = true
+            }else{
+              deleteIsSuccess = false;
+            }
+          }
+      });
+      if(deleteIsSuccess){
+      let trProduct =$("a").filter(`[order-detail-id='${orderDetailIdNeedDelete}']`).closest("tr")
+      trProduct.next().remove()
+      trProduct.remove()
+      }
+
+
+      }
     })
 });

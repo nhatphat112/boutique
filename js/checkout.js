@@ -7,6 +7,7 @@ $(document).ready(function () {
     // }])
     //var checkedCart = localStorage.getItem('checkedCartJSON');
     //localStorage.setItem("checkedCartId", checkedCartList)
+    let bearerToken = "Bearer "+localStorage.getItem("token");
   
     let userId = localStorage.getItem("userId");
     console.log(userId + " :userId");
@@ -40,6 +41,7 @@ $(document).ready(function () {
       method: "GET",
       url: "http://localhost:8080/phone/user?id=" + userId,
       async: false,
+      headers:{"Athorization":bearerToken}
     }).done(function (response) {
       if (response != null && response != "") {
         phoneList = response.data;
@@ -48,6 +50,7 @@ $(document).ready(function () {
     $.ajax({
       method: "GET",
       url: "http://localhost:8080/address/user?id=" + userId,
+      headers:{"Athorization":bearerToken},
       async: false,
     }).done(function (response) {
       if (response != null && response != "") {
@@ -62,6 +65,7 @@ $(document).ready(function () {
       method: "GET",
       url: "http://localhost:8080/country",
       async: false,
+      headers:{"Athorization":bearerToken},
     }).done(function (response) {
       if (response != null && response != "") {
         countryList = response.data;
@@ -71,6 +75,7 @@ $(document).ready(function () {
       method: "GET",
       url: "http://localhost:8080/city-province",
       async: false,
+      headers:{"Athorization":bearerToken},
     }).done(function (response) {
       if (response != null && response != "") {
         townCityList = response.data;
@@ -271,6 +276,8 @@ $(document).ready(function () {
     let checkoutAddressValid = true;
     let phoneIsSelect = false;
     $("#place-order").click(function (event) {
+        checkoutAddressValid = true;
+        checkoutPhoneValid = true;
       // hidden message require select phone number
       Array.from(document.getElementsByClassName("phone-required")).map(function (
         currentItem
@@ -393,12 +400,17 @@ $(document).ready(function () {
           checkoutAddressValid = false;
         }
       }
+      console.log("checkoutAddressValid :",checkoutAddressValid)
+      console.log("checkoutPhoneValid :",checkoutPhoneValid)
+
       if (checkoutAddressValid == true && checkoutPhoneValid == true) {
+       
         if (idPhoneNumberSelected == null || idPhoneNumberSelected == "") {
           $.ajax({
             method: "POST",
             url: "http://localhost:8080/phone/save",
             async: false,
+            headers:{"Athorization":bearerToken},
             dataType: "json", // Cấu hình kiểu dữ liệu là JSON
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
@@ -423,6 +435,7 @@ $(document).ready(function () {
           $.ajax({
             method: "POST",
             url: "http://localhost:8080/address/save",
+            headers:{"Athorization":bearerToken},
             async: false,
             dataType: "json", // Cấu hình kiểu dữ liệu là JSON
             contentType: "application/json; charset=utf-8",
@@ -446,7 +459,12 @@ $(document).ready(function () {
             }
           });
         }
-  
+        // save orderDetail
+        console.log("Validation");
+        checkedCartList.forEach(function (currentItem) {
+          currentItem.price =
+            Number(currentItem.price) * Number(currentItem.quantity);
+        });
         // save order
         idOrderSaved = "";
         saveOrderIsSuccess = false;
@@ -457,41 +475,23 @@ $(document).ready(function () {
           async: false,
           dataType: "json", // Cấu hình kiểu dữ liệu là JSON
           contentType: "application/json; charset=utf-8",
-          data: JSON.stringify({
+          data: JSON.stringify(
+            {
             userId: userId,
             addressId: Number(addressIsSelected),
             phoneId: idPhoneNumberSelected,
             statusId: 1,
             total: total,
-          }),
+            orderDetailSaveRequests:
+             checkedCartList
+          }
+          ),
         }).done(function (response) {
           if (response != null && response != "") {
-            if (response.statusCode == 200) saveOrderIsSuccess = true;
-            idOrderSaved = response.data.id;
+            saveOrderIsSuccess = (response.statusCode==200)?true:false
           }
         });
-        // save orderDetail
-        console.log("Validation");
-        checkedCartList.forEach(function (currentItem) {
-          currentItem.price =
-            Number(currentItem.price) * Number(currentItem.quantity);
-          currentItem.userId = Number(userId);
-          currentItem.orderId = Number(idOrderSaved);
-        });
-        console.log("check idAddressSelected", idAddressSelected);
-        $.ajax({
-          method: "POST",
-          url: "http://localhost:8080/order-detail/save",
-          async: false,
-          dataType: "json", // Cấu hình kiểu dữ liệu là JSON
-          contentType: "application/json; charset=utf-8",
-          data: JSON.stringify(checkedCartList),
-        }).done(function (response) {
-          if (response != null && response != "") {
-            if ((response.statusCode = 200)) saveOrderDetailIsSuccess = true;
-          }
-        });
-        if (saveOrderDetailIsSuccess == true && saveOrderIsSuccess == true) {
+        if (saveOrderIsSuccess) {
           localStorage.setItem("checkedCart",null)
           window.location.href = "purchase.html";
         }

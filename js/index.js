@@ -38,6 +38,7 @@ $(document).ready(function() {
         var decButton = document.querySelector(".quantity .dec-btn");
         var incButton = document.querySelector(".quantity .inc-btn");
         $(".btn-add-to-cart").click(function() {
+            document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
             document.getElementById('sold-out').classList.add("d-none")
             let quantityQuickView = document
                 .getElementById("product-quantity-quick-view")
@@ -90,6 +91,7 @@ $(document).ready(function() {
                 $.ajax({
                     method: "GET",
                     url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
+                    async :false,
                     data: {
                         productId: productId,
                         colorId: colorId,
@@ -132,10 +134,17 @@ $(document).ready(function() {
         this.document
             .getElementById("color-selector")
             .addEventListener("change", function() {
+
+                document.getElementById("btn-submit-add-to-cart").classList.remove("d-none")
+                
                 incButton.disabled = false;
-                decButton.disabled = false;
+                decButton.disabled = true;
                 let productQuantity = document.getElementById("product-quantity-quick-view");
                 let colorSelectorValue = this.value;
+                if(colorSelectorValue=="Select Color"){
+                    document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
+
+                }
                 console.log("colorSelectorValue", colorSelectorValue);
                 document.getElementById('input-quantity').value = 1
 
@@ -151,7 +160,12 @@ $(document).ready(function() {
                         if (currentItem.quantity > 1) {
                             productQuantity.classList.remove("d-none");
                             document.getElementById('sold-out').classList.add("d-none")
+                           
+
                         } else {
+                            console.log("sold out")
+                            document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
+                           console.log( document.getElementById("btn-submit-add-to-cart"))
                             document.getElementById('sold-out').classList.remove("d-none")
                             document.getElementById('product-quantity-quick-view').classList.add("d-none")
                         }
@@ -165,7 +179,10 @@ $(document).ready(function() {
             var value = parseInt(inputElement.value);
             if (value >= quantityQuickViewMax) {
                 decButton.disabled = true
-            } else {
+            } else if(value==1){
+                decButton.disabled = true
+            }
+            else{
                 incButton.disabled = false
             }
 
@@ -174,7 +191,8 @@ $(document).ready(function() {
             var value = parseInt(inputElement.value);
             if (value >= quantityQuickViewMax) {
                 incButton.disabled = true
-            } else {
+            } 
+            else {
                 decButton.disabled = false
             }
         });
