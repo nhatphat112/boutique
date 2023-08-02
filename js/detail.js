@@ -6,7 +6,7 @@ $(document).ready(function() {
     let productId = parseInt(urlParams.get('id'))
     $.ajax({
             method: "GET",
-            url: "http://localhost:8080/detail?id=" + productId,
+            url: "http://localhost:8080/product/detail?id=" + productId,
             // data: {
             //     id: productId
             // }
