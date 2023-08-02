@@ -44,7 +44,6 @@ $(document).ready(function() {
         data: {  
             userId: userId
         },
-
         success: function(response) {
             /*Bắt đầu bảng table các sản phẩm trong cart*/
             var carts = response.data;
@@ -229,13 +228,14 @@ $(document).ready(function() {
             }
         });
         console.log("các giá trị trong checkedList" + listCheckedCart);
-        console.log("các giá trị trong checkedList" + listCheckedCart[0].id + 'name ' + listCheckedCart[0].name);
+        // console.log("các giá trị trong checkedList" + listCheckedCart[0].id + 'name ' + listCheckedCart[0].name);
 
         //var checkedCartJSON = JSON.stringify(listCheckedCart);
+        console.log("listCheckedCart:",listCheckedCart)
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
-        if (listCheckedCart != null) {
+        if (listCheckedCart.length!=0) {
             console.log('not null');
-            window.location.href = "checkout.html"
+             window.location.href = "checkout.html"
         }
     });
 });
