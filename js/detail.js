@@ -1,38 +1,123 @@
 $(document).ready(function() {
-    let contentDetailMini = "";
-    let contentDetailMain = "";
-    let contentProductColor = "";
-    var urlParams = new URLSearchParams(window.location.search);
-    let productId = parseInt(urlParams.get('id'))
-    $.ajax({
-            method: "GET",
-            url: "http://localhost:8080/product/detail?id=" + productId,
-            // data: {
-            //     id: productId
-            // }
-        })
-        .done(function(result) {
-            if (result != null && result != "") {
-                // listProduct = result.data;
-                let stockResponseList = result.data.stockResponseList;
-                $.each(stockResponseList, function(index, currentItem) {
-                    contentDetailMini += `<div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100"
+        let contentDetailMini = "";
+        let contentDetailMain = "";
+        let contentProductColor = "";
+        let maxQuantity = "";
+        var urlParams = new URLSearchParams(window.location.search);
+        let productId = parseInt(urlParams.get('id'))
+        contentProductColor = `<option class="dropdown-item" selected>Select Color</option>`;
+        $.ajax({
+                method: "GET",
+                url: "http://localhost:8080/product/detail?id=" + productId,
+                async: false,
+                // data: {
+                //     id: productId
+                // }
+            })
+            .done(function(result) {
+                if (result != null && result != "") {
+                    // listProduct = result.data;
+                    let stockResponseList = result.data.stockResponseList;
+                    $.each(stockResponseList, function(index, currentItem) {
+                        console.log(" maxQuantityStock_ONe " + currentItem.quantity);
+
+                        contentDetailMini += `<div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100"
                      src = "img/${currentItem.image}" alt = "..." ></div >`;
-                    contentDetailMain += `<div class="swiper-slide h-auto">
+                        contentDetailMain += `<div class="swiper-slide h-auto">
                       <a class="glightbox product-view" href="img/${currentItem.image}"
                       data-gallery="gallery2" data-glightbox="Product item 1"><img
                           class="img-fluid" src="img/${currentItem.image}" alt="..."></a>
-                     </div>`
-                    contentProductColor += `<a class="dropdown-item"
-                    href="#!">${currentItem.colorName}</a>`
-                });
-                $("#wrapper-mini").html(contentDetailMini)
-                $("#wrapper-main").html(contentDetailMini)
-                $("#product-name").html(result.data.name)
-                $("#description").html(`${result.data.description}`)
-                $("#product-description").html(`${result.data.description}`)
-                $("#listcolor").html(contentProductColor)
+                     </div>`;
+                        contentProductColor += `<option class="dropdown-item" value=${currentItem.colorId} maxQuantity=${currentItem.quantity} >${currentItem.colorName}</option>`;
+
+                        //contentProductColor += `<a color-id=${currentItem.colorId} class="dropdown-item"
+                        //href = "#!" > $ { currentItem.colorName } < /a>`
+                    });
+                    $("#wrapper-mini").html(contentDetailMini)
+                    $("#wrapper-main").html(contentDetailMain)
+                    $("#product-name").html(result.data.name)
+                    $("#description").html(`${result.data.description}`)
+                    $("#product-description").html(`${result.data.description}`)
+                    $("#color-selector").html(contentProductColor)
+                }
+                console.log("check detail:", contentDetailMini)
+            });
+
+        //('#sold-out').add("d-none");
+        //$('#sold-out').hide();
+        //document.getElementById('sold-out').classList.add("d-none")
+
+        //$('#sold-out').addClass('d-none');
+
+        //document.getElementById("product-quantity-quick-view")
+        //.classList.add("d-none");
+        //$('#product-quantity').addClass('d-none');
+
+        // if (colorSelectorValue == "Select Color") {
+        //     document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
+
+        // }
+
+
+        let quantityDisplay = $('#product-quantity').addClass('d-none');
+        $('#color-selector').change(function() {
+            var maxQuantityStock = $('#color-selector option:selected').attr("maxQuantity");
+            console.log(" maxQuantityStock " + maxQuantityStock);
+            if (maxQuantityStock > 0) {
+                console.log('lon hon 0 roi');
+                //$('#myName').removeClass('d-none');
+                //$('#sold-out').addClass('d-none');
+                $('#sold-out').toggleClass('d-none');
+                //$('#product-quantity').removeClass('d-none');
+                quantityDisplay.removeClass('d-none');
+                //$('#product-quantity').addClass('d-none');
+                //document.getElementById('sold-out').classList.add("d-none")
+            } else {
+                console.log('nho hon 0 roi');
+                //$('#sold-out').removeClass('d-none');
+                //$('#product-quantity').addClass('d-none');
+                $('#product-quantity').toggleClass('d-none');
+
             }
-            console.log("check detail:", contentDetailMini)
-        });
-})
+        })
+
+        $("#btn-submit-add-to-cart").click(function() {
+            console.log("click on add to cartx");
+            var colorId = $("#color-selector").val();
+            var selectedOption = $('#color-selector option:selected');
+            console.log(selectedOption.value);
+
+            console.log(" colorId " + colorId);
+            var quantity = $("#input-quantity").val();
+            console.log(" quantity " + quantity);
+
+
+            //let productId = parseInt(urlParams.get('id'));
+            console.log(" productId " + productId);
+
+            var userId = localStorage.getItem("userId");
+            $.ajax({
+                method: "GET",
+                url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
+                async: false,
+                data: {
+                    productId: productId,
+                    colorId: colorId,
+                    quantity: quantity,
+                    userId: userId
+                },
+                success: function(response) {
+                    console.log("User created successfully", response)
+                    console.log("User created successfully", response.data)
+                },
+                error: function(error) {
+                    console.error("Error creating user", error),
+                        console.log("User created failed", data)
+                }
+
+            });
+        })
+    })
+    // $(document).ready(function() {
+
+// })

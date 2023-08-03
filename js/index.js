@@ -83,7 +83,7 @@ $(document).ready(function() {
             $("#btn-submit-add-to-cart").click(function() {
                 //console.log("hello bạn đã bấm vào nút submit");
                 //console.log("đây là id của sp " + productId);
-                var colorId = $("#color-selector").val();;
+                var colorId = $("#color-selector").val();
                 var quantity = $("#input-quantity").val();
                 //console.log("đây là id color của sp " + colorId);
                 //console.log("đây là quantity của sp " + quantity);
@@ -91,7 +91,7 @@ $(document).ready(function() {
                 $.ajax({
                     method: "GET",
                     url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
-                    async :false,
+                    async: false,
                     data: {
                         productId: productId,
                         colorId: colorId,
@@ -136,15 +136,15 @@ $(document).ready(function() {
             .addEventListener("change", function() {
 
                 document.getElementById("btn-submit-add-to-cart").classList.remove("d-none")
-                
+
                 incButton.disabled = false;
                 decButton.disabled = true;
                 let productQuantity = document.getElementById("product-quantity-quick-view");
                 let colorSelectorValue = this.value;
-                if(colorSelectorValue=="Select Color"){
-                    document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
+                // if (colorSelectorValue == "Select Color") {
+                //     document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
 
-                }
+                // }
                 console.log("colorSelectorValue", colorSelectorValue);
                 document.getElementById('input-quantity').value = 1
 
@@ -160,12 +160,12 @@ $(document).ready(function() {
                         if (currentItem.quantity > 1) {
                             productQuantity.classList.remove("d-none");
                             document.getElementById('sold-out').classList.add("d-none")
-                           
+
 
                         } else {
                             console.log("sold out")
                             document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
-                           console.log( document.getElementById("btn-submit-add-to-cart"))
+                            console.log(document.getElementById("btn-submit-add-to-cart"))
                             document.getElementById('sold-out').classList.remove("d-none")
                             document.getElementById('product-quantity-quick-view').classList.add("d-none")
                         }
@@ -179,10 +179,9 @@ $(document).ready(function() {
             var value = parseInt(inputElement.value);
             if (value >= quantityQuickViewMax) {
                 decButton.disabled = true
-            } else if(value==1){
+            } else if (value == 1) {
                 decButton.disabled = true
-            }
-            else{
+            } else {
                 incButton.disabled = false
             }
 
@@ -191,8 +190,7 @@ $(document).ready(function() {
             var value = parseInt(inputElement.value);
             if (value >= quantityQuickViewMax) {
                 incButton.disabled = true
-            } 
-            else {
+            } else {
                 decButton.disabled = false
             }
         });

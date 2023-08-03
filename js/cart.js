@@ -60,8 +60,8 @@ $(document).ready(function() {
                     '</td>' +
                     '<th class="ps-0 py-3 border-light" scope="row">' +
                     '<div class="d-flex align-items-center">' +
-                    '<a stock-id="' + cart.stockId + '" class="stockImage reset-anchor d-block animsition-link" href="detail.html">' + '<img src="img/' + cart.stockImage + '" alt="..." width="70" />' + '</a>' +
-                    '<div class="ms-3">' + '<strong class="h6">' + '<a class="cart-name reset-anchor animsition-link" href="detail.html">' + cart.productName + '</a>' + '</strong>' + '</div>' +
+                    '<a stock-id="' + cart.stockId + `" class="stockImage reset-anchor d-block animsition-link" href="detail.html?id=${cart.productId}">` + '<img src="img/' + cart.stockImage + '" alt="..." width="70" />' + '</a>' +
+                    '<div class="ms-3">' + '<strong class="h6">' + `<a class="cart-name reset-anchor animsition-link" href="detail.html?id=${cart.productId}">` + cart.productName + '</a>' + '</strong>' + '</div>' +
                     '</div>' +
                     '</th>' +
                     '<td class="p-3 align-middle border-light">' +
@@ -138,7 +138,6 @@ $(document).ready(function() {
                         if ($(checkedItem).prop('checked')) {
                             console.log('phai tru bot');
                             subtotalValue -= cart.stockPrice;
-
                         }
                         totalQ--;
                         $(cartTotal).text('(' + totalQ + ')');
