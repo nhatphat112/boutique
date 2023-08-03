@@ -10,9 +10,6 @@ $(document).ready(function() {
                 method: "GET",
                 url: "http://localhost:8080/product/detail?id=" + productId,
                 async: false,
-                // data: {
-                //     id: productId
-                // }
             })
             .done(function(result) {
                 if (result != null && result != "") {
