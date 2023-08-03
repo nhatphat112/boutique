@@ -236,7 +236,7 @@ $(document).ready(function() {
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
         if (listCheckedCart.length != 0) {
             console.log('not null');
-            //window.location.href = "checkout.html"
+        window.location.href = "checkout.html"
         }
     });
 });
