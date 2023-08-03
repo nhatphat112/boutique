@@ -469,6 +469,7 @@ $(document).ready(function () {
         idOrderSaved = "";
         saveOrderIsSuccess = false;
         saveOrderDetailIsSuccess = false;
+        let message = ""
         $.ajax({
           method: "POST",
           url: "http://localhost:8080/order/save",
@@ -488,12 +489,18 @@ $(document).ready(function () {
           ),
         }).done(function (response) {
           if (response != null && response != "") {
+            message = response.data
             saveOrderIsSuccess = (response.statusCode==200)?true:false
           }
         });
         if (saveOrderIsSuccess) {
           localStorage.setItem("checkedCart",null)
           window.location.href = "purchase.html";
+          $("#place-order-warning").addClass("d-none")
+        }else{
+          $("#place-order-warning").text(message)
+          $("#place-order-warning").removeClass("d-none")
+
         }
       }
     });

@@ -123,7 +123,7 @@ $(document).ready(function() {
     // hidden / appear form review
     $('.btn-rate').click(function(event) {
             event.preventDefault()
-            if($(this).attr("statusId")==2){
+            if($(this).attr("statusId")==1||$(this).attr("statusId")==2){
               let warningAlert = $(this).closest("tr").find(".alert-warning").removeClass("d-none")
               console.log("check warningAlert:",warningAlert)
             }else{
