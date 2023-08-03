@@ -41,7 +41,7 @@ $(document).ready(function() {
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
-        data: {  
+        data: {
             userId: userId
         },
         success: function(response) {
@@ -52,7 +52,7 @@ $(document).ready(function() {
             var subtotalValue = 0;
             var subTotal = ('#subtotal');
             $.each(carts, function(index, cart) {
-
+                console.log('stock_id ' + cart.stockId);
                 var row =
                     '<tr id="' + cart.id + '">' +
                     '<td class="p-3 align-middle border-light">' +
@@ -60,7 +60,7 @@ $(document).ready(function() {
                     '</td>' +
                     '<th class="ps-0 py-3 border-light" scope="row">' +
                     '<div class="d-flex align-items-center">' +
-                    '<a class="reset-anchor d-block animsition-link" href="detail.html">' + '<img src="img/' + cart.stockImage + '" alt="..." width="70" />' + '</a>' +
+                    '<a stock-id="' + cart.stockId + '" class="stockImage reset-anchor d-block animsition-link" href="detail.html">' + '<img src="img/' + cart.stockImage + '" alt="..." width="70" />' + '</a>' +
                     '<div class="ms-3">' + '<strong class="h6">' + '<a class="cart-name reset-anchor animsition-link" href="detail.html">' + cart.productName + '</a>' + '</strong>' + '</div>' +
                     '</div>' +
                     '</th>' +
@@ -209,14 +209,15 @@ $(document).ready(function() {
                 var quantity = $(tr).find('input.stock-quantity').val();
                 var priceText = $(tr).find('.stock-price').text();
                 var price = parseInt(priceText.replace('$', ''));
-
-                console.log('price: ' + price);
+                var stockId = $(tr).find('a.stockImage').attr('stock-id');
+                //console.log('xin chao' + stockId + ' day là stockId');
+                //console.log('price: ' + price);
                 var name = $(tr).find('.cart-name').text();
                 console.log('price: ' + name);
                 console.log('quantity ' + quantity)
                 console.log("This " + this);
                 var cartIndex = {
-                    id: this.id,
+                    id: stockId,
                     name: name,
                     price: price,
                     quantity: quantity
@@ -231,11 +232,11 @@ $(document).ready(function() {
         // console.log("các giá trị trong checkedList" + listCheckedCart[0].id + 'name ' + listCheckedCart[0].name);
 
         //var checkedCartJSON = JSON.stringify(listCheckedCart);
-        console.log("listCheckedCart:",listCheckedCart)
+        console.log("listCheckedCart:", listCheckedCart)
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
-        if (listCheckedCart.length!=0) {
+        if (listCheckedCart.length != 0) {
             console.log('not null');
-             window.location.href = "checkout.html"
+            //window.location.href = "checkout.html"
         }
     });
 });
