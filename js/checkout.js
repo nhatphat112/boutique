@@ -8,7 +8,6 @@ $(document).ready(function () {
     //var checkedCart = localStorage.getItem('checkedCartJSON');
     //localStorage.setItem("checkedCartId", checkedCartList)
     let bearerToken = "Bearer "+localStorage.getItem("token");
-  
     let userId = localStorage.getItem("userId");
     console.log(userId + " :userId");
     console.log("check userId :", userId);
@@ -41,16 +40,25 @@ $(document).ready(function () {
       method: "GET",
       url: "http://localhost:8080/phone/user?id=" + userId,
       async: false,
-      headers:{"Athorization":bearerToken}
+      headers:{"Authorization":bearerToken}
     }).done(function (response) {
       if (response != null && response != "") {
-        phoneList = response.data;
+        if(response.statusCode==200){
+          phoneList = response.data;
+        }else if(response.statusCode==401){
+          window.location.href="login.html"
+        }else if(response.statusCode==403){
+
+        }
+        else{
+          console.log("response:",response)
+        }
       }
     });
     $.ajax({
       method: "GET",
       url: "http://localhost:8080/address/user?id=" + userId,
-      headers:{"Athorization":bearerToken},
+      headers:{"Authorization":bearerToken},
       async: false,
     }).done(function (response) {
       if (response != null && response != "") {
@@ -65,7 +73,7 @@ $(document).ready(function () {
       method: "GET",
       url: "http://localhost:8080/country",
       async: false,
-      headers:{"Athorization":bearerToken},
+      headers:{"Authorization":bearerToken},
     }).done(function (response) {
       if (response != null && response != "") {
         countryList = response.data;
@@ -75,7 +83,7 @@ $(document).ready(function () {
       method: "GET",
       url: "http://localhost:8080/city-province",
       async: false,
-      headers:{"Athorization":bearerToken},
+      headers:{"Authorization":bearerToken},
     }).done(function (response) {
       if (response != null && response != "") {
         townCityList = response.data;
@@ -410,7 +418,7 @@ $(document).ready(function () {
             method: "POST",
             url: "http://localhost:8080/phone/save",
             async: false,
-            headers:{"Athorization":bearerToken},
+            headers:{"Authorization":bearerToken},
             dataType: "json", // Cấu hình kiểu dữ liệu là JSON
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
@@ -435,7 +443,7 @@ $(document).ready(function () {
           $.ajax({
             method: "POST",
             url: "http://localhost:8080/address/save",
-            headers:{"Athorization":bearerToken},
+            headers:{"Authorization":bearerToken},
             async: false,
             dataType: "json", // Cấu hình kiểu dữ liệu là JSON
             contentType: "application/json; charset=utf-8",
@@ -472,6 +480,7 @@ $(document).ready(function () {
         let message = ""
         $.ajax({
           method: "POST",
+          headers:{"Authorization":bearerToken},
           url: "http://localhost:8080/order/save",
           async: false,
           dataType: "json", // Cấu hình kiểu dữ liệu là JSON
@@ -489,7 +498,7 @@ $(document).ready(function () {
           ),
         }).done(function (response) {
           if (response != null && response != "") {
-            message = response.data
+            message = response.message
             saveOrderIsSuccess = (response.statusCode==200)?true:false
           }
         });
