@@ -1,11 +1,14 @@
 $(document).ready(function() {
     localStorage.setItem('userId', '1')
+    let bearerToken = "Bearer "+localStorage.getItem("token");
         // show list product was ordered
+        console.log("check bearerToken:",bearerToken)
     let userId = localStorage.getItem('userId');
     $.ajax({
         type: 'GET',
         url: "http://localhost:8080/order-detail/user?id=" + userId,
-        async: false
+        async: false,
+        headers:{"Authorization":bearerToken}
 
     }).done(function(res) {
         if (res.data != null && res.data != "") {
@@ -123,8 +126,9 @@ $(document).ready(function() {
     // hidden / appear form review
     $('.btn-rate').click(function(event) {
             event.preventDefault()
-            if($(this).attr("statusId")==1||$(this).attr("statusId")==2){
-              let warningAlert = $(this).closest("tr").find(".alert-warning").removeClass("d-none")
+            if($(this).attr("statusId")==1){
+              console.log("status Id :",$(this).attr("statusId"))
+              let warningAlert = $(this).closest("tr").find(".alert-warning").addClass("d-none")
               console.log("check warningAlert:",warningAlert)
             }else{
             let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
@@ -179,6 +183,8 @@ $(document).ready(function() {
         $.ajax({
           method: "GET",
           url: "http://localhost:8080/order-detail/delete?id="+orderDetailIdNeedDelete,
+          headers:{"Authorization":bearerToken},
+          async:false
       })
       .done(function(response) {
           console.log("check response:",response)

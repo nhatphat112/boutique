@@ -125,7 +125,7 @@ $(document).ready(function(){
                             window.location.href="index.html"
                         }else if(response.statusCode==500){
                            
-                            submitWarning.text(response.data)
+                            submitWarning.text(response.message)
                             submitWarning.removeClass("d-none")
                         }else{
                             submitWarning.addClass("d-none")
