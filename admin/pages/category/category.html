@@ -201,10 +201,16 @@
                     <div class="form-group">
                       <label for="categoryID">CategoryID</label>
                       <input type="text" class="form-control" id="CategoryId" placeholder="CategoryID" style="color: black;" disabled>
+                      <div id="CategoryId-Warning" class="d-none alert alert-warning m-0" role="alert">
+                        Đây là cảnh báo!
+                      </div>
                     </div>
                     <div class="form-group">
                       <label for="CategoryName">CategoryName</label>
                       <input type="text" class="form-control" id="CategoryName" placeholder="CategoryName">
+                      <div id="CategoryName-warning" class="d-none alert alert-warning m-0" role="alert">
+                        Đây là cảnh báo!
+                      </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary mr-2" id="btncreate">Create</button>
@@ -277,7 +283,9 @@
   <script src="../../assets/js/file-upload.js"></script>
   <script src="../../assets/js/typeahead.js"></script>
   <script src="../../assets/js/select2.js"></script>
-  <script src="../../assets/js/category.js"></script>
+  <script src="../../js/category.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.js"></script>
+
   <!-- End custom js for this page -->
 </body>
 
