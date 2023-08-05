@@ -1,23 +1,23 @@
-$(document).ready(function() {
-    localStorage.setItem('userId', '1')
-    let bearerToken = "Bearer "+localStorage.getItem("token");
-        // show list product was ordered
-        console.log("check bearerToken:",bearerToken)
-    let userId = localStorage.getItem('userId');
-    $.ajax({
-        type: 'GET',
-        url: "http://localhost:8080/order-detail/user?id=" + userId,
-        async: false,
-        headers:{"Authorization":bearerToken}
+$(document).ready(function () {
+  localStorage.setItem('userId', '1')
+  let bearerToken = "Bearer " + localStorage.getItem("token");
+  // show list product was ordered
+  console.log("check bearerToken:", bearerToken)
+  let userId = localStorage.getItem('userId');
+  $.ajax({
+    type: 'GET',
+    url: "http://localhost:8080/order-detail/user?id=" + userId,
+    async: false,
+    headers: { "Authorization": bearerToken }
 
-    }).done(function(res) {
-        if (res.data != null && res.data != "") {
-          console.log("check response :",res)
-            let theadProduct = document.getElementById('thead-product')
-            let productContainerContent = "";
-            res.data.map(function(currentItem, index, arr) {
-                productContainerContent +=
-                    `<tbody class="product-item">
+  }).done(function (res) {
+    if (res.data != null && res.data != "") {
+      console.log("check response :", res)
+      let theadProduct = document.getElementById('thead-product')
+      let productContainerContent = "";
+      res.data.map(function (currentItem, index, arr) {
+        productContainerContent +=
+          `<tbody class="product-item">
         <tr>
           <th class="ps-0 py-3 border-light" scope="row">
             <div class="d-flex align-items-center">
@@ -86,7 +86,7 @@ $(document).ready(function() {
                   <span class="rating-star">&#9733;</span>
                 </div>
                 <p class="mt-3" id="ratingResult">Bạn đã đánh giá: <span class="selected-rating" id="selectedRating">0</span> sao</p>
-                <button type="submit"  class=" btn-submit btn btn-dark">
+                <button type="submit" product-id="${currentItem.productId}"  class=" btn-submit btn btn-dark">
                   <a class=" link-light text-decoration-none" href="#">Submit</a>
                   <i class="fas fa-paper-plane"></i>
                 </button>
@@ -99,110 +99,114 @@ $(document).ready(function() {
       `
 
 
-            })
-            theadProduct.insertAdjacentHTML('afterend', productContainerContent)
-        }
-
-    });
-    $('.selected-rating').text(1);
-    $(".selected-rating").val(1)
-    $('.rating').each(function(index, element) {
-        element.getElementsByClassName('rating-star')[0].classList.add('active')
-    })
-
-    //  let rating = document.getElementsByClassName('rating')
-    //  Array.from(rating).map(function(currentItem){
-    //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
-    //  })
-
-    $('.rating-star').click(function() {
-        $(this).addClass('active');
-        $(this).prevAll('.rating-star').addClass('active');
-        $(this).nextAll('.rating-star').removeClass('active');
-        var selectedRating = $(this).index() + 1;
-        $(this).closest('.product-item').find('.selected-rating').text(selectedRating);
-        $(this).closest('.product-item').find('.selected-rating').val(selectedRating);
-    });
-    // hidden / appear form review
-    $('.btn-rate').click(function(event) {
-            event.preventDefault()
-            if($(this).attr("statusId")==1){
-              console.log("status Id :",$(this).attr("statusId"))
-              let warningAlert = $(this).closest("tr").find(".alert-warning").addClass("d-none")
-              console.log("check warningAlert:",warningAlert)
-            }else{
-            let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
-            }
-
-        })
-        // submit form
-    $(".btn-submit").click(function(event) {
-        event.preventDefault()
-        let reviewText = $(this).closest('.product-item').find("textarea[name='review-text']").val()
-        let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
-
-        let isSuccess = false;
-
-        $.ajax({
-                method: "POST",
-                url: "http://localhost:8080/purchase/rate",
-                async: false,
-                data: {
-                    content: reviewText,
-                    starNumber: parseInt(reviewStar)
-                }
-            })
-            .done(function() {
-                isSuccess = true
-            });
-        if (isSuccess == true) {
-            $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
-            alert("Success !")
-        }
-    })
-    $(".btn-buy-again").click(function(event){
-     let productIdBuyAgain = $(this).attr("productId")
-      event.preventDefault();
-      let url = "detail.html?id="+productIdBuyAgain
-
-       window.location.href= url
-
-    })
-    let orderDetailIdNeedDelete
-    $(".btn-delete-ordered").click(function(){
-      orderDetailIdNeedDelete = $(this).attr("order-detail-id")
-      $("#content-quick-view-confirm").text("Are you sure delete?")
-      $("#btn-quick-view-confirm").addClass("btn-delete-ordered")
-    })
-    $("#btn-quick-view-confirm").click(function(){
-      let buttonQuickViewConfirm = $(this)
-      console.log("check buttonQuickViewConfirm :",buttonQuickViewConfirm)
-      if(buttonQuickViewConfirm.hasClass("btn-delete-ordered")){
-        buttonQuickViewConfirm.removeClass("btn-delete-ordered")
-        let deleteIsSuccess = true;
-        $.ajax({
-          method: "GET",
-          url: "http://localhost:8080/order-detail/delete?id="+orderDetailIdNeedDelete,
-          headers:{"Authorization":bearerToken},
-          async:false
       })
-      .done(function(response) {
-          console.log("check response:",response)
-          if(response!=""&&response!=null){
-            if(response.statusCode==200){
+      theadProduct.insertAdjacentHTML('afterend', productContainerContent)
+    }
+
+  });
+  $('.selected-rating').text(1);
+  $(".selected-rating").val(1)
+  $('.rating').each(function (index, element) {
+    element.getElementsByClassName('rating-star')[0].classList.add('active')
+  })
+
+  //  let rating = document.getElementsByClassName('rating')
+  //  Array.from(rating).map(function(currentItem){
+  //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
+  //  })
+
+  $('.rating-star').click(function () {
+    $(this).addClass('active');
+    $(this).prevAll('.rating-star').addClass('active');
+    $(this).nextAll('.rating-star').removeClass('active');
+    var selectedRating = $(this).index() + 1;
+    $(this).closest('.product-item').find('.selected-rating').text(selectedRating);
+    $(this).closest('.product-item').find('.selected-rating').val(selectedRating);
+  });
+  // hidden / appear form review
+  $('.btn-rate').click(function (event) {
+    event.preventDefault()
+    if ($(this).attr("statusId") == 2) {
+      console.log("status Id :", $(this).attr("statusId"))
+      let warningAlert = $(this).closest("tr").find(".alert-warning").addClass("d-none")
+      console.log("check warningAlert:", warningAlert)
+    } else {
+      let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+    }
+
+  })
+  // submit form
+  $(".btn-submit").click(function (event) {
+    event.preventDefault()
+    let reviewText = $(this).closest('.product-item').find("textarea[name='review-text']").val()
+    let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
+    let productId = $(this).attr("product-id")
+    let isSuccess = false;
+
+    $.ajax({
+      method: "POST",
+      url: "http://localhost:8080/purchase/rate",
+      async: false,
+      data: {
+        content: reviewText,
+        starNumber: parseInt(reviewStar),
+        userId: parseInt(userId),
+        productId:parseInt(productId)
+      },
+      headers: { "Authorization": bearerToken }
+
+    })
+      .done(function () {
+        isSuccess = true
+      });
+    if (isSuccess == true) {
+      $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+      bootbox.alert("Review Successfully !")
+    }
+  })
+  $(".btn-buy-again").click(function (event) {
+    let productIdBuyAgain = $(this).attr("productId")
+    event.preventDefault();
+    let url = "detail.html?id=" + productIdBuyAgain
+
+    window.location.href = url
+
+  })
+  let orderDetailIdNeedDelete
+  $(".btn-delete-ordered").click(function () {
+    orderDetailIdNeedDelete = $(this).attr("order-detail-id")
+    $("#content-quick-view-confirm").text("Are you sure delete?")
+    $("#btn-quick-view-confirm").addClass("btn-delete-ordered")
+  })
+  $("#btn-quick-view-confirm").click(function () {
+    let buttonQuickViewConfirm = $(this)
+    console.log("check buttonQuickViewConfirm :", buttonQuickViewConfirm)
+    if (buttonQuickViewConfirm.hasClass("btn-delete-ordered")) {
+      buttonQuickViewConfirm.removeClass("btn-delete-ordered")
+      let deleteIsSuccess = true;
+      $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/order-detail/delete?id=" + orderDetailIdNeedDelete,
+        headers: { "Authorization": bearerToken },
+        async: false
+      })
+        .done(function (response) {
+          console.log("check response:", response)
+          if (response != "" && response != null) {
+            if (response.statusCode == 200) {
               deleteIsSuccess = true
-            }else{
+            } else {
               deleteIsSuccess = false;
             }
           }
-      });
-      if(deleteIsSuccess){
-      let trProduct =$("a").filter(`[order-detail-id='${orderDetailIdNeedDelete}']`).closest("tr")
-      trProduct.next().remove()
-      trProduct.remove()
+        });
+      if (deleteIsSuccess) {
+        let trProduct = $("a").filter(`[order-detail-id='${orderDetailIdNeedDelete}']`).closest("tr")
+        trProduct.next().remove()
+        trProduct.remove()
       }
 
 
-      }
-    })
+    }
+  })
 });
