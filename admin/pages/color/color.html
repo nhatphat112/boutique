@@ -200,17 +200,17 @@
                   <form class="forms-sample">
                     <div class="form-group">
                       <label for="ColorID">ColorID</label>
-                      <input type="text" class="form-control" id="ColorID" placeholder="ColorID">
+                      <input type="text" class="form-control text-colorid" disabled id="ColorID" placeholder="ColorID">
                     </div>
                     <div class="form-group">
                       <label for="ColorName">ColorName</label>
-                      <input type="text" class="form-control" id="ColorName" placeholder="ColorName">
+                      <input type="text" class="form-control text-colorname" id="ColorName" placeholder="ColorName">
                     </div>
 
-                    <button type="submit" class="btn btn-primary mr-2">Create</button>
-                    <button type="submit" class="btn btn-primary mr-2">Update</button>
-                    <button type="submit" class="btn btn-primary mr-2">Reset</button>
-                    <button type="submit" class="btn btn-primary mr-2">Delete</button>
+                    <button type="button" class="btn btn-primary mr-2 btn-create">Create</button>
+                    <button type="button" class="btn btn-primary mr-2 btn-update">Update</button>
+                    <button type="button" class="btn btn-primary mr-2 btn-reset">Reset</button>
+                    <button type="button" class="btn btn-primary mr-2 btn-delete">Delete</button>
 
                   </form>
                 </div>
@@ -231,7 +231,7 @@
                           <th> </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="list-color">
                         <tr>
                           <td> 1 </td>
                           <td> ABC </td>
@@ -303,6 +303,8 @@
   <script src="../../assets/js/file-upload.js"></script>
   <script src="../../assets/js/typeahead.js"></script>
   <script src="../../assets/js/select2.js"></script>
+  <script src="../../js/color.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.js"></script>
   <!-- End custom js for this page -->
 </body>
 
