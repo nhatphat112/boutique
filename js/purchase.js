@@ -1,9 +1,36 @@
 $(document).ready(function () {
-  localStorage.setItem('userId', '1')
+ 
+ 
+ 
   let bearerToken = "Bearer " + localStorage.getItem("token");
+   let userId =0;
+  // get userId by jwt
+  // $.ajax({
+  //   method: "GET",
+  //   url: "http://localhost:8080/user/getId/token" + orderDetailIdNeedDelete,
+  //   headers: { "Authorization": bearerToken },
+  //   async: false,
+  //   dataType:"json",
+  //   contentType:"application/json",
+    
+  //   data:JSON.stringify(
+  //     {"token":localStorage.getItem("token")}
+  //   )
+
+  // })
+  //   .done(function (response) {
+  //     if (response != "" && response != null) {
+  //       if (response.statusCode == 200) {
+  //         userId = response.data;
+  //       } else {
+  //         console.log("check response user/getId/token:",response)
+  //       }
+  //     }
+  //   });
   // show list product was ordered
   console.log("check bearerToken:", bearerToken)
-  let userId = localStorage.getItem('userId');
+   localStorage.setItem('userId', '1')
+   userId = localStorage.getItem('userId');
   $.ajax({
     type: 'GET',
     url: "http://localhost:8080/order-detail/user?id=" + userId,
@@ -11,8 +38,8 @@ $(document).ready(function () {
     headers: { "Authorization": bearerToken }
 
   }).done(function (res) {
+    console.log("check response :", res)
     if (res.data != null && res.data != "") {
-      console.log("check response :", res)
       let theadProduct = document.getElementById('thead-product')
       let productContainerContent = "";
       res.data.map(function (currentItem, index, arr) {

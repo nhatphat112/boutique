@@ -1,4 +1,29 @@
 $(document).ready(function () {
+  let bearerToken = "Bearer "+localStorage.getItem("token");
+   let userId =0;
+  // get userId by jwt
+  // $.ajax({
+  //   method: "GET",
+  //   url: "http://localhost:8080/user/getId/token" + orderDetailIdNeedDelete,
+  //   headers: { "Authorization": bearerToken },
+  //   async: false,
+  //   dataType:"json",
+  //   contentType:"application/json",
+    
+  //   data:JSON.stringify(
+  //     {"token":localStorage.getItem("token")}
+  //   )
+
+  // })
+  //   .done(function (response) {
+  //     if (response != "" && response != null) {
+  //       if (response.statusCode == 200) {
+  //         userId = response.data;
+  //       } else {
+  //         console.log("check response user/getId/token:",response)
+  //       }
+  //     }
+  //   });
     // checkedCartList = JSON.stringify([{
     //     "id": 1,
     //     "name": "OontZ Angle 3 Bluetooth Speaker",
@@ -7,8 +32,10 @@ $(document).ready(function () {
     // }])
     //var checkedCart = localStorage.getItem('checkedCartJSON');
     //localStorage.setItem("checkedCartId", checkedCartList)
-    let bearerToken = "Bearer "+localStorage.getItem("token");
-    let userId = localStorage.getItem("userId");
+
+   
+    localStorage.setItem("userId", "1")
+    userId = localStorage.getItem("userId");
     console.log(userId + " :userId");
     console.log("check userId :", userId);
     // get list phone and list address by userId from localstorage
