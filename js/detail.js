@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $("#btn-submit-add-to-cart").addClass("d-none")
+    $('#sold-out').addClass('d-none');
+
     let contentDetailMini = "";
     let contentDetailMain = "";
     let contentProductColor = "";
@@ -76,15 +79,19 @@ $(document).ready(function () {
             console.log('lon hon 0 roi');
             //$('#myName').removeClass('d-none');
             //$('#sold-out').addClass('d-none');
-            $('#sold-out').toggleClass('d-none');
+            $('#sold-out').addClass('d-none');
+            $("#btn-submit-add-to-cart").removeClass("d-none")
             //$('#product-quantity').removeClass('d-none');
             quantityDisplay.removeClass('d-none');
+
             //$('#product-quantity').addClass('d-none');
             //document.getElementById('sold-out').classList.add("d-none")
         } else {
             console.log('nho hon 0 roi');
+            $('#sold-out').removeClass('d-none');
             //$('#sold-out').removeClass('d-none');
             //$('#product-quantity').addClass('d-none');
+            $("#btn-submit-add-to-cart").addClass("d-none")
             $('#product-quantity').toggleClass('d-none');
 
         }
@@ -118,6 +125,7 @@ $(document).ready(function () {
             success: function (response) {
                 console.log("User created successfully", response)
                 console.log("User created successfully", response.data)
+                window.location.href="cart.html"
             },
             error: function (error) {
                 console.error("Error creating user", error),
