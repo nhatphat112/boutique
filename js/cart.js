@@ -49,9 +49,12 @@ $(document).ready(function() {
             var carts = response.data;
             var cartTable = $('#cart-table tbody');
             console.log("success congratulation", carts)
+
             var subtotalValue = 0;
             var subTotal = ('#subtotal');
             $.each(carts, function(index, cart) {
+                console.log("max Quantity ", cart.maxQuantity)
+
                 console.log('stock_id ' + cart.stockId);
                 var row =
                     '<tr id="' + cart.id + '">' +
@@ -113,19 +116,20 @@ $(document).ready(function() {
                 totalQ += currentQuantity;
                 console.log(totalQ);
                 incBtn.on('click', function() {
-                    console.log('tang roi');
-                    input.val(currentQuantity += 1);
-                    totalItem.text('$' + cart.stockPrice * input.val())
-                    totalItem.val(cart.stockPrice * input.val())
-                    console.log(totalItem.text() + 'day la totalcheckeditem');
-                    if ($(checkedItem).is(':checked')) {
-                        console.log('phai dem bu');
-                        subtotalValue += cart.stockPrice;
-                        $(subTotal).text('$' + subtotalValue);
+                    if (currentQuantity < cart.maxQuantity) {
+                        console.log('tang roi');
+                        input.val(currentQuantity += 1);
+                        totalItem.text('$' + cart.stockPrice * input.val())
+                        totalItem.val(cart.stockPrice * input.val())
+                        console.log(totalItem.text() + 'day la totalcheckeditem');
+                        if ($(checkedItem).is(':checked')) {
+                            //console.log('phai dem bu');
+                            subtotalValue += cart.stockPrice;
+                            $(subTotal).text('$' + subtotalValue);
+                        }
+                        totalQ++;
+                        $(cartTotal).text('(' + totalQ + ')');
                     }
-                    totalQ++;
-                    $(cartTotal).text('(' + totalQ + ')');
-
                 })
 
                 decBtn.on('click', function() {
@@ -235,7 +239,7 @@ $(document).ready(function() {
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
         if (listCheckedCart.length != 0) {
             console.log('not null');
-        window.location.href = "checkout.html"
+            window.location.href = "checkout.html"
         }
     });
 });
