@@ -8,7 +8,7 @@ let listCategory = "";
 
 $(document).ready(function() {
 
-    
+
     //Gửi yêu cầu GET đến API để lấy danh sách sản phẩm
     //window.addEventListener("load", function() {
     $.ajax({
@@ -16,7 +16,7 @@ $(document).ready(function() {
         contentType: "application/json",
         url: "http://localhost:8080/category",
         dataType: 'json',
-        async : false,
+        async: false,
         success: function(response) {
             listCategory = response.data;
             // Nếu thành công, hiển thị danh sách category trong bảng
@@ -130,7 +130,7 @@ $(document).ready(function() {
         var inputElement = document.querySelector(".quantity input");
         var decButton = document.querySelector(".quantity .dec-btn");
         var incButton = document.querySelector(".quantity .inc-btn");
-     
+
         $('#product-container').on('click', '.btn-add-to-cart', function() {
             console.log("active quickview 2")
 
@@ -187,7 +187,7 @@ $(document).ready(function() {
                         quantity: quantity,
                         userId: userId
                     },
-                    async:false,
+                    async: false,
                     success: function(response) {
                         console.log("User created successfully", response)
                         console.log("User created successfully", response.data)
@@ -268,8 +268,34 @@ $(document).ready(function() {
                 decButton.disabled = false
             }
         });
-      
+
     });
-    
-  
+
+
 });
+
+/*Bắt đầu đếm số lượng items trong cart */
+var cartTotal = ('small#totalQuantity');
+var totalQuantity = 0;
+$(document).ready(function() {
+    var userId = localStorage.getItem("userId");
+    $.ajax({
+        method: 'GET',
+        url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+        data: {
+            userId: userId
+        },
+
+        success: function(response) {
+            console.log(response.data + ' totalQuantity');
+            totalQuantity = response.data;
+            $(cartTotal).text('(' + totalQuantity + ')');
+        },
+        error: function(error) {
+            console.error("Error return productList", error);
+        }
+
+    });
+})
+
+/*Kết thúc đếm số lượng items trong cart */

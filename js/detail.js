@@ -163,3 +163,27 @@ $(document).ready(function() {
         })
     })
 })
+
+
+var cartTotal = ('small#totalQuantity');
+var totalQuantity = 0;
+$(document).ready(function() {
+    var userId = localStorage.getItem("userId");
+    $.ajax({
+        method: 'GET',
+        url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+        data: {
+            userId: userId
+        },
+
+        success: function(response) {
+            console.log(response.data + ' totalQuantity');
+            totalQuantity = response.data;
+            $(cartTotal).text('(' + totalQuantity + ')');
+        },
+        error: function(error) {
+            console.error("Error return productList", error);
+        }
+
+    });
+})
