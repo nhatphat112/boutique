@@ -19,7 +19,12 @@ $(document).ready(function() {
     //     if (response != "" && response != null) {
     //       if (response.statusCode == 200) {
     //         userId = response.data;
-    //       } else {
+    //       } else if(response.statusCode==403){
+    //         window.location.href="403.html"
+    //       } else if(response.statusCode==401){
+    //         window.location.href="login.html"
+    //       }
+    //       else {
     //         console.log("check response user/getId/token:",response)
     //       }
     //     }
@@ -525,6 +530,24 @@ $(document).ready(function() {
                 }
             });
             if (saveOrderIsSuccess) {
+                // delete cart at database
+                $.ajax({
+                    method: "POST",
+                    headers: { "Authorization": bearerToken },
+                    url: "http://localhost:8080/cart/delete",
+                    async: true,
+                    dataType: "json", // Cấu hình kiểu dữ liệu là JSON
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({  
+                       IdsRequest: checkedCartList
+                    }),
+                }).done(function(response) {
+                    console.log("check response cart/delete:",response)
+                    if (response != null && response != "") {
+                        message = response.message
+                        saveOrderIsSuccess = (response.statusCode == 200) ? true : false
+                    }
+                });
                 localStorage.setItem("checkedCart", null)
                 window.location.href = "purchase.html";
                 $("#place-order-warning").addClass("d-none")
