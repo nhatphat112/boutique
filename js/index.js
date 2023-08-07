@@ -71,7 +71,7 @@ $(document).ready(function() {
 
                     productNameQuickView.textContent = currentItem.name;
                     priceQuickView.textContent = currentItem.price + "$";
-                    descriptionQuickView.textContent = currentItem.desciption;
+                    descriptionQuickView.textContent = currentItem.description;
                     console.log('check currentItem.desciption:', currentItem.desciption)
 
                 }
@@ -99,8 +99,6 @@ $(document).ready(function() {
                         userId: userId
                     },
                     success: function(response) {
-                        console.log("User created successfully", response)
-                        console.log("User created successfully", response.data)
                     },
                     error: function(error) {
                         console.error("Error creating user", error),
@@ -110,7 +108,7 @@ $(document).ready(function() {
                 });
             });
             /*Kết thúc submit add to cart*/
-
+            let productIsReady = true;
             jQuery.ajax({
                 url: "http://localhost:8080/stock/product?id=" + productId,
                 type: "GET",
@@ -119,17 +117,28 @@ $(document).ready(function() {
                     console.log(res);
                     if (res != null && res != "") {
                         stock = res.data;
-                        res.data.map(function(currentItem, index, arr) {
-                            contentColor += ` 
-                         <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
-                         `;
-                        });
-                        console.log(contentColor);
-                        colorSelector.innerHTML = contentColor;
+                        if(stock.length!=0){
+                            res.data.map(function(currentItem, index, arr) {
+                                contentColor += ` 
+                             <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
+                             `;
+                            });
+                            console.log(contentColor);
+                            colorSelector.innerHTML = contentColor;
+                        }else{
+                            productIsReady = false;
+                        }
+                       
                     }
                 },
             });
+            if(productIsReady){
+                $("#product-not-ready").addClass("d-none")
+            }else{
+                $("#product-not-ready").removeClass("d-none")
+            }
         });
+       
         let quantityQuickViewMax = "";
         this.document
             .getElementById("color-selector")
