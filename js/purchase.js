@@ -22,7 +22,12 @@ $(document).ready(function() {
     //     if (response != "" && response != null) {
     //       if (response.statusCode == 200) {
     //         userId = response.data;
-    //       } else {
+    //       } else if(response.statusCode==403){
+    //         window.location.href="403.html"
+    //       } else if(response.statusCode==401){
+    //         window.location.href="login.html"
+    //       }
+    //       else {
     //         console.log("check response user/getId/token:",response)
     //       }
     //     }
