@@ -11,13 +11,29 @@ $(document).ready(function () {
         <td> ${currentItem.id} </td>
         <td> ${currentItem.name} </td>
         <td>
-          <button type="submit" class="btn btn-primary mr-2">Edit</button>
-          <button type="submit" class="btn btn-primary mr-2">Delete</button>
+          <button type="submit" color-id="${currentItem.id}" class="btn btn-primary mr-2 btn-delete">Delete</button>
         </td>
       </tr>`
             stt++;
         })
         $("#list-color").html(contentColorList)
+        $(".btn-delete").click(function () {
+            let colorId = $(this).attr("color-id")
+            let This = $(this)
+            $.ajax({
+                method: "GET",
+                url: "http://localhost:8080/color/delete?id=" + colorId
+            }).done(function (result) {
+                if (result.data == true) {
+                    bootbox.alert("Delete successfully", function () {
+                    });
+                    This.closest("tr").remove();
+                }
+                else {
+                    bootbox.alert("Delete successfully !")
+                }
+            })
+        })
     })
     $(".btn-create").click(function () {
         let textColorName = $(".text-colorname").val()
@@ -28,17 +44,9 @@ $(document).ready(function () {
                 colorName: textColorName
             }
         }).done(function (result) {
-            if (result.data == true) {
-                bootbox.alert("Save successfully !", function () {
-                    location.reload();
-                });
-            } else {
-                bootbox.alert(textColorName + " have existed already. Please type another color !", function () {
-                    location.reload();
-                });
-            }
+            bootbox.alert(result.data, function () {
+                location.reload();
+            });
         })
-    })
-
-
+    })    
 })
