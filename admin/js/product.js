@@ -103,7 +103,7 @@ $(".showFormButton").on("click", function() {
                 "image": image,
                 "desc": description
             },
-            // contentType: 'application/json',
+            contentType: 'application/json',
             async: false,
             success: function(response) {
                 console.log(response.data);
