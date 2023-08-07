@@ -164,7 +164,7 @@ $(document).ready(function() {
     })
 })
 
-
+/*Bắt đầu đếm số lượng items trong cart */
 var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
 $(document).ready(function() {
@@ -187,3 +187,5 @@ $(document).ready(function() {
 
     });
 })
+
+/*Kết thúc đếm số lượng items trong cart */

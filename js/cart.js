@@ -1,30 +1,28 @@
-/*Bắt đầu đếm cart*/
-var totalQ = 0;
+/*Bắt đầu đếm số lượng items trong cart */
 var cartTotal = ('small#totalQuantity');
-var listCart = [];
-//var totalQuantity = 0;
-/*$(document).ready(function() {
-    var email = localStorage.getItem("email");
-    $.ajax({
-        method: 'GET',
-        url: "http://localhost:8080/cart/count/" + encodeURIComponent(email),
-        data: {
-            email: email
-        },
+var totalQuantity = 0;
+$(document).ready(function() {
+        var userId = localStorage.getItem("userId");
+        $.ajax({
+            method: 'GET',
+            url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+            data: {
+                userId: userId
+            },
 
-        success: function(response) {
-            console.log(response.data + ' totalQuantity');
-            totalQuantity = response.data;
-            $(cartTotal).text('(' + totalQuantity + ')');
-        },
-        error: function(error) {
-            console.error("Error return productList", error);
-        }
+            success: function(response) {
+                console.log(response.data + ' totalQuantity');
+                totalQuantity = response.data;
+                $(cartTotal).text('(' + totalQuantity + ')');
+            },
+            error: function(error) {
+                console.error("Error return productList", error);
+            }
 
-    });
-})*/
-/*Kết thúc đếm cart*/
-/*Bắt đầu nút check all*/
+        });
+    })
+    /*Kết thúc đếm số lượng items trong cart */
+    /*Bắt đầu nút check all*/
 $(document).ready(function() {
 
     $('#check-all').click(function() {
@@ -113,8 +111,8 @@ $(document).ready(function() {
                 });
                 /*Kết thúc tính subtotal*/
 
-                totalQ += currentQuantity;
-                console.log(totalQ);
+                // totalQ += currentQuantity;
+                // console.log(totalQ);
                 incBtn.on('click', function() {
                     if (currentQuantity < cart.maxQuantity) {
                         console.log('tang roi');
@@ -127,8 +125,8 @@ $(document).ready(function() {
                             subtotalValue += cart.stockPrice;
                             $(subTotal).text('$' + subtotalValue);
                         }
-                        totalQ++;
-                        $(cartTotal).text('(' + totalQ + ')');
+                        // totalQ++;
+                        // $(cartTotal).text('(' + totalQ + ')');
                     }
                 })
 
@@ -143,37 +141,37 @@ $(document).ready(function() {
                             console.log('phai tru bot');
                             subtotalValue -= cart.stockPrice;
                         }
-                        totalQ--;
-                        $(cartTotal).text('(' + totalQ + ')');
+                        // totalQ--;
+                        // $(cartTotal).text('(' + totalQ + ')');
                     }
                 });
                 changQuantity.on('click', function() {
-                    console.log('btn change Quantity')
-                    var quantity = $(this).closest('tr').find('.stock-quantity').val();
-                    console.log(quantity);
-                    console.log('cartId ' + cart.id);
-                    var id = cart.id;
-                    $.ajax({
-                        method: "GET",
-                        url: 'http://localhost:8080/cart/update/' + encodeURIComponent(id) + '/' + quantity,
-                        data: {
-                            id: id,
-                            quantity: quantity
-                        },
-                        success: function(response) {
-                            console.log("User created successfully", response);
-                            console.log("User created successfully", response.data);
-                        },
-                        error: function(error) {
-                            console.error("Error creating user", error);
-                        }
+                        console.log('btn change Quantity')
+                        var quantity = $(this).closest('tr').find('.stock-quantity').val();
+                        console.log(quantity);
+                        console.log('cartId ' + cart.id);
+                        var id = cart.id;
+                        $.ajax({
+                            method: "GET",
+                            url: 'http://localhost:8080/cart/update/' + encodeURIComponent(id) + '/' + quantity,
+                            data: {
+                                id: id,
+                                quantity: quantity
+                            },
+                            success: function(response) {
+                                console.log("User created successfully", response);
+                                console.log("User created successfully", response.data);
+                            },
+                            error: function(error) {
+                                console.error("Error creating user", error);
+                            }
+                        })
                     })
-                })
-                var cartIdQuantity = {
-                    id: cart.id,
-                    quantity: currentQuantity
-                }
-                listCart.push(cartIdQuantity);
+                    // var cartIdQuantity = {
+                    //         id: cart.id,
+                    //         quantity: currentQuantity
+                    //     }
+                    // listCart.push(cartIdQuantity);
 
 
                 /*Kết bảng table các sản phẩm trong cart*/
@@ -184,7 +182,7 @@ $(document).ready(function() {
             })
             $(subTotal).text('$' + subtotalValue);
 
-            $(cartTotal).text('(' + totalQ + ')');
+            // $(cartTotal).text('(' + totalQ + ')');
 
 
         },
@@ -220,7 +218,8 @@ $(document).ready(function() {
                 console.log('quantity ' + quantity)
                 console.log("This " + this);
                 var cartIndex = {
-                    id: stockId,
+                    cartId: this.id,
+                    stockId: stockId,
                     name: name,
                     price: price,
                     quantity: quantity
