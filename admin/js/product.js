@@ -123,6 +123,7 @@ $(".showFormButton").on("click", function() {
     $("#form-display").show();
     $("#product-list").hide();
 
+
     $('#save-btn').click(function(event) {
         var name = $('input#name').val();
         console.log(name);
@@ -172,12 +173,12 @@ function editRow(button) {
 
 }
 
-// $.each(listCategory, function(index, category) {
-//     var row = ""
-//     if (category.id == categoryId) {
-//         row += `<option value="${category.id}" selected >${category.name}</option>`
+$.each(listCategory, function(index, category) {
+    var row = ""
+    if (category.id == categoryId) {
+        row += `<option value="${category.id}" selected >${category.name}</option>`
 
-//     } else {
-//         row += `<option value="${category.id}">${category.name}</option>`
-//     }
-// });
+    } else {
+        row += `<option value="${category.id}">${category.name}</option>`
+    }
+});
