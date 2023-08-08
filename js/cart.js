@@ -1,11 +1,41 @@
 /*Bắt đầu đếm số lượng items trong cart */
+let bearerToken = "Bearer " + localStorage.getItem("token");
 var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
+let userId = 0;
 $(document).ready(function() {
-        var userId = localStorage.getItem("userId");
+    
+
+    // get userId by jwt
+    $.ajax({
+      method: "GET",
+      url: "http://localhost:8080/user/getid",
+      headers: { "Authorization": bearerToken },
+      async: false,
+      data:{
+        token:localStorage.getItem("token")
+      }
+
+    })
+      .done(function (response) {
+        if (response != "" && response != null) {
+          if (response.statusCode == 200) {
+            userId = response.data;
+          } else if(response.statusCode==403){
+            window.location.href="403.html"
+          } else if(response.statusCode==401){
+            localStorage.setItem("accessLinkContinue","cart.html")
+            window.location.href="login.html?#"
+          }
+          else {
+            console.log("check response user/getId/token:",response)
+          }
+        }
+      });
         $.ajax({
             method: 'GET',
             url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+            headers: { "Authorization": bearerToken },
             data: {
                 userId: userId
             },
@@ -39,6 +69,7 @@ $(document).ready(function() {
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
+        headers: { "Authorization": bearerToken },
         data: {
             userId: userId
         },
@@ -154,6 +185,7 @@ $(document).ready(function() {
                         $.ajax({
                             method: "GET",
                             url: 'http://localhost:8080/cart/update/' + encodeURIComponent(id) + '/' + quantity,
+                            headers: { "Authorization": bearerToken },
                             data: {
                                 id: id,
                                 quantity: quantity
@@ -265,6 +297,7 @@ $('#cart-table').on('click', '.fa-trash-alt', function() {
     $.ajax({
         method: 'GET',
         url: "http://localhost:8080/cart/delete/" + encodeURIComponent(cartId),
+        headers: { "Authorization": bearerToken },
         data: {
             cartId: cartId
         },
