@@ -87,7 +87,34 @@ $(document).ready(function() {
                 var quantity = $("#input-quantity").val();
                 //console.log("đây là id color của sp " + colorId);
                 //console.log("đây là quantity của sp " + quantity);
-                var userId = localStorage.getItem("userId");
+                let bearerToken = "Bearer " + localStorage.getItem("token");
+                let userId = 0;
+                // get userId by jwt
+                $.ajax({
+                  method: "GET",
+                  url: "http://localhost:8080/user/getid",
+                  headers: { "Authorization": bearerToken },
+                  async: false,
+                  data:{
+                    token:localStorage.getItem("token")
+                  }
+            
+                })
+                  .done(function (response) {
+                    if (response != "" && response != null) {
+                      if (response.statusCode == 200) {
+                        userId = response.data;
+                      } else if(response.statusCode==403){
+                        window.location.href="403.html"
+                      } else if(response.statusCode==401){
+                        localStorage.setItem("accessLinkContinue","index.html")
+                        window.location.href="login.html?#"
+                      }
+                      else {
+                        console.log("check response user/getId/token:",response)
+                      }
+                    }
+                  });
                 $.ajax({
                     method: "GET",
                     url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
@@ -210,7 +237,29 @@ $(document).ready(function() {
 var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
 $(document).ready(function() {
-    var userId = localStorage.getItem("userId");
+    let bearerToken = "Bearer " + localStorage.getItem("token");
+    let userId = 0;
+    // get userId by jwt
+    $.ajax({
+      method: "GET",
+      url: "http://localhost:8080/user/getid",
+      headers: { "Authorization": bearerToken },
+      async: false,
+      data:{
+        token:localStorage.getItem("token")
+      }
+
+    })
+      .done(function (response) {
+        if (response != "" && response != null) {
+          if (response.statusCode == 200) {
+            userId = response.data;
+          }
+          else {
+            console.log("check response user/getId/token:",response)
+          }
+        }
+      });
     $.ajax({
         method: 'GET',
         url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
