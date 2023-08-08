@@ -201,6 +201,13 @@
                                 <h4 class="card-title">Product form</h4>
                                 <form id="form" class="forms-sample">
                                     <div class="form-group">
+                                        <label for="categoryID">ID</label>
+                                        <input type="text" class="form-control" id="productId" placeholder="ID" style="color: black;" disabled>
+                                        <!-- <div id="CategoryId-Warning" class="d-none alert alert-warning m-0" role="alert">
+                                            Đây là cảnh báo!
+                                        </div> -->
+                                    </div>
+                                    <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" class="form-control" id="name" placeholder="Name">
                                     </div>
@@ -232,7 +239,7 @@
                                         <label>File upload</label>
                                         <input type="file" name="img[]" class="file-upload-default" multiple>
                                         <div class="input-group col-xs-12">
-                                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                            <input id="image" type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                                             <span class="input-group-append">
                                                 <button class="file-upload-browse btn btn-primary"
                                                     type="button">Upload</button>
@@ -244,7 +251,9 @@
                                         <label for="exampleTextarea1">Description</label>
                                         <textarea class="form-control" id="description" rows="4"></textarea>
                                     </div>
-                                    <button id="save-btn" type="submit" class="btn btn-primary mr-2">Save</button>
+                                    <button id="save-btn" class="btn btn-primary mr-2">Save</button>
+
+                                    <!-- <button id="save-btn" type="submit" class="btn btn-primary mr-2">Save</button> -->
                                     <!-- <button type="submit" class="btn btn-primary mr-2">Update</button>
                                     <button type="submit" class="btn btn-primary mr-2">Reset</button>
                                     <button type="submit" class="btn btn-primary mr-2">Delete</button> -->
