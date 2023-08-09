@@ -101,37 +101,36 @@ $('#edit-profile-link').click(function(event) {
 
     });
     content = "";
-    addressList.map(function(currentItem, index) {
-        if (currentItem.cityOrProvinceName == "") {
-            content += `
-          <input
-          fee-express=${currentItem.fee}
-          type="radio"
-          id="${currentItem.id}"
-          name="addressOption"
-          value="${currentItem.id}"
-      />
-      <label for=""
-          >${currentItem.detail}, ${currentItem.countryName}</label
-      ><br />
-    `;
-        } else {
-            content += `
-          <input
-          fee-express=${currentItem.fee}
-          type="radio"
-          id="${currentItem.id}"
-          name="addressOption"
-          value="${currentItem.id}"
-      />
-      <label for=""
-          >${currentItem.detail}, ${currentItem.cityOrProvinceName}, ${currentItem.countryName}</label
-      ><br />
-    `;
-        }
-    });
+    if (addressList != null) {
+        addressList.map(function(currentItem, index) {
+            if (currentItem.cityOrProvinceName == "" || currentItem.cityOr) {
+                content +=
+                    `<p style="display: flex; align-items: center;">
+        <button class="delete-address btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
+        align-items: center; " type="button" >x</button>
+        <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.countryName}</span>
+        </p>`;
+            } else {
+                content +=
+                    `<p style="display: flex; align-items: center;">
+        <button class="delete-address btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
+        align-items: center; " type="button" >x</button>
+        <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.cityOrProvinceName}, ${currentItem.countryName}</span>
+        </p>`;
+            }
+        });
+    }
     document.getElementById("address-id").innerHTML = content;
-
+    var addressRemoveIdList = [];
+    $('.delete-address').click(function() {
+        console.log('delete address')
+        var pElement = $(this).parent();
+        pElement.remove();
+        var span = $(pElement).find('span');
+        var removeAddressId = parseInt($(span).attr('id'));
+        addressRemoveIdList.push(removeAddressId);
+        console.log(addressRemoveIdList + ' addressList');
+    })
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/phone/user?id=" + userId,
@@ -151,23 +150,18 @@ $('#edit-profile-link').click(function(event) {
         }
     });
     let phoneContent = "";
-    phoneList.map(function(currentItem, index) {
-        phoneContent +=
-            //   <input
-            //   type="radio"
-            //   id="${currentItem.id}"
-            //   name="numberOption"
-            //   value="${currentItem.id}"
-            // />
-            // <label for="">${currentItem.phoneNumber}</label><br />
-            //   `;
-            `<p style="display: flex; align-items: center;">
-            <button class="delete-phone btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
-            align-items: center; " type="button" >x</button>
-            <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.phoneNumber}</span>
-            </p>`;
+    if (phoneList != null) {
+        phoneList.map(function(currentItem, index) {
+            phoneContent +=
+                `<p style="display: flex; align-items: center;">
+                <button class="delete-phone btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
+                align-items: center; " type="button" >x</button>
+                <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.phoneNumber}</span>
+                </p>`;
 
-    });
+        });
+    }
+
     document.getElementById("phone-number-id").innerHTML = phoneContent;
     var phoneRemoveIdList = [];
     $('.delete-phone').click(function() {
@@ -181,26 +175,48 @@ $('#edit-profile-link').click(function(event) {
     })
     $('#save-changes-submit').click(function() {
         console.log('save change button')
-        console.log(JSON.stringify({
-            phoneRemoveIdList
-        }))
-        $.ajax({
-            method: "POST",
-            headers: { "Authorization": bearerToken },
-            url: "http://localhost:8080/cart/delete/ids",
-            async: true,
-            dataType: "json", // Cấu hình kiểu dữ liệu là JSON
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-                idList: phoneRemoveIdList
-            }),
-        }).done(function(response) {
-            console.log("check response cart/delete:", response)
-            if (response != null && response != "") {
-                message = response.message
 
-            }
-        });
+        if (phoneRemoveIdList.length != 0) {
+            $.ajax({
+                method: "POST",
+                headers: { "Authorization": bearerToken },
+                url: "http://localhost:8080/phone/delete",
+                async: true,
+                dataType: "json", // Cấu hình kiểu dữ liệu là JSON
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    idList: phoneRemoveIdList
+                }),
+            }).done(function(response) {
+                if (response != null && response != "") {
+                    // message = response.message
+                    console.log("check response phone/delete:", response)
+
+                }
+            });
+        }
+
+        if (addressRemoveIdList.length != 0) {
+            $.ajax({
+                method: "POST",
+                headers: { "Authorization": bearerToken },
+                url: "http://localhost:8080/address/delete/",
+                async: true,
+                dataType: "json", // Cấu hình kiểu dữ liệu là JSON
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    idList: addressRemoveIdList
+                }),
+
+            }).done(function(response) {
+                if (response != null && response != "") {
+                    // message = response.message
+                    console.log("check response address/delete:", response)
+
+                }
+            });
+        }
+
     })
 
 })
