@@ -61,7 +61,6 @@ $(document).ready(function() {
     });
     //Bắt đầu thay đổi mật khẩu
     $('#change-pass-submit').click(function() {
-        console.log(id);
         var currentPass = $('#currentPass').val();
         var newPass = $('#newPass').val();
         $.ajax({
