@@ -36,8 +36,8 @@
                     <a class="navbar-brand" href="index.html">
                         <span class="fw-bold text-uppercase text-dark">Boutique</span></a>
                     <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
+            <span class="navbar-toggler-icon"></span>
+          </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
@@ -59,37 +59,30 @@
                       href="detail.html"
                       >Product detail</a
                     > -->
-                                    <a class="dropdown-item border-0 transition-link" href="cart.html">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.html">Checkout</a
-                    >
-                  </div>
-                </li>
-              </ul>
-              <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                  <a class="nav-link" href="cart.html">
-                    <i class="fas fa-dolly-flatbed me-1 text-gray"></i
-                    >Cart<small id="totalQuantity" class="text-gray fw-normal"></small></a
-                  >
-                </li>
-                <!-- <li class="nav-item">
+                                    <a class="dropdown-item border-0 transition-link" href="cart.html">Shopping cart</a>
+                                    <!-- <a class="dropdown-item border-0 transition-link" href="checkout.html">Checkout</a> -->
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="cart.html">
+                                    <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small id="totalQuantity" class="text-gray fw-normal"></small></a>
+                            </li>
+                            <!-- <li class="nav-item">
                   <a class="nav-link" href="#!">
                     <i class="far fa-heart me-1"></i
                     ><small class="text-gray fw-normal"> (0)</small></a
                   >
                 </li> -->
-                <li class="nav-item dropdown">
-                  <button
-                    type="button"
-                    class="btn dropdown-toggle"
-                    data-toggle="dropdown"
-                  >
-                    <i class="fas fa-user me-1 text-gray fw-normal"></i>Login
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">My Account</a>
-                                    <a class="dropdown-item" href="purchase.html">My Purchase</a
-                    >
-                    <a class="dropdown-item" href="#" onclick="Ulogout()">Log out</a>
+                            <li class="nav-item dropdown">
+                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="fas fa-user me-1 text-gray fw-normal"></i>Login
+                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">My Account</a>
+                                    <a class="dropdown-item" href="purchase.html">My Purchase</a>
+                                    <a class="dropdown-item" href="#" onclick="Ulogout()">Log out</a>
                                 </div>
                             </li>
                         </ul>
@@ -142,7 +135,7 @@
                                     <div class="row align-items-stretch mb-4 gx-3">
                                         <select id="color-selector" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></select>
                                         <div id="product-not-ready" class=" alert alert-warning mt-2" role="alert">
-                                         Product is not ready for sale.
+                                            Product is not ready for sale.
                                         </div>
                                         <div style="padding: 0 0 !important" class="col-sm-7 mb-0 gx-0">
                                             <div id="sold-out" style="padding: 0.25rem 1.25rem !important" class="d-none alert alert-danger" role="alert">
@@ -150,316 +143,257 @@
                                             </div>
                                             <div id="product-quantity-quick-view">
                                                 <div style="height: 35px !important" class="d-none border d-flex align-items-center justify-content-between py-1 px-1">
-                                                    <span class="small text-uppercase text-gray mr-4 no-select">Quantity</span
-                            >
-                            <div class="quantity">
-                              <button class="dec-btn p-0">
-                                <i class="fas fa-caret-left"></i>
-                              </button>
-                              <input
-                                style="height: 28px !important"
-                                id="input-quantity"
-                                class="form-control border-0 shadow-0 p-0"
-                                type="text"
-                                value="1"
-                              />
-                              <button class="inc-btn p-0">
-                                <i class="fas fa-caret-right"></i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="btn-submit-add-to-cart"
-                        style="padding: 0 0 !important"
-                        class="col-sm-5 mb-0 gx-0 d-none"
-                      >
-                        <a
-                          style="height: 35px !important"
-                          
-                          class="btn btn-dark btn-sm w-100 h-100 d-flex align-items-center justify-content-center px-0"
-                          href="cart.html"
-                          >Add to cart</a
-                        >
-                      </div>
-                      
-                    </div>
-                  
+                                                    <span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
+                                                    <div class="quantity">
+                                                        <button class="dec-btn p-0">
+                              <i class="fas fa-caret-left"></i>
+                            </button>
+                                                        <input style="height: 28px !important" id="input-quantity" class="form-control border-0 shadow-0 p-0" type="text" value="1" />
+                                                        <button class="inc-btn p-0">
+                              <i class="fas fa-caret-right"></i>
+                            </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="btn-submit-add-to-cart" style="padding: 0 0 !important" class="col-sm-5 mb-0 gx-0 d-none">
+                                            <a style="height: 35px !important" class="btn btn-dark btn-sm w-100 h-100 d-flex align-items-center justify-content-center px-0" href="cart.html">Add to cart</a>
+                                        </div>
 
-                    <!--<a class="btn btn-link text-dark text-decoration-none p-0" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a>-->
-                  </div>
-                
+                                    </div>
+
+
+                                    <!--<a class="btn btn-link text-dark text-decoration-none p-0" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a>-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- HERO SECTION-->
-      <div class="container">
-        <section
-          class="hero pb-3 bg-cover bg-center d-flex align-items-center"
-          style="background: url(img/hero-banner-alt.jpg)"
-        >
-          <div class="container py-5">
-            <div class="row px-4 px-lg-5">
-              <div class="col-lg-6">
-                <p class="text-muted small text-uppercase mb-2">
-                  New Inspiration 2020
-                </p>
-                <h1 class="h2 text-uppercase mb-3">20% off on new season</h1>
-                <a class="btn btn-dark" href="shop.html">Browse collections</a>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- CATEGORIES SECTION-->
-        <section class="pt-5">
-          <header class="text-center">
-            <p class="small text-muted small text-uppercase mb-1">
-              Carefully created collections
-            </p>
-            <h2 class="h5 text-uppercase mb-4">Browse our categories</h2>
-          </header>
-          <div class="row">
-            <div class="col-md-4">
-              <a class="category-item" href="shop.html"
-                ><img class="img-fluid" src="img/cat-img-1.jpg" alt="" /><strong
-                  class="category-item-title"
-                  >Clothes</strong
-                ></a
-              >
-            </div>
-            <div class="col-md-4">
-              <a class="category-item mb-4" href="shop.html"
-                ><img class="img-fluid" src="img/cat-img-2.jpg" alt="" /><strong
-                  class="category-item-title"
-                  >Shoes</strong
-                ></a
-              >
-              <a class="category-item" href="shop.html"
-                ><img class="img-fluid" src="img/cat-img-3.jpg" alt="" /><strong
-                  class="category-item-title"
-                  >Watches</strong
-                ></a
-              >
-            </div>
-            <div class="col-md-4">
-              <a class="category-item" href="shop.html"
-                ><img class="img-fluid" src="img/cat-img-4.jpg" alt="" /><strong
-                  class="category-item-title"
-                  >Electronics</strong
-                ></a
-              >
-            </div>
-          </div>
-        </section>
-        <!-- TRENDING PRODUCTS-->
-        <section class="py-5">
-          <header>
-            <p class="small text-muted small text-uppercase mb-1">
-              Made the hard way
-            </p>
-            <h2 class="h5 text-uppercase mb-4">Top trending products</h2>
-          </header>
-          <div id="product-container" class="row">
-            <!-- PRODUCT -->
-          </div>
-        </section>
-        <!-- SERVICES-->
-        <section class="py-5 bg-light">
-          <div class="container">
-            <div class="row text-center gy-3">
-              <div class="col-lg-4">
-                <div class="d-inline-block">
-                  <div class="d-flex align-items-end">
-                    <svg class="svg-icon svg-icon-big svg-icon-light">
-                      <use xlink:href="#delivery-time-1"></use>
-                    </svg>
-                    <div class="text-start ms-3">
-                      <h6 class="text-uppercase mb-1">Free shipping</h6>
-                      <p class="text-sm mb-0 text-muted">
-                        Free shipping worldwide
-                      </p>
+        <!-- HERO SECTION-->
+        <div class="container">
+            <section class="hero pb-3 bg-cover bg-center d-flex align-items-center" style="background: url(img/hero-banner-alt.jpg)">
+                <div class="container py-5">
+                    <div class="row px-4 px-lg-5">
+                        <div class="col-lg-6">
+                            <p class="text-muted small text-uppercase mb-2">
+                                New Inspiration 2020
+                            </p>
+                            <h1 class="h2 text-uppercase mb-3">20% off on new season</h1>
+                            <a class="btn btn-dark" href="shop.html">Browse collections</a>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="d-inline-block">
-                  <div class="d-flex align-items-end">
-                    <svg class="svg-icon svg-icon-big svg-icon-light">
-                      <use xlink:href="#helpline-24h-1"></use>
-                    </svg>
-                    <div class="text-start ms-3">
-                      <h6 class="text-uppercase mb-1">24 x 7 service</h6>
-                      <p class="text-sm mb-0 text-muted">
-                        Free shipping worldwide
-                      </p>
+            </section>
+            <!-- CATEGORIES SECTION-->
+            <section class="pt-5">
+                <header class="text-center">
+                    <p class="small text-muted small text-uppercase mb-1">
+                        Carefully created collections
+                    </p>
+                    <h2 class="h5 text-uppercase mb-4">Browse our categories</h2>
+                </header>
+                <div class="row">
+                    <div class="col-md-4">
+                        <a class="category-item" href="shop.html"><img class="img-fluid" src="img/cat-img-1.jpg" alt="" /><strong class="category-item-title">Clothes</strong></a>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="d-inline-block">
-                  <div class="d-flex align-items-end">
-                    <svg class="svg-icon svg-icon-big svg-icon-light">
-                      <use xlink:href="#label-tag-1"></use>
-                    </svg>
-                    <div class="text-start ms-3">
-                      <h6 class="text-uppercase mb-1">Festivaloffers</h6>
-                      <p class="text-sm mb-0 text-muted">
-                        Free shipping worldwide
-                      </p>
+                    <div class="col-md-4">
+                        <a class="category-item mb-4" href="shop.html"><img class="img-fluid" src="img/cat-img-2.jpg" alt="" /><strong class="category-item-title">Shoes</strong></a>
+                        <a class="category-item" href="shop.html"><img class="img-fluid" src="img/cat-img-3.jpg" alt="" /><strong class="category-item-title">Watches</strong></a>
                     </div>
-                  </div>
+                    <div class="col-md-4">
+                        <a class="category-item" href="shop.html"><img class="img-fluid" src="img/cat-img-4.jpg" alt="" /><strong class="category-item-title">Electronics</strong></a>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- NEWSLETTER-->
-        <section class="py-5">
-          <div class="container p-0">
-            <div class="row gy-3">
-              <div class="col-lg-6">
-                <h5 class="text-uppercase">Let's be friends!</h5>
-                <p class="text-sm text-muted mb-0">
-                  Nisi nisi tempor consequat laboris nisi.
-                </p>
-              </div>
-              <div class="col-lg-6">
-                <form action="#">
-                  <div class="input-group">
-                    <input
-                      class="form-control form-control-lg"
-                      type="email"
-                      placeholder="Enter your email address"
-                      aria-describedby="button-addon2"
-                    />
-                    <button
-                      class="btn btn-dark"
-                      id="button-addon2"
-                      type="submit"
-                    >
-                      Subscribe
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      <footer class="bg-dark text-white">
-        <div class="container py-4">
-          <div class="row py-5">
-            <div class="col-md-4 mb-3 mb-md-0">
-              <h6 class="text-uppercase mb-3">Customer services</h6>
-              <ul class="list-unstyled mb-0">
-                <li>
-                  <a class="footer-link" href="#!">Help &amp; Contact Us</a>
-                </li>
-                <li>
-                  <a class="footer-link" href="#!">Returns &amp; Refunds</a>
-                </li>
-                <li><a class="footer-link" href="#!">Online Stores</a></li>
-                <li>
-                  <a class="footer-link" href="#!">Terms &amp; Conditions</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-4 mb-3 mb-md-0">
-              <h6 class="text-uppercase mb-3">Company</h6>
-              <ul class="list-unstyled mb-0">
-                <li><a class="footer-link" href="#!">What We Do</a></li>
-                <li><a class="footer-link" href="#!">Available Services</a></li>
-                <li><a class="footer-link" href="#!">Latest Posts</a></li>
-                <li><a class="footer-link" href="#!">FAQs</a></li>
-              </ul>
-            </div>
-            <div class="col-md-4">
-              <h6 class="text-uppercase mb-3">Social media</h6>
-              <ul class="list-unstyled mb-0">
-                <li><a class="footer-link" href="#!">Twitter</a></li>
-                <li><a class="footer-link" href="#!">Instagram</a></li>
-                <li><a class="footer-link" href="#!">Tumblr</a></li>
-                <li><a class="footer-link" href="#!">Pinterest</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="border-top pt-4" style="border-color: #1d1d1d !important">
-            <div class="row">
-              <div class="col-md-6 text-center text-md-start">
-                <p class="small text-muted mb-0">
-                  &copy; 2021 All rights reserved.
-                </p>
-              </div>
-              <div class="col-md-6 text-center text-md-end">
-                <p class="small text-muted mb-0">
-                  Template designed by
-                  <a
-                    class="text-white reset-anchor"
-                    href="https://bootstrapious.com/p/boutique-bootstrap-e-commerce-template"
-                    >Bootstrapious</a
-                  >
-                </p>
-                <!-- If you want to remove the backlink, please purchase the Attribution-Free License. See details in readme.txt or license.txt. Thanks!-->
-              </div>
-            </div>
-          </div>
+            </section>
+            <!-- TRENDING PRODUCTS-->
+            <section class="py-5">
+                <header>
+                    <p class="small text-muted small text-uppercase mb-1">
+                        Made the hard way
+                    </p>
+                    <h2 class="h5 text-uppercase mb-4">Top trending products</h2>
+                </header>
+                <div id="product-container" class="row">
+                    <!-- PRODUCT -->
+                </div>
+            </section>
+            <!-- SERVICES-->
+            <section class="py-5 bg-light">
+                <div class="container">
+                    <div class="row text-center gy-3">
+                        <div class="col-lg-4">
+                            <div class="d-inline-block">
+                                <div class="d-flex align-items-end">
+                                    <svg class="svg-icon svg-icon-big svg-icon-light">
+                    <use xlink:href="#delivery-time-1"></use>
+                  </svg>
+                                    <div class="text-start ms-3">
+                                        <h6 class="text-uppercase mb-1">Free shipping</h6>
+                                        <p class="text-sm mb-0 text-muted">
+                                            Free shipping worldwide
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="d-inline-block">
+                                <div class="d-flex align-items-end">
+                                    <svg class="svg-icon svg-icon-big svg-icon-light">
+                    <use xlink:href="#helpline-24h-1"></use>
+                  </svg>
+                                    <div class="text-start ms-3">
+                                        <h6 class="text-uppercase mb-1">24 x 7 service</h6>
+                                        <p class="text-sm mb-0 text-muted">
+                                            Free shipping worldwide
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="d-inline-block">
+                                <div class="d-flex align-items-end">
+                                    <svg class="svg-icon svg-icon-big svg-icon-light">
+                    <use xlink:href="#label-tag-1"></use>
+                  </svg>
+                                    <div class="text-start ms-3">
+                                        <h6 class="text-uppercase mb-1">Festivaloffers</h6>
+                                        <p class="text-sm mb-0 text-muted">
+                                            Free shipping worldwide
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- NEWSLETTER-->
+            <section class="py-5">
+                <div class="container p-0">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <h5 class="text-uppercase">Let's be friends!</h5>
+                            <p class="text-sm text-muted mb-0">
+                                Nisi nisi tempor consequat laboris nisi.
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <form action="#">
+                                <div class="input-group">
+                                    <input class="form-control form-control-lg" type="email" placeholder="Enter your email address" aria-describedby="button-addon2" />
+                                    <button class="btn btn-dark" id="button-addon2" type="submit">
+                    Subscribe
+                  </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-      </footer>
-      <!-- JavaScript files-->
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="vendor/glightbox/js/glightbox.min.js"></script>
-      <script src="vendor/nouislider/nouislider.min.js"></script>
-      <script src="vendor/swiper/swiper-bundle.min.js"></script>
-      <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
-      <script src="js/front.js"></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-      />
-      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="/js/index.js"></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="/admin/js/logout.js"></script>
-      <script>
-        // ------------------------------------------------------- //
-        //   Inject SVG Sprite -
-        //   see more here
-        //   https://css-tricks.com/ajaxing-svg-sprite/
-        // ------------------------------------------------------ //
-        function injectSvgSprite(path) {
-          var ajax = new XMLHttpRequest();
-          ajax.open("GET", path, true);
-          ajax.send();
-          ajax.onload = function (e) {
-            var div = document.createElement("div");
-            div.className = "d-none";
-            div.innerHTML = ajax.responseText;
-            document.body.insertBefore(div, document.body.childNodes[0]);
-          };
-        }
-        // this is set to BootstrapTemple website as you cannot
-        // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-        // while using file:// protocol
-        // pls don't forget to change to your domain :)
-        injectSvgSprite(
-          "https://bootstraptemple.com/files/icons/orion-svg-sprite.svg"
-        );
-      </script>
-      <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
-      <link
-        rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-        crossorigin="anonymous"
-      />
+        <footer class="bg-dark text-white">
+            <div class="container py-4">
+                <div class="row py-5">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <h6 class="text-uppercase mb-3">Customer services</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a class="footer-link" href="#!">Help &amp; Contact Us</a>
+                            </li>
+                            <li>
+                                <a class="footer-link" href="#!">Returns &amp; Refunds</a>
+                            </li>
+                            <li><a class="footer-link" href="#!">Online Stores</a></li>
+                            <li>
+                                <a class="footer-link" href="#!">Terms &amp; Conditions</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <h6 class="text-uppercase mb-3">Company</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><a class="footer-link" href="#!">What We Do</a></li>
+                            <li><a class="footer-link" href="#!">Available Services</a></li>
+                            <li><a class="footer-link" href="#!">Latest Posts</a></li>
+                            <li><a class="footer-link" href="#!">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-uppercase mb-3">Social media</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><a class="footer-link" href="#!">Twitter</a></li>
+                            <li><a class="footer-link" href="#!">Instagram</a></li>
+                            <li><a class="footer-link" href="#!">Tumblr</a></li>
+                            <li><a class="footer-link" href="#!">Pinterest</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-top pt-4" style="border-color: #1d1d1d !important">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start">
+                            <p class="small text-muted mb-0">
+                                &copy; 2021 All rights reserved.
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <p class="small text-muted mb-0">
+                                Template designed by
+                                <a class="text-white reset-anchor" href="https://bootstrapious.com/p/boutique-bootstrap-e-commerce-template">Bootstrapious</a>
+                            </p>
+                            <!-- If you want to remove the backlink, please purchase the Attribution-Free License. See details in readme.txt or license.txt. Thanks!-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- JavaScript files-->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="vendor/nouislider/nouislider.min.js"></script>
+        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+        <script src="js/front.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/index.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/admin/js/logout.js"></script>
+        <script>
+            // ------------------------------------------------------- //
+            //   Inject SVG Sprite -
+            //   see more here
+            //   https://css-tricks.com/ajaxing-svg-sprite/
+            // ------------------------------------------------------ //
+            function injectSvgSprite(path) {
+                var ajax = new XMLHttpRequest();
+                ajax.open("GET", path, true);
+                ajax.send();
+                ajax.onload = function(e) {
+                    var div = document.createElement("div");
+                    div.className = "d-none";
+                    div.innerHTML = ajax.responseText;
+                    document.body.insertBefore(div, document.body.childNodes[0]);
+                };
+            }
+            // this is set to BootstrapTemple website as you cannot
+            // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
+            // while using file:// protocol
+            // pls don't forget to change to your domain :)
+            injectSvgSprite(
+                "https://bootstraptemple.com/files/icons/orion-svg-sprite.svg"
+            );
+        </script>
+        <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     </div>
-  </body>
+</body>
+
 </html>
