@@ -194,9 +194,17 @@
           </div>
           <div class="col-12 grid-margin stretch-card">
             <div class="card">
-              <div class="card-body">
+              <div class="card-body" id="form-display" style="display:none">
+                <button id="closeButton" style="position: absolute;
+                top: 10px;
+                right: 10px;
+                background: none;
+                border: none;
+                font-size: 30px;
+                color: white;
+                cursor: pointer;">&times;</button>
                 <h4 class="card-title">Stock form</h4>
-                <form class="forms-sample">
+                <form id="form" class="forms-sample">
                   <div class="form-group">
                     <label for="exampleInputEmail3">ColorID</label>
          
@@ -205,12 +213,12 @@
                 
                         <div class="form-group">
 
-                          <select class="js-example-basic-single" style="width:100%">
-                            <option value="1">1</option>
+                          <select id="color-selector" class="js-example-basic-single" style="width:100%">
+                            <!-- <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
-                            <option value="5">5</option>
+                            <option value="5">5</option> -->
                           </select>
                         </div>
                        
@@ -226,12 +234,8 @@
                     
                             <div class="form-group">
 
-                              <select class="js-example-basic-single" style="width:100%">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                              <select id="category-selector" class="js-example-basic-single" style="width:100%">
+                               
                               </select>
                             </div>
                            
@@ -247,12 +251,8 @@
                 
                         <div class="form-group">
 
-                          <select class="js-example-basic-single" style="width:100%">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                          <select id="product-selector" class="js-example-basic-single" style="width:100%">
+                        
                           </select>
                         </div>
                        
@@ -271,32 +271,36 @@
                   </div>
                   <div class="form-group">
                     <label>File upload</label>
-                    <input type="file" name="img[]" class="file-upload-default" multiple>
+                    <input type="file" name="img[]" class="file-upload-default" id="uploadfile" multiple>
                     <div class="input-group col-xs-12">
-                      <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                      <input type="text" id="imageUrl" class="form-control file-upload-info" disabled placeholder="Upload Image">
                       <span class="input-group-append">
                         <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                       </span>
                     </div>
                   </div>
+                  <button id="save-btn" type="submit" class="btn btn-primary mr-2">Save</button>
 
-                 
-                  <button type="submit" class="btn btn-primary mr-2">Create</button>
+
+                  <!-- <button type="submit" class="btn btn-primary mr-2">Create</button>
                   <button type="submit" class="btn btn-primary mr-2">Update</button>
                   <button type="submit" class="btn btn-primary mr-2">Reset</button>
-                  <button type="submit" class="btn btn-primary mr-2">Delete</button>
+                  <button type="submit" class="btn btn-primary mr-2">Delete</button> -->
 
                 </form>
               </div>
             </div>
           </div>
-          <div class="col-lg-12 grid-margin stretch-card">
+          <div id="stock-list" class="col-lg-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Category table</h4>
+                
+                <h4 class="card-title">Stock table</h4>
+                <button class="showFormButton btn btn-primary mr-2">Create</button>
+
                 </p>
                 <div class="table-responsive">
-                  <table class="table table-dark">
+                  <table class="table table-dark" id="stock-table">
                     <thead>
                       <tr>
                         <th> # </th>
@@ -309,42 +313,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td> 1 </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td>
-                          <button type="submit" class="btn btn-primary mr-2">Edit</button>
-                          <button type="submit" class="btn btn-primary mr-2">Delete</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 2 </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> 
-                          <button type="submit" class="btn btn-primary mr-2">Edit</button>
-                          <button type="submit" class="btn btn-primary mr-2">Delete</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 3 </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> ABC </td>
-                        <td> 
-                          <button type="submit" class="btn btn-primary mr-2">Edit</button>
-                          <button type="submit" class="btn btn-primary mr-2">Delete</button>
-                        </td>
-                      </tr>
+                     
                     </tbody>
                   </table>
                 </div>
@@ -389,6 +358,9 @@
   <script src="../../assets/js/typeahead.js"></script>
   <script src="../../assets/js/select2.js"></script>
   <script src="../../js/logout.js"></script>
+  <script src="../../js/stock.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.js"></script>
+
 
   <!-- End custom js for this page -->
 </body>
