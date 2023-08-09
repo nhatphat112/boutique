@@ -1,7 +1,9 @@
 $(document).ready(function() {
 
-  let bearerToken = "Bearer " + localStorage.getItem("token");
-  let userId = 0;
+    if(localStorage.getItem("token") != null){
+        let bearerToken = "Bearer " + localStorage.getItem("token");
+    }
+    let userId = 0;
 
   // get userId by jwt
   $.ajax({
@@ -12,7 +14,7 @@ $(document).ready(function() {
       data: {
           token: localStorage.getItem("token")
       }
-
+      
   }).done(function(response) {
       if (response != "" && response != null) {
           if (response.statusCode == 200) {
