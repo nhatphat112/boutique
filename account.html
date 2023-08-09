@@ -70,8 +70,7 @@
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="cart.html"> <i class="fas fa-dolly-flatbed me-1
-                                            text-gray"></i>Cart<small id="totalQuantity" class="text-gray
-                                            fw-normal"></small></a>
+                                            text-gray"></i>Cart<small id="totalQuantity" class="text-gray fw-normal"></small></a>
                             </li>
                             <!-- <li class="nav-item">
                         <a class="nav-link" href="#!"> <i class="far fa-heart me-1"></i><small class="text-gray fw-normal"> (0)</small></a>
@@ -124,14 +123,14 @@
                             <h2 class="h5 text-uppercase mb-4">PRORFILE</h2>
                             <!-- <h3 class="h3 text-uppercase mb-4">PRORFILE</h2> -->
                             <div class="user-info py-3 px-3">
-                                <p class="form-label text-sm
+                                <p class=" form-label text-sm
                                         text-uppercase">USERNAME</p>
-                                <span>Le Thi Lan</span>
+                                <span class="username">Le Thi Lan</span>
                             </div>
                             <div class="user-info py-3 px-3">
                                 <p class="form-label text-sm
                                         text-uppercase">EMAIL ADDRESS</p>
-                                <span>lan22@gmail.com</span>
+                                <span class="email">lan22@gmail.com</span>
                             </div>
                         </div>
                     </div>
@@ -155,41 +154,104 @@
                         <div class="bg-light px-lg-4 py-3">
                             <!-- <h3 class="h3 text-uppercase mb-4">EDIT PROFILE</h2> -->
                             <h2 class="h5 text-uppercase mb-4">EDIT PRORFILE</h2>
-                            <div class="user-info py-3 px-3">
+                            <div class="user-info py-2 px-3">
                                 <p class="form-label text-sm
                                         text-uppercase">EMAIL ADDRESS</p>
-                                <span>lan22@gmail.com</span>
+                                <span class="email">lan22@gmail.com</span>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="py-2 px-3">
                                 <label class="form-label text-sm
                                         text-uppercase" for="username">Username</label>
-                                <input class="form-control form-control-lg" type="text" id="username" placeholder="Enter your username">
+                                <input class=" form-control form-control-lg" type="text" id="username" placeholder="Enter your username">
                                 <div id="username-warning" class="d-none
                                         alert alert-warning m-0" role="alert">
                                     Đây là cảnh báo!
                                 </div>
                             </div>
-                            <div class="col-lg-6 form-group">
+                            <div class="user-info py-2 px-3">
                                 <label class="form-label text-sm
-                                        text-uppercase" for="country">Country</label>
-                                <select class="country" id="country" data-customclass="form-control
-                                        form-control-lg rounded-0">
-                                        <option value>Choose your country</option>
-                                    </select>
-                                <span id="country-address-required" class="d-none text-danger">Please select
-                                        a country !</span>
+                                        text-uppercase" for="phone">Phone number
+                                    </label><br />
+                                <div id="phone-number-id"></div>
+                                <button id="addNumber" class="btn btn-sm btn-secondary" type="button">Add number</button>
+                                <!-- <label for=""> Other phone number</label><br /> -->
+                                <div class="row gy-3" id="newNumberInput" style="display: none">
+                                    <div class="col-lg-6">
+                                        <input class="form-control
+                                                form-control-lg" type="tel" id="newPhoneNumber" placeholder="e.g. +02 245354745" />
+                                        <span class="phone-warnning d-none
+                                                text-danger">Cannot be empty !</span>
+                                    </div>
+                                </div>
+                                <span class="phone-required d-none
+                                        text-danger">Please select a phone
+                                        number !</span>
+
+                                <br/>
                             </div>
-                            <div class="col-lg-12" id="address-line-container">
+                            <div class="user-info py-2 px-3">
                                 <label class="form-label text-sm
                                         text-uppercase" for="address">Address
-                                        line</label>
-                                <input class="form-control form-control-lg" type="text" id="address" placeholder="House number and street
-                                        name" />
-                                <span id="address-line-warnning" class="address-line-warnning d-none
-                                        text-danger">Cannot be empty !</span>
+                                    </label><br />
+                                <div id="address-id"></div>
+                                <input type="radio" id="3" name="addressOption" value="newAddress" />
+                                <label for="">New Address</label>
+                                <span id="address-required" class="d-none
+                                        row text-danger">Please select a address
+                                        !</span>
+                                <div class="row gy-3" id="newAddressInput" style="display: none">
+                                    <div class="col-lg-6 form-group">
+                                        <label class="form-label text-sm
+                                                text-uppercase" for="country">Country</label>
+                                        <select class="country" id="country" data-customclass="form-control
+                                                form-control-lg rounded-0">
+                                                <option value>Choose your
+                                                    country</option>
+                                            </select>
+                                        <span id="country-address-required" class="d-none text-danger">Please
+                                                select a country !</span>
+                                    </div>
+                                    <div class="col-lg-6 form-group d-none" id="townCity-container">
+                                        <label class="form-label text-sm
+                                                text-uppercase" for="townCity">Town/City</label>
+                                        <select class="townCity country
+                                                d-none" id="townCity" data-customclass="form-control
+                                                form-control-lg rounded-0">
+                                                <option value>Choose your
+                                                    town/city</option>
+                                            </select>
+                                        <span id="town-ity-address-required" class="d-none text-danger">Please
+                                                select a town/city !</span>
+                                    </div>
+
+                                    <div class="col-lg-12 d-none" id="address-line-container">
+                                        <label class="form-label text-sm
+                                                text-uppercase" for="address">Address
+                                                line</label>
+                                        <input class="form-control
+                                                form-control-lg" type="text" id="address" placeholder="House
+                                                number and
+                                                street name" />
+                                        <span id="address-line-warnning" class="address-line-warnning
+                                                d-none text-danger">Cannot be
+                                                empty !</span>
+                                    </div>
+                                    <div style="margin-top: 20px !important" class="col-lg-12 form-group">
+                                        <button id="confirm-address" class="btn btn-dark" type="submit">
+                                                Confirm Address
+                                            </button>
+                                        <span id="confirm-address-warnning" class="address-line-warnning
+                                                d-none row text-danger mt-2">Please
+                                                confirm address !</span>
+                                    </div>
+                                </div>
+
+
                             </div>
+
+
                             <div class="col-lg-12 form-group">
-                                <button id="btn-submit" class="btn btn-dark" type="submit">SAVE CHANGES</button>
+                                <button id="save-changes-submit" class="btn btn-dark" type="submit">SAVE CHANGES</button>
                                 <div id="submit-warning" class="d-none alert
                                         alert-warning mt-2" role="alert">
                                     Đây là cảnh báo!

@@ -3,30 +3,29 @@ $(document).ready(function() {
     let userId = 0;
     // get userId by jwt
     $.ajax({
-      method: "GET",
-      url: "http://localhost:8080/user/getid",
-      headers: { "Authorization": bearerToken },
-      async: false,
-      data:{
-        token:localStorage.getItem("token")
-      }
+            method: "GET",
+            url: "http://localhost:8080/user/getid",
+            headers: { "Authorization": bearerToken },
+            async: false,
+            data: {
+                token: localStorage.getItem("token")
+            }
 
-    })
-      .done(function (response) {
-        if (response != "" && response != null) {
-          if (response.statusCode == 200) {
-            userId = response.data;
-          } else if(response.statusCode==403){
-            window.location.href="403.html"
-          } else if(response.statusCode==401){
-            localStorage.setItem("accessLinkContinue","checkout.html")
-            window.location.href="login.html?#"
-          }
-          else {
-            console.log("check response user/getId/token:",response)
-          }
-        }
-      });
+        })
+        .done(function(response) {
+            if (response != "" && response != null) {
+                if (response.statusCode == 200) {
+                    userId = response.data;
+                } else if (response.statusCode == 403) {
+                    window.location.href = "403.html"
+                } else if (response.statusCode == 401) {
+                    localStorage.setItem("accessLinkContinue", "checkout.html")
+                    window.location.href = "login.html?#"
+                } else {
+                    console.log("check response user/getId/token:", response)
+                }
+            }
+        });
     // checkedCartList = JSON.stringify([{
     //     "id": 1,
     //     "name": "OontZ Angle 3 Bluetooth Speaker",
@@ -527,12 +526,12 @@ $(document).ready(function() {
                     saveOrderIsSuccess = (response.statusCode == 200) ? true : false
                 }
             });
-            console.log("check saveOrderIsSuccess:",saveOrderIsSuccess)
+            console.log("check saveOrderIsSuccess:", saveOrderIsSuccess)
             if (saveOrderIsSuccess) {
-                console.log(JSON.stringify({  
-                    checkedCartListIds:checkedCartList
-                 }))
-                // delete cart at database
+                console.log(JSON.stringify({
+                        checkedCartListIds: checkedCartList
+                    }))
+                    // delete cart at database
                 $.ajax({
                     method: "POST",
                     headers: { "Authorization": bearerToken },
@@ -540,14 +539,14 @@ $(document).ready(function() {
                     async: true,
                     dataType: "json", // Cấu hình kiểu dữ liệu là JSON
                     contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({  
+                    data: JSON.stringify({
                         ids: checkedCartList
                     }),
                 }).done(function(response) {
-                    console.log("check response cart/delete:",response)
+                    console.log("check response cart/delete:", response)
                     if (response != null && response != "") {
                         message = response.message
-                       
+
                     }
                 });
                 // localStorage.setItem("checkedCart", null)
@@ -629,9 +628,11 @@ var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
 $(document).ready(function() {
     var userId = localStorage.getItem("userId");
+    let bearerToken = "Bearer " + localStorage.getItem("token");
     $.ajax({
         method: 'GET',
         url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+        headers: { "Authorization": bearerToken },
         data: {
             userId: userId
         },
