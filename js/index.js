@@ -1,9 +1,12 @@
+let bearerToken = "Bearer " + localStorage.getItem("token");
+let userId = 0;
 $(document).ready(function() {
     // console.log("index.js active")
     let productContainer = document.getElementById("product-container");
     let listProduct = "";
     let contentProduct = "";
     let stock = "";
+    let productId =0;
     window.addEventListener("load", function() {
         $.ajax({
             url: "http://localhost:8080/product",
@@ -37,6 +40,7 @@ $(document).ready(function() {
         var inputElement = document.querySelector(".quantity input");
         var decButton = document.querySelector(".quantity .dec-btn");
         var incButton = document.querySelector(".quantity .inc-btn");
+       
         $(".btn-add-to-cart").click(function() {
             document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
             document.getElementById('sold-out').classList.add("d-none")
@@ -47,7 +51,7 @@ $(document).ready(function() {
 
             let colorSelector = document.getElementById("color-selector");
             console.log("check colorSelector", colorSelector);
-            let productId = $(this).attr("product-id");
+            productId = $(this).attr("product-id");
             // let productId = event.target.getAttribute('product-id');
             console.log("check product id :", productId);
             let imageProductQuickView = document.getElementById(
@@ -79,62 +83,7 @@ $(document).ready(function() {
 
             console.log("check list Product :" + listProduct);
             let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
-            /*Bắt đầu submit add to cart*/
-            $("#btn-submit-add-to-cart").click(function() {
-                //console.log("hello bạn đã bấm vào nút submit");
-                //console.log("đây là id của sp " + productId);
-                var colorId = $("#color-selector").val();
-                var quantity = $("#input-quantity").val();
-                //console.log("đây là id color của sp " + colorId);
-                //console.log("đây là quantity của sp " + quantity);
-                let bearerToken = "Bearer " + localStorage.getItem("token");
-                let userId = 0;
-                // get userId by jwt
-                $.ajax({
-                  method: "GET",
-                  url: "http://localhost:8080/user/getid",
-                  headers: { "Authorization": bearerToken },
-                  async: false,
-                  data:{
-                    token:localStorage.getItem("token")
-                  }
-            
-                })
-                  .done(function (response) {
-                    if (response != "" && response != null) {
-                      if (response.statusCode == 200) {
-                        userId = response.data;
-                      } else if(response.statusCode==403){
-                        window.location.href="403.html"
-                      } else if(response.statusCode==401){
-                        localStorage.setItem("accessLinkContinue","index.html")
-                        window.location.href="login.html?#"
-                      }
-                      else {
-                        console.log("check response user/getId/token:",response)
-                      }
-                    }
-                  });
-                $.ajax({
-                    method: "GET",
-                    url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
-                    async: false,
-                    data: {
-                        productId: productId,
-                        colorId: colorId,
-                        quantity: quantity,
-                        userId: userId
-                    },
-                    success: function(response) {
-                    },
-                    error: function(error) {
-                        console.error("Error creating user", error),
-                            console.log("User created failed", data)
-                    }
-
-                });
-            });
-            /*Kết thúc submit add to cart*/
+           
             let productIsReady = true;
             jQuery.ajax({
                 url: "http://localhost:8080/stock/product?id=" + productId,
@@ -231,50 +180,101 @@ $(document).ready(function() {
             }
         });
     });
+     /*Bắt đầu submit add to cart*/
+     $("#btn-submit-add-to-cart").click(function() {
+        //console.log("hello bạn đã bấm vào nút submit");
+        //console.log("đây là id của sp " + productId);
+        var colorId = $("#color-selector").val();
+        var quantity = $("#input-quantity").val();
+        //console.log("đây là id color của sp " + colorId);
+        //console.log("đây là quantity của sp " + quantity);
+        let bearerToken = "Bearer " + localStorage.getItem("token");
+        let userId = 0;
+        // get userId by jwt
+        $.ajax({
+          method: "GET",
+          url: "http://localhost:8080/user/getid",
+          headers: { "Authorization": bearerToken },
+          async: false,
+          data:{
+            token:localStorage.getItem("token")
+          }
+    
+        })
+          .done(function (response) {
+            if (response != "" && response != null) {
+              if (response.statusCode == 200) {
+                userId = response.data;
+              } else if(response.statusCode==403){
+                window.location.href="403.html"
+              } else if(response.statusCode==401){
+                localStorage.setItem("accessLinkContinue","index.html")
+                window.location.href="login.html?#"
+              }
+              else {
+                console.log("check response user/getId/token:",response)
+              }
+            }
+          });
+          console.log("check request productId :",productId)
+        $.ajax({
+            method: "GET",
+            url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
+            async: false,
+            headers: { "Authorization": bearerToken },
+            data: {
+                productId: productId,
+                colorId: colorId,
+                quantity: quantity,
+                userId: userId
+            },
+            success: function(response) {
+                if(response!=null&&response!=""){
+                    if(response.statusCode==200){
+                        window.location.href="cart.html"
+                    }else{
+                        console.log("ERROR :",response)
+                    }
+                }
+            },
+            error: function(error) {
+                console.error("Error creating user", error),
+                    console.log("User created failed", data)
+            }
+
+        });
+    });
+    /*Kết thúc submit add to cart*/
 });
 
 //var totalQ = 0;
 var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
 $(document).ready(function() {
-    let bearerToken = "Bearer " + localStorage.getItem("token");
-    let userId = 0;
+   
     // get userId by jwt
-    $.ajax({
-      method: "GET",
-      url: "http://localhost:8080/user/getid",
-      headers: { "Authorization": bearerToken },
-      async: false,
-      data:{
-        token:localStorage.getItem("token")
-      }
+    userId = localStorage.getItem("userId")
+    if(userId!=0&&userId!=null&&userId!=""){
+        $.ajax({
+            method: 'GET',
+            url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+            headers: { "Authorization": bearerToken },
+            data: {
+                userId: userId
+            },
+    
+            success: function(response) {
+                console.log(response.data + ' totalQuantity');
+                totalQuantity = response.data;
+               
+            },
+            error: function(error) {
+                console.error("Error return productList", error);
+            }
+    
+        });
 
-    })
-      .done(function (response) {
-        if (response != "" && response != null) {
-          if (response.statusCode == 200) {
-            userId = response.data;
-          }
-          else {
-            console.log("check response user/getId/token:",response)
-          }
-        }
-      });
-    $.ajax({
-        method: 'GET',
-        url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-        data: {
-            userId: userId
-        },
-
-        success: function(response) {
-            console.log(response.data + ' totalQuantity');
-            totalQuantity = response.data;
-            $(cartTotal).text('(' + totalQuantity + ')');
-        },
-        error: function(error) {
-            console.error("Error return productList", error);
-        }
-
-    });
+    }
+    $(cartTotal).text('(' + totalQuantity + ')');
+    
 })

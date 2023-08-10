@@ -233,7 +233,6 @@ $(document).ready(function() {
         var checkboxes = $('input[type="checkbox"].check-item');
         console.log("checkboxs size II " + checkboxes.length);
         console.log("hello checkout btn")
-        alert("checkout btn clicked");
         var listCheckedCart = [];
 
         $(checkboxes).each(function() {
@@ -269,8 +268,9 @@ $(document).ready(function() {
         console.log("listCheckedCart:", listCheckedCart)
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
         if (listCheckedCart.length != 0) {
-            console.log('not null');
             window.location.href = "checkout.html"
+        }else{
+            bootbox.alert("Please select a product for checkout.")
         }
     });
 });

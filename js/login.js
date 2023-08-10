@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $("#btn-login").click(function() {
-        alert("ative")
         // lấy gtri của thẻ input có id là user
         var email = $("#email").val()
         var password = $("#pass").val()
@@ -20,8 +19,30 @@ $(document).ready(function() {
                 //khi gọi API thì kết quả sẽ 
                 console.log(result)
                 if (result.statusCode==200) {
+
+                  let bearerToken = "Bearer "+result.data
                     // lưu token vào bộ nhớ của browser
                     localStorage.setItem("token", result.data);
+                    $.ajax({
+                      method: "GET",
+                      url: "http://localhost:8080/user/getid",
+                      headers: { "Authorization": bearerToken},
+                      async: false,
+                      data:{
+                        token:localStorage.getItem("token")
+                      }
+                
+                    })
+                      .done(function (response) {
+                        if (response != "" && response != null) {
+                          if (response.statusCode == 200) {
+                           localStorage.setItem("userId",response.data)
+                          }
+                          else {
+                            console.log("check response user/getId/token:",response)
+                          }
+                        }
+                      });
                     //"giohang":[{id:1,title:"shirt",price:109,soluong:10}]
                     // chuyển qua trang index
                   let accessLinkContinue = localStorage.getItem("accessLinkContinue")

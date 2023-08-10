@@ -549,8 +549,8 @@ $(document).ready(function() {
 
                     }
                 });
-                // localStorage.setItem("checkedCart", null)
-                // window.location.href = "purchase.html";
+                localStorage.setItem("checkedCart", null)
+                window.location.href = "purchase.html";
                 $("#place-order-warning").addClass("d-none")
             } else {
                 $("#place-order-warning").text(message)
