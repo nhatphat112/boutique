@@ -47,11 +47,9 @@ $(document).ready(function() {
         if (response != null && response != "") {
             console.log(response);
             var user = response.data;
-            // console.log(user);
-            // var username = user.name;
             var email = user.email;
             console.log(username);
-            $('.username').text(user.name);
+            // $('.username').text(user.name);
             $('.email').text(user.email);
             $('input#username').val(user.name);
             console.log(email);
