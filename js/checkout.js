@@ -613,8 +613,6 @@ $(document).ready(function() {
         } else {
             feeAddress = 50;
         }
-
-
         isConfirmAddress = (checkoutAddressValid) ? true : false;
         console.log("check isConfirmAddress :", isConfirmAddress)
         total = totalOrder + Number(feeAddress)

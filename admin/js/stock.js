@@ -26,7 +26,7 @@ $(document).ready(function() {
                     <td> ${currentItem.image} </td>
 
                     <td>
-                        <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                        <button type="submit" onclick="editRow(this)" class="btn btn-primary mr-2">Edit</button>
                         <button type="submit" stock-id="${currentItem.id}" class="btn btn-primary mr-2 btn-delete">Delete</button>
                         </td>
                 </tr>`;
@@ -59,7 +59,7 @@ $(document).ready(function() {
                 }
             })
         })
-
+       
 
     })
 
@@ -83,25 +83,25 @@ $(document).ready(function() {
                 console.log(error);
             }
         });
-        $.ajax({
-            method: 'GET',
-            contentType: "application/json",
-            url: "http://localhost:8080/category",
-            dataType: 'json',
-            async: false,
-            success: function(response) {
-                var categorySelector = $('#category-selector')
-                var row = "";
-                listCategory = response.data;
-                $.each(listCategory, function(index, category) {
-                    row += `<option value="${category.id}">${category.name}</option>`
-                });
-                categorySelector.append(row);
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-            }
-        });
+        // $.ajax({
+        //     method: 'GET',
+        //     contentType: "application/json",
+        //     url: "http://localhost:8080/category",
+        //     dataType: 'json',
+        //     async: false,
+        //     success: function(response) {
+        //         var categorySelector = $('#category-selector')
+        //         var row = "";
+        //         listCategory = response.data;
+        //         $.each(listCategory, function(index, category) {
+        //             row += `<option value="${category.id}">${category.name}</option>`
+        //         });
+        //         categorySelector.append(row);
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.log(error);
+        //     }
+        // });
 
         $.ajax({
             method: 'GET',
@@ -169,6 +169,109 @@ $(document).ready(function() {
 
     
     });
+    $("edit-btn").on("click", function() {
+        $("#form-display").show();
+        $("#stock-list").hide();
+        $('#save-btn').click(function(event) {
+            var id=$("#stockid").val();
+            console.log(id);
+            var colorId = parseInt($('#color-selector').val());
+            console.log(colorId);
+            var categoryId = parseInt($('#category-selector').val());
+            console.log(categoryId);
+            var productId = parseInt($('#product-selector').val());
+            console.log(productId);
+            var price = $("#price").val();
+            console.log(price);
+            var quantity = $("#quantity").val();
+            console.log(quantity);
+            var imageUrl = $("#imageUrl").val();
+            console.log(imageUrl);
+
+            $.ajax({
+                method: 'POST',
+                url: "http://localhost:8080/stock/add",
+                // dataType: 'json',
+                data: {
+                    "id":id,
+                    "colorId": colorId,
+                    "categoryId": categoryId,
+                    "productId": productId,
+                    "imageUrl": imageUrl,
+                    "price": price,
+                    "quantity":quantity
+                },
+                // contentType: 'application/json',
+                async: false,
+                success: function(response) {
+                    console.log(response.data);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error); // Xử lý lỗi nếu có
+                }
+            });
+        })
+    });
+
+    function editRow(button) {
+        var row = button.parentNode.parentNode; // Lấy hàng chứa nút "Edit"
+        // document.getElementById("productId").value = row.cells[0].textContent;
+        // document.getElementById("name").value = row.cells[1].textContent;
+        document.getElementById("stockid").value = row.cells[0].textContent;
+        var colorId = parseInt(row.cells[1].textContent);
+        console.log(colorId);
+        $(`#color-selector option[value=${colorId}]`).prop("selected", true);
+        var productId = parseInt(row.cells[3].textContent);
+        console.log(productId);
+        $(`#product-selector option[value=${productId}]`).prop("selected", true);
+        document.getElementById("quantity").value = row.cells[2].textContent;
+        document.getElementById("price").value = row.cells[4].textContent;
+        document.getElementById("imageUrl").value = row.cells[5].textContent;
+        $("#form-display").show();
+        $("#stock-list").hide();
+        $('#save-btn').click(function(event) {
+
+        var id=$("#stockid").val();
+        console.log(id);
+        var colorId = parseInt($('#color-selector').val());
+        console.log(colorId);
+        var categoryId = parseInt($('#category-selector').val());
+        console.log(categoryId);
+        var productId = parseInt($('#product-selector').val());
+        console.log(productId);
+        var price = $("#price").val();
+        console.log(price);
+        var quantity = $("#quantity").val();
+        console.log(quantity);
+        var image = $("#imageUrl").val();
+        console.log(imageUrl);
+
+        $.ajax({
+            method: 'POST',
+            url: "http://localhost:8080/stock/update",
+            // dataType: 'json',
+            data: {
+                "id":id,
+                "colorId": colorId,
+                "productId": productId,
+                "image": image,
+                "price": price,
+                "quantity":quantity
+            },
+            // contentType: 'application/json',
+            async: false,
+            success: function(response) {
+                console.log(response.data);
+            },
+            error: function(xhr, status, error) {
+                console.log(error); // Xử lý lỗi nếu có
+            }
+        });
+        // document.getElementById("description").value = row.cells[5].textContent;
+    
+    })
+}
+
     $("#closeButton").on("click", function() {
         $("#form")[0].reset();
         $("#form-display").hide();
