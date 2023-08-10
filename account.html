@@ -80,7 +80,7 @@
                                     <i class="fas fa-user me-1 text-gray
                                             fw-normal"></i>Login</button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">My
+                                    <a class="dropdown-item" href="account.html">My
                                         Account</a>
                                     <a class="dropdown-item" href="purchase.html">My Purchase</a>
                                     <a class="dropdown-item" href="#">Log
@@ -180,7 +180,7 @@
                                 <div class="row gy-3" id="newNumberInput" style="display: none">
                                     <div class="col-lg-6">
                                         <input class="form-control
-                                                form-control-lg" type="tel" id="newPhoneNumber" placeholder="e.g. +02 245354745" value="" />
+                                                form-control-lg" type="text" pattern="[0-9]+" id="newPhoneNumber" placeholder="e.g. +02 245354745" value="" />
                                         <span class="phone-warnning d-none
                                                 text-danger">Cannot be empty !</span>
                                     </div>
@@ -246,8 +246,7 @@
 
 
                             <div class="col-lg-12 form-group">
-                                <button id="save-changes-submit" class="btn btn-dark" type="submit">SAVE
-                                    CHANGES</button>
+                                <button id="save-changes-submit" class="btn btn-dark" type="submit">SAVE CHANGES</button>
                                 <div id="submit-warning" class="d-none
                                             alert
                                             alert-warning mt-2" role="alert">
@@ -262,7 +261,7 @@
                             <h2 class="h5 text-uppercase mb-4">CHANGE MY PASSWORD
                             </h2>
                             <form id="change-pass-form" class="form">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12  py-2 px-3">
                                     <label class="form-label text-sm
                                             text-uppercase" for="pass">Current
                                     Password </label>
@@ -274,7 +273,7 @@
                                         Đây là cảnh báo!
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12  py-2 px-3">
                                     <label class="form-label text-sm
                                             text-uppercase" for="confirmPass">New
                                     Password
@@ -286,7 +285,7 @@
                                         Đây là cảnh báo!
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-group">
+                                <div class="col-lg-12 form-group  py-2 px-3">
                                     <button id="change-pass-submit" class="btn btn-dark" type="submit">CHANGE
                                     MY PASSWORD</button>
                                     <div id="submit-warning" class="d-none
@@ -330,6 +329,13 @@
                                 <div>
                                     <a id="change-password-link" class="toggle-link" data-target="change-password" href="" style="color:black">
                                         <div>Change my password</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-lg-4 py-1">
+                                <div>
+                                    <a class="toggle-link" data-target="edit-profile" href="" style="color:black">
+                                        <div>Log out</div>
                                     </a>
                                 </div>
                             </div>

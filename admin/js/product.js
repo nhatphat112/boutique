@@ -1,5 +1,6 @@
 // var categoryList = [];
-$(document).ready(function () {
+let bearerToken = "Bearer " + localStorage.getItem("token");
+$(document).ready(function() {
     console.log('xin chao')
     var productTable = $('#product-table tbody');
     var contentProduct = "";
@@ -7,11 +8,11 @@ $(document).ready(function () {
         url: "http://localhost:8080/product",
         type: "GET",
         async: false,
-        success: function (res) {
+        success: function(res) {
             console.log()
             if (res != null && res != "") {
                 listAllProduct = res.data;
-                listAllProduct.map(function (currentItem, index, arr) {
+                listAllProduct.map(function(currentItem, index, arr) {
                     contentProduct += `<tr>
                     <td class="productId">${currentItem.id}</td>
                     <td>${currentItem.name}</td>
@@ -33,7 +34,7 @@ $(document).ready(function () {
             $("#form")[0].reset();
 
         },
-        error: function (error) {
+        error: function(error) {
             console.error("Error API product ", error);
         }
 
@@ -44,11 +45,11 @@ $(document).ready(function () {
         url: "http://localhost:8080/category",
         dataType: 'json',
         async: false,
-        success: function (response) {
+        success: function(response) {
             var categorySelector = $('#category-selector')
             var row = "";
             listCategory = response.data;
-            $.each(listCategory, function (index, category) {
+            $.each(listCategory, function(index, category) {
                 row += `<option value="${category.id}">${category.name}</option>`
             });
             // $.each(listCategory, function (index, category) {
@@ -60,23 +61,61 @@ $(document).ready(function () {
             // });
             categorySelector.append(row);
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
             console.log(error);
         }
     });
-    $("button.edit-btn").on("click", function () {
+    $("button.edit-btn").on("click", function() {
+
         $("#form-display").show();
         $("#product-list").hide();
-        $('#save-btn').click(function (event) {
+        $('#save-btn').click(function(event) {
+            event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
-            var soldQuantity = 0;
+            var soldQuantity = $('#sold-quantity').val();
+            console.log(soldQuantity + " soldQuantity");
             var categoryId = parseInt($('#category-selector').val());
             console.log(categoryId);
             var description = $("#description").val();
-            console.log(description);
-            var image = "";
+            console.log(description + " desc");
+            var filename = $('#image-name').val();
             var id = $("#productId").val();
+            console.log(id + " id");
+            var fileInput = document.getElementById("fileInput");
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append("file", file);
+            console.log('file: ' + formData);
+            fileInput.addEventListener('change', function(event) {
+                $.ajax({
+                    method: 'POST',
+                    url: "http://localhost:8080/uploadfile",
+                    data: formData,
+                    headers: { "Authorization": bearerToken },
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log("success " + response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("error " + error);
+                    }
+                });
+
+                $.ajax({
+                    method: 'GET',
+                    url: "http://localhost:8080/downloadfile/" + encodeURIComponent(filename),
+                    headers: { "Authorization": bearerToken },
+                    success: function(response) {
+                        console.log("success " + response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("error " + error);
+                    }
+                });
+
+            });
             $.ajax({
                 method: 'POST',
                 url: "http://localhost:8080/product/add",
@@ -85,20 +124,20 @@ $(document).ready(function () {
                     name: name,
                     soldQuantity: soldQuantity,
                     categoryId: categoryId,
-                    image: image,
+                    image: filename,
                     desc: description
                 },
                 async: false,
-                success: function (response) {
+                success: function(response) {
                     console.log(response.data);
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.log(error); // Xử lý lỗi nếu có
                 }
             });
         })
     });
-    $("button.delete-btn").on("click", function () {
+    $("button.delete-btn").on("click", function() {
         var row = $(this).parent().parent();
         var id = $(row).find('td.productId').text();
         console.log(id + ' day la product id')
@@ -110,21 +149,23 @@ $(document).ready(function () {
             data: {
                 id: id,
             },
-            success: function (response) {
+            success: function(response) {
                 console.log("check response :", response)
                 alert("xóa dữ liệu thành công");
                 console.log('xóa dữ liệu thành công!');
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.error(error);
                 alert("xóa dữ liệu thất bại")
             }
         });
     })
-    $(".showFormButton").on("click", function () {
+    $(".showFormButton").on("click", function() {
         $("#form-display").show();
         $("#product-list").hide();
-        $('#save-btn').click(function (event) {
+        $("#sold-quantity-group").addClass("d-none");
+        $('#save-btn').click(function(event) {
+            // event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
             var soldQuantity = 0;
@@ -132,7 +173,43 @@ $(document).ready(function () {
             console.log(categoryId);
             var description = $("#description").val();
             console.log(description);
-            var image = "";
+            var filename = $('#image-name').val();
+
+            var fileInput = document.getElementById("fileInput");
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append("file", file);
+            console.log('file: ' + formData);
+            fileInput.addEventListener('change', function(event) {
+                $.ajax({
+                    method: 'POST',
+                    url: "http://localhost:8080/uploadfile",
+                    data: formData,
+                    headers: { "Authorization": bearerToken },
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log("success " + response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("error " + error);
+                    }
+                });
+
+                $.ajax({
+                    method: 'GET',
+                    url: "http://localhost:8080/downloadfile/" + encodeURIComponent(filename),
+                    headers: { "Authorization": bearerToken },
+                    success: function(response) {
+                        console.log("success " + response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("error " + error);
+                    }
+                });
+
+            });
+
             $.ajax({
                 method: 'POST',
                 url: "http://localhost:8080/product/add",
@@ -140,35 +217,39 @@ $(document).ready(function () {
                     name: name,
                     soldQuantity: soldQuantity,
                     categoryId: categoryId,
-                    image: image,
+                    image: filename,
                     desc: description
                 },
                 async: false,
-                success: function (response) {
+                success: function(response) {
                     console.log(response.data);
                 },
-                error: function (xhr, status, error) {
-                    console.log(error); // Xử lý lỗi nếu có
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
                 }
             });
         })
 
     });
-    $("#closeButton").on("click", function () {
+    $("#closeButton").on("click", function() {
         $("#form")[0].reset();
         $("#form-display").hide();
         $("#product-list").show();
     });
 
 })
+
 function editRow(button) {
+    //show thẻ sold-quantity ra
+    document.getElementById("sold-quantity-group").classList.remove("d-none");
+    //
     var row = button.parentNode.parentNode; // Lấy hàng chứa nút "Edit"
     document.getElementById("productId").value = row.cells[0].textContent;
     document.getElementById("name").value = row.cells[1].textContent;
     var categoryId = parseInt(row.cells[2].textContent);
+    document.getElementById("image-name").value = row.cells[3].textContent;
+    document.getElementById("sold-quantity").value = row.cells[4].textContent;
     var optionCategory = $("#category-selector").find("option[value='" + categoryId + "']");
     $(optionCategory).prop("selected", true)
-    document.getElementById("image").value = row.cells[3].textContent;
     document.getElementById("description").value = row.cells[5].textContent;
 }
-
