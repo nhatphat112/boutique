@@ -74,6 +74,9 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log(response.data);
+                bootbox.alert('Your password has been successfully changed!');
+                // $('.form-group').reset();
+                // document.getElementById("change-pass-form").reset();
             },
             error: function(error) {
                 console.error("change pass error", error);
@@ -105,14 +108,14 @@ $('#edit-profile-link').click(function(event) {
             if (currentItem.cityOrProvinceName == "" || currentItem.cityOr) {
                 content +=
                     `<p style="display: flex; align-items: center;">
-        <button class="delete-address btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
+        <button class="delete-address btn btn-sm btn-secondary" style="margin-right: 7px;height: 20px;font-size: 15px; display: flex;
         align-items: center; " type="button" >x</button>
         <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.countryName}</span>
         </p>`;
             } else {
                 content +=
                     `<p style="display: flex; align-items: center;">
-        <button class="delete-address btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
+        <button class="delete-address btn btn-sm btn-secondary" style="margin-right: 7px; height: 20px;font-size: 15px; display: flex;
         align-items: center; " type="button" >x</button>
         <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.cityOrProvinceName}, ${currentItem.countryName}</span>
         </p>`;
@@ -120,6 +123,7 @@ $('#edit-profile-link').click(function(event) {
         });
     }
     document.getElementById("address-id").innerHTML = content;
+    //Bắt đầu xoá address
     var addressRemoveIdList = [];
     $('.delete-address').click(function() {
         console.log('delete address')
@@ -152,16 +156,16 @@ $('#edit-profile-link').click(function(event) {
     if (phoneList != null) {
         phoneList.map(function(currentItem, index) {
             phoneContent +=
-                `<p style="display: flex; align-items: center;">
-                <button class="delete-phone btn btn-sm btn-danger" style="height: 20px;font-size: 15px; display: flex;
+                `<p style="display: flex; align-items: center;" class="">
+                <button class="delete-phone btn btn-sm btn-secondary" style="margin-right: 7px; height: 20px;font-size: 15px; display: flex;
                 align-items: center; " type="button" >x</button>
                 <span id="${currentItem.id}" style="white-space: nowrap;">${currentItem.phoneNumber}</span>
                 </p>`;
-
         });
     }
 
     document.getElementById("phone-number-id").innerHTML = phoneContent;
+    //Bắt đầu xoá phone
     var phoneRemoveIdList = [];
     $('.delete-phone').click(function() {
         console.log('delete phone')
@@ -215,6 +219,65 @@ $('#edit-profile-link').click(function(event) {
                 }
             });
         }
+        //Bắt đầu thêm phone number
+        var newPhoneNumber = $('#newPhoneNumber').val();
+        console.log(newPhoneNumber + ' newPhoneNumber')
+
+        if (newPhoneNumber !== null && newPhoneNumber !== "") {
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:8080/phone/save",
+                async: false,
+                headers: { "Authorization": bearerToken },
+                dataType: "json", // Cấu hình kiểu dữ liệu là JSON
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    userId: userId,
+                    phoneNumber: newPhoneNumber,
+                }),
+            }).done(function(response) {
+                if (response != null && response != "") {
+                    // newPhoneNumber = response.data.id;
+                    console.log("success add phone number " + response.data.id);
+                }
+            });
+        }
+        //Kết thúc thêm phone number
+
+        //Bắt đầu save địa chị
+        var validCountry = $('#country').val() !== null && $('#country').val() !== "";
+        console.log(validCountry + ' contryValid?')
+        var validAddressDetail = $('#address').val() !== null && $('#address').val() !== "";
+        console.log(validAddressDetail + ' validAddressDetail?')
+        var cityProvinceId;
+        if ($('#country').val() != 191) {
+            cityProvinceId = 64;
+        } else {
+            cityProvinceId = $('#townCity').val()
+        }
+        if (validCountry && validAddressDetail) {
+            console.log('Bắt đầu lưu địa chỉ');
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:8080/address/save",
+                headers: { "Authorization": bearerToken },
+                async: false,
+                dataType: "json", // Cấu hình kiểu dữ liệu là JSON
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    userId: userId,
+                    countryId: $('#country').val(),
+                    cityProvinceId: cityProvinceId,
+                    detail: $('#address').val(),
+                }),
+            }).done(function(response) {
+                if (response != null && response != "") {
+                    idAddressSelected = response.data.id;
+                }
+            });
+        }
+
+        //Kết thúc save địa chỉ
 
     })
 
@@ -223,30 +286,67 @@ $('#addNumber').click(function() {
     newNumberInput.style.display = "block";
 })
 
-// get list country and town/city
-let countryList;
-let townCityList;
-$.ajax({
-    method: "GET",
-    url: "http://localhost:8080/country",
-    async: false,
-    headers: { "Authorization": bearerToken },
-}).done(function(response) {
-    if (response != null && response != "") {
-        countryList = response.data;
-    }
-});
-$.ajax({
-    method: "GET",
-    url: "http://localhost:8080/city-province",
-    async: false,
-    headers: { "Authorization": bearerToken },
-}).done(function(response) {
-    if (response != null && response != "") {
-        townCityList = response.data;
-    }
-});
-// console.log("check phoneList :", phoneList);
-// console.log("check addressList:", addressList);
-// console.log("check countryList:", countryList);
-// console.log("check townCityList:", townCityList);
+$('#addAdress').click(function() {
+    newAddressInput.style.display = "block";
+    let countryList;
+    let townCityList;
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/country",
+        async: false,
+        headers: { "Authorization": bearerToken },
+    }).done(function(response) {
+        if (response != null && response != "") {
+            countryList = response.data;
+            console.log(countryList)
+        }
+    });
+
+    var selectOption = "";
+    var selectCountry = $('select#country');
+    $.each(countryList, function(index, currentItem) {
+        // countryList.map(function(currentItem, index) {
+        selectOption += `<option value=${currentItem.id}>${currentItem.name}</option>`;
+    });
+    document.getElementById("country").insertAdjacentHTML("beforeend", selectOption);
+    selectCountry.append(selectOption);
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/city-province",
+        async: false,
+        headers: { "Authorization": bearerToken },
+    }).done(function(response) {
+        if (response != null && response != "") {
+            townCityList = response.data;
+            console.log(townCityList)
+
+        }
+    });
+    //Bắt đầu cho chọn town city
+    var selectOption = "";
+    townCityList.map(function(currentItem, index) {
+        selectOption += `<option value=${currentItem.id}>${currentItem.name}</option>`;
+    });
+    document.getElementById("townCity").insertAdjacentHTML("beforeend", selectOption);
+    //Kết thúc cho chọn town city
+
+    $("#country").change(function() {
+        var idCountryAddress = $(this).val();
+        let townCityContainer = Array.from($("#townCity-container"));
+        if (idCountryAddress == "191") {
+            townCityContainer.map(function(currentItem) {
+                currentItem.classList.remove("d-none");
+            });
+            // $('.townCity').classList.remove("d-none");
+        } else {
+            townCityContainer.map(function(currentItem) {
+                currentItem.classList.add("d-none");
+            });
+        }
+        let addressLineContainer = Array.from($("#address-line-container")).map(
+            function(currentItem) {
+                currentItem.classList.remove("d-none");
+            }
+        );
+    })
+})
