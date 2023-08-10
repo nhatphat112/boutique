@@ -33,7 +33,6 @@ $(document).ready(function() {
                     </div>`;
                     });
                     productContainer.innerHTML = contentProduct;
-                    console.log("check product container :", productContainer);
                 }
             },
         });
@@ -50,10 +49,8 @@ $(document).ready(function() {
             console.log("check quantityQuickView", quantityQuickView)
 
             let colorSelector = document.getElementById("color-selector");
-            console.log("check colorSelector", colorSelector);
             productId = $(this).attr("product-id");
             // let productId = event.target.getAttribute('product-id');
-            console.log("check product id :", productId);
             let imageProductQuickView = document.getElementById(
                 "image-product-quick-view"
             );
@@ -64,7 +61,7 @@ $(document).ready(function() {
             let descriptionQuickView = document.getElementById(
                 "description-quick-view"
             );
-            console.log('check descriptionQuickView:', descriptionQuickView)
+
             listProduct.map(function(currentItem, index, arr) {
                 if (currentItem.id == productId) {
                     imageProductQuickView.style.background = `url('/img/${currentItem.image}')`;
@@ -76,12 +73,13 @@ $(document).ready(function() {
                     productNameQuickView.textContent = currentItem.name;
                     priceQuickView.textContent = currentItem.price + "$";
                     descriptionQuickView.textContent = currentItem.description;
-                    console.log('check currentItem.desciption:', currentItem.desciption)
+
+                
 
                 }
             });
 
-            console.log("check list Product :" + listProduct);
+
             let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
            
             let productIsReady = true;
@@ -90,7 +88,7 @@ $(document).ready(function() {
                 type: "GET",
                 async: false,
                 success: function(res) {
-                    console.log(res);
+
                     if (res != null && res != "") {
                         stock = res.data;
                         if(stock.length!=0){
@@ -99,7 +97,7 @@ $(document).ready(function() {
                              <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
                              `;
                             });
-                            console.log(contentColor);
+
                             colorSelector.innerHTML = contentColor;
                         }else{
                             productIsReady = false;
@@ -130,13 +128,13 @@ $(document).ready(function() {
                 //     document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
 
                 // }
-                console.log("colorSelectorValue", colorSelectorValue);
+
                 document.getElementById('input-quantity').value = 1
 
                 stock.map(function(currentItem, index, arr) {
                     if (colorSelectorValue == currentItem.colorId) {
                         quantityQuickViewMax = currentItem.quantity
-                        console.log("currentItem.quantity", currentItem.quantity)
+
                         document.getElementById("price-quick-view").textContent =
                             currentItem.price + "$";
                         document.getElementById(
@@ -148,9 +146,9 @@ $(document).ready(function() {
 
 
                         } else {
-                            console.log("sold out")
+
                             document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
-                            console.log(document.getElementById("btn-submit-add-to-cart"))
+
                             document.getElementById('sold-out').classList.remove("d-none")
                             document.getElementById('product-quantity-quick-view').classList.add("d-none")
                         }
@@ -216,7 +214,7 @@ $(document).ready(function() {
               }
             }
           });
-          console.log("check request productId :",productId)
+
         $.ajax({
             method: "GET",
             url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
@@ -264,7 +262,6 @@ $(document).ready(function() {
             },
     
             success: function(response) {
-                console.log(response.data + ' totalQuantity');
                 totalQuantity = response.data;
                
             },

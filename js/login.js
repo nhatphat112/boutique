@@ -62,28 +62,4 @@ $(document).ready(function() {
 
             });
     })
-      .done(function (result) {
-        //khi gọi API thì kết quả sẽ 
-        console.log(result)
-        if (result.statusCode == 200) {
-          // lưu token vào bộ nhớ của browser
-          localStorage.setItem("token", result.data);
-          //"giohang":[{id:1,title:"shirt",price:109,soluong:10}]
-          // chuyển qua trang index
-          let accessLinkContinue = localStorage.getItem("accessLinkContinue")
-          if (accessLinkContinue != "" && accessLinkContinue != null) {
-            localStorage.setItem("accessLinkContinue", null)
-          } else {
-            accessLinkContinue = "index.html"
-          }
-          $("#login-warning").addClass("d-none")
-          window.location.href = accessLinkContinue
-          // append: nối chuổi
-        } else {
-          $("#login-warning").removeClass("d-none")
-        }
-        //   console.log( "Data : " , token );
-
-      });
   })
-})
