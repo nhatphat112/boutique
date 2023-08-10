@@ -27,10 +27,8 @@
         <!-- partial:../../partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/boutique2.jpg"
-                        style="width: 70%; height: 100%;" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/b.jpg"
-                        alt="logo" /></a>
+                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/boutique2.jpg" style="width: 70%; height: 100%;" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/b.jpg" alt="logo" /></a>
             </div>
             <ul class="nav">
                 <li class="nav-item profile">
@@ -120,12 +118,10 @@
             <!-- partial:../../partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/b.jpg"
-                            alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/b.jpg" alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                        data-toggle="minimize">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-menu"></span>
                     </button>
                     <ul class="navbar-nav w-100">
@@ -140,14 +136,12 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="../../assets/images/faces/face15.jpg"
-                                        alt="">
+                                    <img class="img-xs rounded-circle" src="../../assets/images/faces/face15.jpg" alt="">
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="profileDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -176,8 +170,7 @@
                             </div>
                         </li>
                     </ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                         <span class="mdi mdi-format-line-spacing"></span>
                     </button>
                 </div>
@@ -209,8 +202,7 @@
                                 <form id="form" class="forms-sample">
                                     <div class="form-group">
                                         <label for="categoryID">ID</label>
-                                        <input type="text" class="form-control" id="productId" placeholder="ID"
-                                            style="color: black;" disabled>
+                                        <input type="text" class="form-control" id="productId" placeholder="ID" style="color: black;" disabled>
                                         <!-- <div id="CategoryId-Warning" class="d-none alert alert-warning m-0" role="alert">
                                             Đây là cảnh báo!
                                         </div> -->
@@ -225,31 +217,25 @@
                                         <!-- <div class="card-body"> -->
 
                                         <!-- <div class="form-group"> -->
-                                        <select id="category-selector" class="bg-dark text-light"
-                                            style="width:100%">
-                                            <!-- <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option> -->
+                                        <select id="category-selector" class="bg-dark text-light" style="width:100%">
+                
                                         </select>
                                         <!-- </div> -->
                                         <!-- </div> -->
 
                                         <!-- </div> -->
                                     </div>
-                                    <!-- <div class="form-group">
+                                    <div id="sold-quantity-group" class="form-group d-none">
                                         <label for="exampleInputPassword4">Sold Quantity</label>
-                                        <input type="number" class="form-control" id="exampleInputPassword4" placeholder="Sold Quantity">
-                                    </div> -->
+                                        <input type="number" class="form-control" id="sold-quantity" placeholder="Sold Quantity">
+                                    </div>
 
 
                                     <div class="form-group">
                                         <label>File upload</label>
-                                        <input type="file" name="img[]" class="file-upload-default" multiple>
+                                        <input id="fileInput" type="file" name="img[]" class="file-upload-default" multiple>
                                         <div class="input-group col-xs-12">
-                                            <input id="image" type="text" class="form-control file-upload-info" disabled
-                                                placeholder="Upload Image">
+                                            <input id="image-name" type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                                             <span class="input-group-append">
                                                 <button class="file-upload-browse btn btn-primary"
                                                     type="button">Upload</button>
@@ -341,12 +327,8 @@
     <script src="../../assets/js/typeahead.js"></script>
     <script src="../../assets/js/select2.js"></script>
     <script src="../../js/product.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"
-        integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"
-        integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../js/logout.js"></script>
 
