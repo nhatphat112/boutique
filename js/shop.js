@@ -268,8 +268,10 @@ $(document).ready(function() {
                 decButton.disabled = false
             }
         });
+        
 
     });
+    
 
 
 });
@@ -299,3 +301,32 @@ $(document).ready(function() {
 })
 
 /*Kết thúc đếm số lượng items trong cart */
+/* Bắt đầu chuyển hướng từ category  */
+
+window.onload = (function(){
+    let urlParams = new URLSearchParams(window.location.search)
+    let categoryId = urlParams.get("categoryId")
+    console.log("_____________check_cagrgoryId_________",categoryId)
+    if(categoryId!=null&&categoryId!=""){
+        let buttonCategory ;
+    if(categoryId==1){
+      
+        //speaker
+        buttonCategory = $("#categogyList #4").click()
+        console.log(buttonCategory)
+    }else if(categoryId==2){
+         //camera
+        buttonCategory = $("#categogyList #2").click()
+       
+    }
+    else if(categoryId==3){
+        //watches
+        buttonCategory = $("#categogyList #1").click()
+    }
+    else if(categoryId==4){
+    //headphone
+        buttonCategory = $("#categogyList #3").click()
+    }
+    }
+})
+/* Kết thúc chuyển hướng từ category  */
