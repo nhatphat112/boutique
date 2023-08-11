@@ -1,3 +1,5 @@
+let bearerToken = "Bearer " + localStorage.getItem("token");
+console.log('Bear token ' + bearerToken);
 $(document).ready(function() {
         console.log('xin chao')
         var stockTable = $('#stock-table tbody');
@@ -130,6 +132,7 @@ $(document).ready(function() {
     
     
         $('#save-btn').click(function(event) {
+            event.preventDefault();
 
             var colorId = parseInt($('#color-selector').val());
             console.log(colorId);
@@ -144,6 +147,37 @@ $(document).ready(function() {
             var imageUrl = $("#imageUrl").val();
             console.log(imageUrl);
 
+            var fileInput = document.getElementById("fileInput");
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append("file", file);
+            console.log('file: ' + formData);
+            console.log('start upload and download')
+            $.ajax({
+                method: 'POST',
+                url: "http://localhost:8080/uploadfile",
+                data: formData,
+                headers: { "Authorization": bearerToken },
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log("success " + response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
+                }
+            });
+            $.ajax({
+                method: 'GET',
+                url: "http://localhost:8080/downloadfile/" + encodeURIComponent(imageUrl),
+                headers: { "Authorization": bearerToken },
+                success: function(response) {
+                    console.log("success " + response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
+                }
+            });
             $.ajax({
                 method: 'POST',
                 url: "http://localhost:8080/stock/add",
@@ -169,49 +203,49 @@ $(document).ready(function() {
 
     
     });
-    $("edit-btn").on("click", function() {
-        $("#form-display").show();
-        $("#stock-list").hide();
-        $('#save-btn').click(function(event) {
-            var id=$("#stockid").val();
-            console.log(id);
-            var colorId = parseInt($('#color-selector').val());
-            console.log(colorId);
-            var categoryId = parseInt($('#category-selector').val());
-            console.log(categoryId);
-            var productId = parseInt($('#product-selector').val());
-            console.log(productId);
-            var price = $("#price").val();
-            console.log(price);
-            var quantity = $("#quantity").val();
-            console.log(quantity);
-            var imageUrl = $("#imageUrl").val();
-            console.log(imageUrl);
+    // $("edit-btn").on("click", function() {
+    //     $("#form-display").show();
+    //     $("#stock-list").hide();
+    //     $('#save-btn').click(function(event) {
+    //         var id=$("#stockid").val();
+    //         console.log(id);
+    //         var colorId = parseInt($('#color-selector').val());
+    //         console.log(colorId);
+    //         var categoryId = parseInt($('#category-selector').val());
+    //         console.log(categoryId);
+    //         var productId = parseInt($('#product-selector').val());
+    //         console.log(productId);
+    //         var price = $("#price").val();
+    //         console.log(price);
+    //         var quantity = $("#quantity").val();
+    //         console.log(quantity);
+    //         var imageUrl = $("#imageUrl").val();
+    //         console.log(imageUrl);
 
-            $.ajax({
-                method: 'POST',
-                url: "http://localhost:8080/stock/add",
-                // dataType: 'json',
-                data: {
-                    "id":id,
-                    "colorId": colorId,
-                    "categoryId": categoryId,
-                    "productId": productId,
-                    "imageUrl": imageUrl,
-                    "price": price,
-                    "quantity":quantity
-                },
-                // contentType: 'application/json',
-                async: false,
-                success: function(response) {
-                    console.log(response.data);
-                },
-                error: function(xhr, status, error) {
-                    console.log(error); // Xử lý lỗi nếu có
-                }
-            });
-        })
-    });
+    //         $.ajax({
+    //             method: 'POST',
+    //             url: "http://localhost:8080/stock/add",
+    //             // dataType: 'json',
+    //             data: {
+    //                 "id":id,
+    //                 "colorId": colorId,
+    //                 "categoryId": categoryId,
+    //                 "productId": productId,
+    //                 "imageUrl": imageUrl,
+    //                 "price": price,
+    //                 "quantity":quantity
+    //             },
+    //             // contentType: 'application/json',
+    //             async: false,
+    //             success: function(response) {
+    //                 console.log(response.data);
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.log(error); // Xử lý lỗi nếu có
+    //             }
+    //         });
+    //     })
+    // });
 
     function editRow(button) {
         var row = button.parentNode.parentNode; // Lấy hàng chứa nút "Edit"
@@ -230,6 +264,8 @@ $(document).ready(function() {
         $("#form-display").show();
         $("#stock-list").hide();
         $('#save-btn').click(function(event) {
+            event.preventDefault();
+
 
         var id=$("#stockid").val();
         console.log(id);
@@ -244,8 +280,39 @@ $(document).ready(function() {
         var quantity = $("#quantity").val();
         console.log(quantity);
         var image = $("#imageUrl").val();
-        console.log(imageUrl);
+        console.log(image);
 
+        var fileInput = document.getElementById("fileInput");
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append("file", file);
+        console.log('file: ' + formData);
+        console.log('start upload and download')
+        $.ajax({
+            method: 'POST',
+            url: "http://localhost:8080/uploadfile",
+            data: formData,
+            headers: { "Authorization": bearerToken },
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log("success " + response);
+            },
+            error: function(xhr, status, error) {
+                console.log("error " + error);
+            }
+        });
+        $.ajax({
+            method: 'GET',
+            url: "http://localhost:8080/downloadfile/" + encodeURIComponent(image),
+            headers: { "Authorization": bearerToken },
+            success: function(response) {
+                console.log("success " + response);
+            },
+            error: function(xhr, status, error) {
+                console.log("error " + error);
+            }
+        });        
         $.ajax({
             method: 'POST',
             url: "http://localhost:8080/stock/update",
