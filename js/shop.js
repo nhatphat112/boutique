@@ -24,7 +24,7 @@ $(document).ready(function() {
             let productContainer = document.getElementById("product-container");
             $.each(listCategory, function(index, category) {
                 console.log(category.id + ' day la id')
-                var row = '<li class="mb-2">' + '<a class="reset-anchor category" id = "' + category.id + '" >' + category.name + '</a>' + '</li>';
+                var row = '<li class="mb-2">' + '<a class="text-uppercase reset-anchor category" id = "' + category.id + '" >' + category.name + '</a>' + '</li>';
                 list.append(row);
                 //let productContainer = document.getElementById("product-container");
 
@@ -268,10 +268,10 @@ $(document).ready(function() {
                 decButton.disabled = false
             }
         });
-        
+
 
     });
-    
+
 
 
 });
@@ -303,30 +303,28 @@ $(document).ready(function() {
 /*Kết thúc đếm số lượng items trong cart */
 /* Bắt đầu chuyển hướng từ category  */
 
-window.onload = (function(){
-    let urlParams = new URLSearchParams(window.location.search)
-    let categoryId = urlParams.get("categoryId")
-    console.log("_____________check_cagrgoryId_________",categoryId)
-    if(categoryId!=null&&categoryId!=""){
-        let buttonCategory ;
-    if(categoryId==1){
-      
-        //speaker
-        buttonCategory = $("#categogyList #4").click()
-        console.log(buttonCategory)
-    }else if(categoryId==2){
-         //camera
-        buttonCategory = $("#categogyList #2").click()
-       
-    }
-    else if(categoryId==3){
-        //watches
-        buttonCategory = $("#categogyList #1").click()
-    }
-    else if(categoryId==4){
-    //headphone
-        buttonCategory = $("#categogyList #3").click()
-    }
-    }
-})
-/* Kết thúc chuyển hướng từ category  */
+window.onload = (function() {
+        let urlParams = new URLSearchParams(window.location.search)
+        let categoryId = urlParams.get("categoryId")
+        console.log("_____________check_cagrgoryId_________", categoryId)
+        if (categoryId != null && categoryId != "") {
+            let buttonCategory;
+            if (categoryId == 1) {
+
+                //speaker
+                buttonCategory = $("#categogyList #4").click()
+                console.log(buttonCategory)
+            } else if (categoryId == 2) {
+                //camera
+                buttonCategory = $("#categogyList #2").click()
+
+            } else if (categoryId == 3) {
+                //watches
+                buttonCategory = $("#categogyList #1").click()
+            } else if (categoryId == 4) {
+                //headphone
+                buttonCategory = $("#categogyList #3").click()
+            }
+        }
+    })
+    /* Kết thúc chuyển hướng từ category  */

@@ -1,5 +1,7 @@
 var userId = localStorage.getItem("userId");
 let bearerToken = "Bearer " + localStorage.getItem("token");
+var phoneList;
+let addressList;
 $(document).ready(function() {
     /*Bắt đầu đếm số lượng items trong cart */
     var cartTotal = ('small#totalQuantity');
@@ -24,6 +26,75 @@ $(document).ready(function() {
 
     });
 
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/phone/user?id=" + userId,
+        async: false,
+        headers: { "Authorization": bearerToken }
+    }).done(function(response) {
+        if (response != null && response != "") {
+            if (response.statusCode == 200) {
+                phoneList = response.data;
+            } else if (response.statusCode == 401) {
+                window.location.href = "login.html?#"
+            } else if (response.statusCode == 403) {
+
+            } else {
+                console.log("response:", response)
+            }
+        }
+    });
+
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/address/user?id=" + userId,
+        headers: { "Authorization": bearerToken },
+        async: false,
+    }).done(function(response) {
+        if (response != null && response != "") {
+            addressList = response.data;
+        }
+
+    });
+
+    //Kiểm tra xem có số địa chỉ để show không
+    if (addressList !== null && addressList !== "") {
+        //show hàng address
+        var showAddress = document.getElementById("show-address-list");
+        showAddress.classList.remove("d-none");
+        //thêm address trong list
+        var addressShowContent = "";
+        addressList.map(function(currentItem, index) {
+            if (currentItem.cityOrProvinceName == "") {
+                addressShowContent +=
+                    `<p id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.countryName}
+        </p>`;
+            } else {
+                addressShowContent +=
+                    `<p id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.cityOrProvinceName}, ${currentItem.countryName}
+        </p>`;
+            }
+        });
+        $('#info-address-list').append(addressShowContent);
+    }
+    //Kết thúc kiểm tra xem có địa chỉ để show không
+
+    //Kiểm tra xem có số điện thoại để show không
+    if (phoneList !== null && phoneList !== "") {
+        //show hàng phone number
+        var showPhone = document.getElementById("show-phone-list");
+        showPhone.classList.remove("d-none");
+        //thêm số trong list
+        var phoneShowContent = "";
+        phoneList.map(function(currentItem, index) {
+            phoneShowContent +=
+                `<p id="${currentItem.id}">${currentItem.phoneNumber}
+            </p>`;
+        });
+        $('#info-phone-list').append(phoneShowContent);
+
+    }
+    //Kết thúc kiểm tra xem có số điện thoại để show không
 
     /*Kết thúc đếm số lượng items trong cart */
     $("#profile").show();
@@ -38,7 +109,7 @@ $(document).ready(function() {
     $.ajax({
         method: "POST",
         url: "http://localhost:8080/user/getUser",
-        // headers: { "Authorization": bearerToken },
+        headers: { "Authorization": bearerToken },
         data: {
             userId: userId,
         },
@@ -57,53 +128,49 @@ $(document).ready(function() {
             console.log('error');
         }
     });
-    //Bắt đầu thay đổi mật khẩu
-    $('#change-pass-submit').click(function() {
-        var currentPass = $('#currentPass').val();
-        var newPass = $('#newPass').val();
-        $.ajax({
-            method: "POST",
-            url: "http://localhost:8080/user/changepass",
-            async: false,
-            data: {
-                id: userId,
-                currentPass: currentPass,
-                newPass: newPass
-            },
-            success: function(response) {
-                console.log(response.data);
-                bootbox.alert('Your password has been successfully changed!');
-                // $('.form-group').reset();
-                // document.getElementById("change-pass-form").reset();
-            },
-            error: function(error) {
-                console.error("change pass error", error);
-            }
 
-        })
-        console.log('helllo')
-    })
 });
+
+//Bắt đầu thay đổi mật khẩu
+$("#change-pass-form").on("submit", function(event) {
+    event.preventDefault();
+    var currentPass = $('#currentPass').val();
+    var newPass = $('#newPass').val();
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:8080/user/changepass",
+        headers: { "Authorization": bearerToken },
+        async: false,
+        data: {
+            id: userId,
+            currentPass: currentPass,
+            newPass: newPass
+        },
+        success: function(response) {
+            console.log(response.data);
+            if (response.data == true) {
+                bootbox.alert('Your password has been successfully changed!');
+            } else {
+                bootbox.alert('Please enter a correct password');
+            }
+            $('#change-pass-form')[0].reset();
+        },
+        error: function(error) {
+            console.error("change pass error", error);
+        }
+
+    })
+    console.log('helllo')
+})
 
 $('#edit-profile-link').click(function(event) {
     event.preventDefault();
     console.log("day la edit profile");
-    let addressList;
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:8080/address/user?id=" + userId,
-        headers: { "Authorization": bearerToken },
-        async: false,
-    }).done(function(response) {
-        if (response != null && response != "") {
-            addressList = response.data;
-        }
 
-    });
     content = "";
     if (addressList != null) {
         addressList.map(function(currentItem, index) {
-            if (currentItem.cityOrProvinceName == "" || currentItem.cityOr) {
+            if (currentItem.cityOrProvinceName == "") {
                 content +=
                     `<p style="display: flex; align-items: center;">
         <button class="delete-address btn btn-sm btn-secondary" style="margin-right: 7px;height: 20px;font-size: 15px; display: flex;
@@ -132,24 +199,7 @@ $('#edit-profile-link').click(function(event) {
         addressRemoveIdList.push(removeAddressId);
         console.log(addressRemoveIdList + ' addressList');
     })
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:8080/phone/user?id=" + userId,
-        async: false,
-        headers: { "Authorization": bearerToken }
-    }).done(function(response) {
-        if (response != null && response != "") {
-            if (response.statusCode == 200) {
-                phoneList = response.data;
-            } else if (response.statusCode == 401) {
-                window.location.href = "login.html?#"
-            } else if (response.statusCode == 403) {
 
-            } else {
-                console.log("response:", response)
-            }
-        }
-    });
     let phoneContent = "";
     if (phoneList != null) {
         phoneList.map(function(currentItem, index) {
@@ -175,6 +225,8 @@ $('#edit-profile-link').click(function(event) {
         console.log(phoneRemoveIdList);
     })
     $('#save-changes-submit').click(function() {
+        // $("#change-pass-form").on("submit", function(event) {
+
         console.log('save change button')
 
         if (phoneRemoveIdList.length != 0) {
@@ -274,6 +326,7 @@ $('#edit-profile-link').click(function(event) {
                 }
             });
         }
+        window.location.href = "account.html"
 
         //Kết thúc save địa chỉ
 

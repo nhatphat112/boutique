@@ -132,6 +132,16 @@
                                         text-uppercase">EMAIL ADDRESS</p>
                                 <span class="email">lan22@gmail.com</span>
                             </div>
+                            <div id="show-phone-list" class="user-info py-2 px-3 d-none">
+                                <p class="form-label text-sm
+                                        text-uppercase">PHONE NUMBER</p>
+                                <div id="info-phone-list"></div>
+                            </div>
+                            <div id="show-address-list" class="user-info py-2 px-3 d-none">
+                                <p class="form-label text-sm
+                                        text-uppercase">ADDRESS</p>
+                                <div id="info-address-list"></div>
+                            </div>
                         </div>
                     </div>
                     <!-- <div id="purchase" style="display: none;" class="col-lg-8 toggle-page">
@@ -151,7 +161,9 @@
                     </div> -->
                     <div id="edit-profile" style="display: none;" class="col-lg-8 toggle-page">
                         <!-- CART NAV-->
-                        <div class="bg-light px-lg-4 py-3">
+                        <!-- <div class="bg-light px-lg-4 py-3"> -->
+                        <form id="edit-profile-form">
+
                             <!-- <h3 class="h3 text-uppercase mb-4">EDIT PROFILE</h2> -->
                             <h2 class="h5 text-uppercase mb-4">EDIT PRORFILE</h2>
 
@@ -185,9 +197,9 @@
                                                 text-danger">Cannot be empty !</span>
                                     </div>
                                 </div>
-                                <span class="phone-required d-none
+                                <!-- <span class="phone-required d-none
                                         text-danger">Please select a phone
-                                    number !</span>
+                                    number !</span> -->
 
                                 <br />
                             </div>
@@ -231,17 +243,7 @@
                                                 d-none text-danger">Cannot be
                                             empty !</span>
                                     </div>
-                                    <!-- <div style="margin-top: 20px !important" class="col-lg-12 form-group">
-                                        <button id="confirm-address" class="btn btn-dark" type="submit">
-                                            Confirm Address
-                                        </button>
-                                        <span id="confirm-address-warnning" class="address-line-warnning
-                                                d-none row text-danger mt-2">Please
-                                            confirm address !</span>
-                                    </div> -->
                                 </div>
-
-
                             </div>
 
 
@@ -253,7 +255,7 @@
                                     Đây là cảnh báo!
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div id="change-password" style="display: none;" class="toggle-page col-lg-8">
                         <!-- CART NAV-->
@@ -285,7 +287,7 @@
                                         Đây là cảnh báo!
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-group  py-2 px-3">
+                                <div class="col-lg-12 form-group py-2 px-3">
                                     <button id="change-pass-submit" class="btn btn-dark" type="submit">CHANGE
                                     MY PASSWORD</button>
                                     <div id="submit-warning" class="d-none
@@ -412,7 +414,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="js/front.js"></script>
+        <!-- <script src="js/front.js"></script> -->
         <script src="./vendor/jquery/jquery-3.2.1.min.js"></script>
         <script src="./js/account.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.js"></script>
