@@ -1,5 +1,6 @@
 // var categoryList = [];
 let bearerToken = "Bearer " + localStorage.getItem("token");
+console.log('Bear token ' + bearerToken);
 $(document).ready(function() {
     console.log('xin chao')
     var productTable = $('#product-table tbody');
@@ -69,8 +70,8 @@ $(document).ready(function() {
 
         $("#form-display").show();
         $("#product-list").hide();
-        $('#save-btn').click(function() {
-            // event.preventDefault();
+        $('#save-btn').click(function(event) {
+            event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
             var soldQuantity = $('#sold-quantity').val();
@@ -87,34 +88,31 @@ $(document).ready(function() {
             var formData = new FormData();
             formData.append("file", file);
             console.log('file: ' + formData);
-            fileInput.addEventListener('change', function(event) {
-                $.ajax({
-                    method: 'POST',
-                    url: "http://localhost:8080/uploadfile",
-                    data: formData,
-                    headers: { "Authorization": bearerToken },
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log("success " + response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("error " + error);
-                    }
-                });
-
-                $.ajax({
-                    method: 'GET',
-                    url: "http://localhost:8080/downloadfile/" + encodeURIComponent(filename),
-                    headers: { "Authorization": bearerToken },
-                    success: function(response) {
-                        console.log("success " + response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("error " + error);
-                    }
-                });
-
+            console.log('start upload and download')
+            $.ajax({
+                method: 'POST',
+                url: "http://localhost:8080/uploadfile",
+                data: formData,
+                headers: { "Authorization": bearerToken },
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log("success " + response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
+                }
+            });
+            $.ajax({
+                method: 'GET',
+                url: "http://localhost:8080/downloadfile/" + encodeURIComponent(filename),
+                headers: { "Authorization": bearerToken },
+                success: function(response) {
+                    console.log("success " + response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
+                }
             });
             $.ajax({
                 method: 'POST',
@@ -165,7 +163,7 @@ $(document).ready(function() {
         $("#product-list").hide();
         $("#sold-quantity-group").addClass("d-none");
         $('#save-btn').click(function(event) {
-            // event.preventDefault();
+            event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
             var soldQuantity = 0;
@@ -180,35 +178,36 @@ $(document).ready(function() {
             var formData = new FormData();
             formData.append("file", file);
             console.log('file: ' + formData);
-            fileInput.addEventListener('change', function(event) {
-                $.ajax({
-                    method: 'POST',
-                    url: "http://localhost:8080/uploadfile",
-                    data: formData,
-                    headers: { "Authorization": bearerToken },
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log("success " + response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("error " + error);
-                    }
-                });
-
-                $.ajax({
-                    method: 'GET',
-                    url: "http://localhost:8080/downloadfile/" + encodeURIComponent(filename),
-                    headers: { "Authorization": bearerToken },
-                    success: function(response) {
-                        console.log("success " + response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("error " + error);
-                    }
-                });
-
+            // fileInput.addEventListener('change', function() {
+            console.log('start upload and download')
+            $.ajax({
+                method: 'POST',
+                url: "http://localhost:8080/uploadfile",
+                data: formData,
+                headers: { "Authorization": bearerToken },
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log("success " + response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
+                }
             });
+
+            $.ajax({
+                method: 'GET',
+                url: "http://localhost:8080/downloadfile/" + encodeURIComponent(filename),
+                headers: { "Authorization": bearerToken },
+                success: function(response) {
+                    console.log("success " + response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("error " + error);
+                }
+            });
+
+            // });
 
             $.ajax({
                 method: 'POST',
