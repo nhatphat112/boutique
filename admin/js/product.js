@@ -69,8 +69,8 @@ $(document).ready(function() {
 
         $("#form-display").show();
         $("#product-list").hide();
-        $('#save-btn').click(function(event) {
-            event.preventDefault();
+        $('#save-btn').click(function() {
+            // event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
             var soldQuantity = $('#sold-quantity').val();
