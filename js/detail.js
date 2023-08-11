@@ -1,7 +1,6 @@
 $(document).ready(function () {
     $("#btn-submit-add-to-cart").addClass("d-none")
     $('#sold-out').addClass('d-none');
-
     let contentDetailMini = "";
     let contentDetailMain = "";
     let contentProductColor = "";
@@ -40,16 +39,25 @@ $(document).ready(function () {
                     //href = "#!" > $ { currentItem.colorName } < /a>`
                 });
                 let reviewList = result.data.reviewList;
+                let starAverage = 0;
+                let quantity = 0;
+                let contentStar="";
                 $.each(reviewList, function (index, currentItem) {
-                    contentReview += `<div class="flex-shrink-0"><img class="rounded-circle" src="img/customer-1.png" alt="" width="50" /></div>
+                    contentReview += `<div class="flex-shrink-0"><img class="rounded-circle" src="img/customer-1.png" alt="" width="50"/></div>
                     <div class="ms-3 flex-shrink-1">
                         <h6 class="mb-0 text-uppercase">${currentItem.userName}</h6>`
                     for (var i = 0; i < parseInt(currentItem.starNumber); ++i) {
                         contentReview += `<li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>`
                     }
-                    contentReview += `<p class="text-sm mb-0 text-muted">${currentItem.contentReview}</p>
-                    </div>`
+                    contentReview += `<p class="text-sm mb-0 text-muted">${currentItem.contentReview}</p></div>`
+                    starAverage+= currentItem.starNumber;
+                    quantity++;
                 });
+                starAverage/=quantity
+                for(var i=0;i<Math.floor(starAverage);i++){
+                    contentStar+=`<li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>`
+                }
+                $("#star-product").html(contentStar)
                 $("#wrapper-mini").html(contentDetailMini)
                 $("#wrapper-main").html(contentDetailMain)
                 $("#product-name").html(result.data.name)
