@@ -47,13 +47,13 @@ $(document).ready(function() {
                     //"giohang":[{id:1,title:"shirt",price:109,soluong:10}]
                     // chuyển qua trang index
                   let accessLinkContinue = localStorage.getItem("accessLinkContinue")
-                  if(accessLinkContinue!=""&&accessLinkContinue!=null){
-                    localStorage.setItem("accessLinkContinue",null)
+                  if(accessLinkContinue!=""&&accessLinkContinue!=null&&accessLinkContinue!="null"){
+                    localStorage.removeItem("accessLinkContinue")
                   }else{
                     accessLinkContinue = "index.html"
                   }
                   $("#login-warning").addClass("d-none")
-                    window.location.href = accessLinkContinue
+                   window.location.href = accessLinkContinue
                         // append: nối chuổi
                 } else {
                    $("#login-warning").removeClass("d-none")
