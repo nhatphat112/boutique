@@ -1,12 +1,11 @@
-let bearerToken = "Bearer " + localStorage.getItem("token");
-let userId = 0;
+// let userId = 0;
 $(document).ready(function() {
     // console.log("index.js active")
     let productContainer = document.getElementById("product-container");
     let listProduct = "";
     let contentProduct = "";
     let stock = "";
-    let productId =0;
+    let productId = 0;
     window.addEventListener("load", function() {
         $.ajax({
             url: "http://localhost:8080/product",
@@ -39,7 +38,7 @@ $(document).ready(function() {
         var inputElement = document.querySelector(".quantity input");
         var decButton = document.querySelector(".quantity .dec-btn");
         var incButton = document.querySelector(".quantity .inc-btn");
-       
+
         $(".btn-add-to-cart").click(function() {
             document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
             document.getElementById('sold-out').classList.add("d-none")
@@ -74,14 +73,14 @@ $(document).ready(function() {
                     priceQuickView.textContent = currentItem.price + "$";
                     descriptionQuickView.textContent = currentItem.description;
 
-                
+
 
                 }
             });
 
 
             let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
-           
+
             let productIsReady = true;
             jQuery.ajax({
                 url: "http://localhost:8080/stock/product?id=" + productId,
@@ -91,7 +90,7 @@ $(document).ready(function() {
 
                     if (res != null && res != "") {
                         stock = res.data;
-                        if(stock.length!=0){
+                        if (stock.length != 0) {
                             res.data.map(function(currentItem, index, arr) {
                                 contentColor += ` 
                              <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
@@ -99,20 +98,20 @@ $(document).ready(function() {
                             });
 
                             colorSelector.innerHTML = contentColor;
-                        }else{
+                        } else {
                             productIsReady = false;
                         }
-                       
+
                     }
                 },
             });
-            if(productIsReady){
+            if (productIsReady) {
                 $("#product-not-ready").addClass("d-none")
-            }else{
+            } else {
                 $("#product-not-ready").removeClass("d-none")
             }
         });
-       
+
         let quantityQuickViewMax = "";
         this.document
             .getElementById("color-selector")
@@ -178,42 +177,41 @@ $(document).ready(function() {
             }
         });
     });
-     /*Bắt đầu submit add to cart*/
-     $("#btn-submit-add-to-cart").click(function() {
+    /*Bắt đầu submit add to cart*/
+    $("#btn-submit-add-to-cart").click(function() {
         //console.log("hello bạn đã bấm vào nút submit");
         //console.log("đây là id của sp " + productId);
         var colorId = $("#color-selector").val();
         var quantity = $("#input-quantity").val();
         //console.log("đây là id color của sp " + colorId);
         //console.log("đây là quantity của sp " + quantity);
-        let bearerToken = "Bearer " + localStorage.getItem("token");
+        // let bearerToken = "Bearer " + localStorage.getItem("token");
         let userId = 0;
         // get userId by jwt
         $.ajax({
-          method: "GET",
-          url: "http://localhost:8080/user/getid",
-          headers: { "Authorization": bearerToken },
-          async: false,
-          data:{
-            token:localStorage.getItem("token")
-          }
-    
-        })
-          .done(function (response) {
-            if (response != "" && response != null) {
-              if (response.statusCode == 200) {
-                userId = response.data;
-              } else if(response.statusCode==403){
-                window.location.href="403.html"
-              } else if(response.statusCode==401){
-                localStorage.setItem("accessLinkContinue","index.html")
-                window.location.href="login.html?#"
-              }
-              else {
-                console.log("check response user/getId/token:",response)
-              }
-            }
-          });
+                method: "GET",
+                url: "http://localhost:8080/user/getid",
+                headers: { "Authorization": bearerToken },
+                async: false,
+                data: {
+                    token: localStorage.getItem("token")
+                }
+
+            })
+            .done(function(response) {
+                if (response != "" && response != null) {
+                    if (response.statusCode == 200) {
+                        userId = response.data;
+                    } else if (response.statusCode == 403) {
+                        window.location.href = "403.html"
+                    } else if (response.statusCode == 401) {
+                        localStorage.setItem("accessLinkContinue", "index.html")
+                        window.location.href = "login.html?#"
+                    } else {
+                        console.log("check response user/getId/token:", response)
+                    }
+                }
+            });
 
         $.ajax({
             method: "GET",
@@ -227,11 +225,11 @@ $(document).ready(function() {
                 userId: userId
             },
             success: function(response) {
-                if(response!=null&&response!=""){
-                    if(response.statusCode==200){
-                        window.location.href="cart.html"
-                    }else{
-                        console.log("ERROR :",response)
+                if (response != null && response != "") {
+                    if (response.statusCode == 200) {
+                        window.location.href = "cart.html"
+                    } else {
+                        console.log("ERROR :", response)
                     }
                 }
             },
@@ -249,10 +247,10 @@ $(document).ready(function() {
 var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
 $(document).ready(function() {
-   
+
     // get userId by jwt
     userId = localStorage.getItem("userId")
-    if(userId!=0&&userId!=null&&userId!=""){
+    if (userId != 0 && userId != null && userId != "") {
         $.ajax({
             method: 'GET',
             url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
@@ -260,18 +258,18 @@ $(document).ready(function() {
             data: {
                 userId: userId
             },
-    
+
             success: function(response) {
                 totalQuantity = response.data;
-               
+
             },
             error: function(error) {
                 console.error("Error return productList", error);
             }
-    
+
         });
 
     }
     $(cartTotal).text('(' + totalQuantity + ')');
-    
+
 })

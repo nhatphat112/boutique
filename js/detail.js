@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     $("#btn-submit-add-to-cart").addClass("d-none")
     $('#sold-out').addClass('d-none');
     let contentDetailMini = "";
@@ -12,16 +12,16 @@ $(document).ready(function () {
     let productRelatedList = "";
     contentProductColor = `<option class="dropdown-item" selected>Select Color</option>`;
     $.ajax({
-        method: "GET",
-        url: "http://localhost:8080/product/detail?id=" + productId,
-        async: false,
-    })
-        .done(function (result) {
+            method: "GET",
+            url: "http://localhost:8080/product/detail?id=" + productId,
+            async: false,
+        })
+        .done(function(result) {
             if (result != null && result != "") {
                 // listProduct = result.data;
                 stockResponseList = result.data.stockResponseList;
 
-                $.each(stockResponseList, function (index, currentItem) {
+                $.each(stockResponseList, function(index, currentItem) {
                     console.log(" maxQuantityStock_ONe " + currentItem.quantity);
 
                     contentDetailMini += `<div class="swiper h-auto mb-3"><img stock-id=${currentItem.id} class="w-100"
@@ -41,8 +41,8 @@ $(document).ready(function () {
                 let reviewList = result.data.reviewList;
                 let starAverage = 0;
                 let quantity = 0;
-                let contentStar="";
-                $.each(reviewList, function (index, currentItem) {
+                let contentStar = "";
+                $.each(reviewList, function(index, currentItem) {
                     contentReview += `<div class="flex-shrink-0"><img class="rounded-circle" src="img/customer-1.png" alt="" width="50"/></div>
                     <div class="ms-3 flex-shrink-1">
                         <h6 class="mb-0 text-uppercase">${currentItem.userName}</h6>`
@@ -50,12 +50,12 @@ $(document).ready(function () {
                         contentReview += `<li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>`
                     }
                     contentReview += `<p class="text-sm mb-0 text-muted">${currentItem.contentReview}</p></div>`
-                    starAverage+= currentItem.starNumber;
+                    starAverage += currentItem.starNumber;
                     quantity++;
                 });
-                starAverage/=quantity
-                for(var i=0;i<Math.floor(starAverage);i++){
-                    contentStar+=`<li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>`
+                starAverage /= quantity
+                for (var i = 0; i < Math.floor(starAverage); i++) {
+                    contentStar += `<li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>`
                 }
                 $("#star-product").html(contentStar)
                 $("#wrapper-mini").html(contentDetailMini)
@@ -71,10 +71,10 @@ $(document).ready(function () {
             $.ajax({
                 method: "GET",
                 url: "http://localhost:8080/category/" + result.data.categoryId,
-            }).done(function (result) {
+            }).done(function(result) {
                 if (result != null && result != "") {
                     let i = 0;
-                    $.each(result.data, function (index, currentItem) {
+                    $.each(result.data, function(index, currentItem) {
                         if (i < 4) {
                             productRelatedList += `<div class="col-lg-3 col-sm-6">
                         <div class="product text-center skel-loader">
@@ -82,7 +82,6 @@ $(document).ready(function () {
                                 <a class="d-block" href="detail.html?id=${currentItem.id}"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
                                 <div class="product-overlay">
                                     <ul class="mb-0 list-inline">
-                                        <!--<li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>-->
                                         <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">Add to cart</a></li>
                                         <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i
                                                     class="fas fa-expand"></i></a></li>
@@ -102,7 +101,7 @@ $(document).ready(function () {
         });
 
     let quantityDisplay = $('#product-quantity').addClass('d-none');
-    $('#color-selector').change(function () {
+    $('#color-selector').change(function() {
         var maxQuantityStock = $('#color-selector option:selected').attr("maxQuantity");
         console.log(" maxQuantityStock " + maxQuantityStock);
         if (maxQuantityStock > 0) {
@@ -118,14 +117,14 @@ $(document).ready(function () {
 
         }
     })
-    $("img.w-100").click(function () {
+    $("img.w-100").click(function() {
         // console.log('you click on swiper')
         var miniImg = $(this);
         // var imgSrc = miniImg.attr('src');
         // console.log(imgSrc)
 
 
-        $.each(stockResponseList, function (index, stock) {
+        $.each(stockResponseList, function(index, stock) {
             if ($(miniImg).attr('stock-id') == stock.id) {
                 console.log('xin chao2')
                 price = stock.price;
@@ -141,7 +140,7 @@ $(document).ready(function () {
         })
     })
 
-    $('#color-selector').change(function () {
+    $('#color-selector').change(function() {
         var selectStock = $('#color-selector option:selected').attr('stock-id');
         var img = $('#color-selector option:selected').attr('img');
         console.log(img + ' img');
@@ -151,7 +150,7 @@ $(document).ready(function () {
                     class="img-fluid" src="img/${img}" alt="..."></a>
                </div>`;
         $("#wrapper-main").html(contentDetailMain)
-        $.each(stockResponseList, function (index, stock) {
+        $.each(stockResponseList, function(index, stock) {
             if (selectStock == stock.id) {
                 console.log('xin chao3')
                 price = stock.price;
@@ -167,7 +166,7 @@ $(document).ready(function () {
 
 
         });
-        $("#btn-submit-add-to-cart").click(function () {
+        $("#btn-submit-add-to-cart").click(function() {
             console.log("click on add to cartx");
             var colorId = $("#color-selector").val();
             var selectedOption = $('#color-selector option:selected');
@@ -177,8 +176,6 @@ $(document).ready(function () {
             var quantity = $("#input-quantity").val();
             console.log(" quantity " + quantity);
             console.log(" productId " + productId);
-
-            var userId = localStorage.getItem("userId");
             $.ajax({
                 method: "GET",
                 url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
@@ -189,12 +186,12 @@ $(document).ready(function () {
                     quantity: quantity,
                     userId: userId
                 },
-                success: function (response) {
+                success: function(response) {
                     console.log("User created successfully", response)
                     console.log("User created successfully", response.data)
                     window.location.href = "cart.html"
                 },
-                error: function (error) {
+                error: function(error) {
                     console.error("Error creating user", error),
                         console.log("User created failed", data)
                 }
@@ -203,29 +200,3 @@ $(document).ready(function () {
         })
     })
 })
-
-/*Bắt đầu đếm số lượng items trong cart */
-var cartTotal = ('small#totalQuantity');
-var totalQuantity = 0;
-$(document).ready(function () {
-    var userId = localStorage.getItem("userId");
-    $.ajax({
-        method: 'GET',
-        url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-        data: {
-            userId: userId
-        },
-
-        success: function (response) {
-            console.log(response.data + ' totalQuantity');
-            totalQuantity = response.data;
-            $(cartTotal).text('(' + totalQuantity + ')');
-        },
-        error: function (error) {
-            console.error("Error return productList", error);
-        }
-
-    });
-})
-
-/*Kết thúc đếm số lượng items trong cart */

@@ -1,55 +1,48 @@
-/*Bắt đầu đếm số lượng items trong cart */
-let bearerToken = "Bearer " + localStorage.getItem("token");
-var cartTotal = ('small#totalQuantity');
-var totalQuantity = 0;
-let userId = 0;
+// let userId = localStorage.getItem("userId");
 $(document).ready(function() {
-    
-
-    // get userId by jwt
-    $.ajax({
-      method: "GET",
-      url: "http://localhost:8080/user/getid",
-      headers: { "Authorization": bearerToken },
-      async: false,
-      data:{
-        token:localStorage.getItem("token")
-      }
-
-    })
-      .done(function (response) {
-        if (response != "" && response != null) {
-          if (response.statusCode == 200) {
-            userId = response.data;
-          } else if(response.statusCode==403){
-            window.location.href="403.html"
-          } else if(response.statusCode==401){
-            localStorage.setItem("accessLinkContinue","cart.html")
-            window.location.href="login.html?#"
-          }
-          else {
-            console.log("check response user/getId/token:",response)
-          }
-        }
-      });
+        // get userId by jwt
         $.ajax({
-            method: 'GET',
-            url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-            headers: { "Authorization": bearerToken },
-            data: {
-                userId: userId
-            },
+                method: "GET",
+                url: "http://localhost:8080/user/getid",
+                headers: { "Authorization": bearerToken },
+                async: false,
+                data: {
+                    token: localStorage.getItem("token")
+                }
 
-            success: function(response) {
-                console.log(response.data + ' totalQuantity');
-                totalQuantity = response.data;
-                $(cartTotal).text('(' + totalQuantity + ')');
-            },
-            error: function(error) {
-                console.error("Error return productList", error);
-            }
+            })
+            .done(function(response) {
+                if (response != "" && response != null) {
+                    if (response.statusCode == 200) {
+                        userId = response.data;
+                    } else if (response.statusCode == 403) {
+                        window.location.href = "403.html"
+                    } else if (response.statusCode == 401) {
+                        localStorage.setItem("accessLinkContinue", "cart.html")
+                        window.location.href = "login.html?#"
+                    } else {
+                        console.log("check response user/getId/token:", response)
+                    }
+                }
+            });
+        // $.ajax({
+        //     method: 'GET',
+        //     url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
+        //     headers: { "Authorization": bearerToken },
+        //     data: {
+        //         userId: userId
+        //     },
 
-        });
+        //     success: function(response) {
+        //         console.log(response.data + ' totalQuantity');
+        //         totalQuantity = response.data;
+        //         $(cartTotal).text('(' + totalQuantity + ')');
+        //     },
+        //     error: function(error) {
+        //         console.error("Error return productList", error);
+        //     }
+
+        // });
     })
     /*Kết thúc đếm số lượng items trong cart */
     /*Bắt đầu nút check all*/
@@ -269,7 +262,7 @@ $(document).ready(function() {
         localStorage.setItem("checkedCart", JSON.stringify(listCheckedCart));
         if (listCheckedCart.length != 0) {
             window.location.href = "checkout.html"
-        }else{
+        } else {
             bootbox.alert("Please select a product for checkout.")
         }
     });

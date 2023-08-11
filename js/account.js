@@ -1,31 +1,8 @@
 var userId = localStorage.getItem("userId");
-let bearerToken = "Bearer " + localStorage.getItem("token");
+// let bearerToken = "Bearer " + localStorage.getItem("token");
 var phoneList;
 let addressList;
 $(document).ready(function() {
-    /*Bắt đầu đếm số lượng items trong cart */
-    var cartTotal = ('small#totalQuantity');
-    var totalQuantity = 0;
-    // var userId = localStorage.getItem("userId");
-    $.ajax({
-        method: 'GET',
-        url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-        headers: { "Authorization": bearerToken },
-        data: {
-            userId: userId
-        },
-
-        success: function(response) {
-            console.log(response.data + ' totalQuantity');
-            totalQuantity = response.data;
-            $(cartTotal).text('(' + totalQuantity + ')');
-        },
-        error: function(error) {
-            console.error("Error return productList", error);
-        }
-
-    });
-
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/phone/user?id=" + userId,

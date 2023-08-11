@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    let bearerToken = "Bearer " + localStorage.getItem("token");
-    let userId = 0;
     // get userId by jwt
     $.ajax({
             method: "GET",
@@ -620,31 +618,3 @@ $(document).ready(function() {
         $("#total-order").text("$" + total)
     })
 });
-
-/*Bắt đầu đếm số lượng items trong cart */
-var cartTotal = ('small#totalQuantity');
-var totalQuantity = 0;
-$(document).ready(function() {
-    var userId = localStorage.getItem("userId");
-    let bearerToken = "Bearer " + localStorage.getItem("token");
-    $.ajax({
-        method: 'GET',
-        url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-        headers: { "Authorization": bearerToken },
-        data: {
-            userId: userId
-        },
-
-        success: function(response) {
-            console.log(response.data + ' totalQuantity');
-            totalQuantity = response.data;
-            $(cartTotal).text('(' + totalQuantity + ')');
-        },
-        error: function(error) {
-            console.error("Error return productList", error);
-        }
-
-    });
-})
-
-/*Kết thúc đếm số lượng items trong cart */

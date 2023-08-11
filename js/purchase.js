@@ -1,9 +1,7 @@
 $(document).ready(function() {
+    // let bearerToken = "Bearer " + localStorage.getItem("token");
+    // let userId = 0;
 
-
-    let bearerToken = "Bearer " + localStorage.getItem("token");
-    let userId = 0;
-  
     // get userId by jwt
     $.ajax({
         method: "GET",
@@ -13,7 +11,7 @@ $(document).ready(function() {
         data: {
             token: localStorage.getItem("token")
         }
-  
+
     }).done(function(response) {
         if (response != "" && response != null) {
             if (response.statusCode == 200) {
@@ -28,21 +26,21 @@ $(document).ready(function() {
             }
         }
     });
-    console.log("userId :",userId)
-    // show list product was ordered
-    // get userId by jwt
-    // $.ajax({
-    //   method: "GET",
-    //   url: "http://localhost:8080/user/getId/token" + orderDetailIdNeedDelete,
-    //   headers: { "Authorization": bearerToken },
-    //   async: false,
-    //   dataType:"json",
-    //   contentType:"application/json",
-  
+    console.log("userId :", userId)
+        // show list product was ordered
+        // get userId by jwt
+        // $.ajax({
+        //   method: "GET",
+        //   url: "http://localhost:8080/user/getId/token" + orderDetailIdNeedDelete,
+        //   headers: { "Authorization": bearerToken },
+        //   async: false,
+        //   dataType:"json",
+        //   contentType:"application/json",
+
     //   data:JSON.stringify(
     //     {"token":localStorage.getItem("token")}
     //   )
-  
+
     // })
     //   .done(function (response) {
     //     if (response != "" && response != null) {
@@ -67,7 +65,7 @@ $(document).ready(function() {
         url: "http://localhost:8080/order-detail/user?id=" + userId,
         async: false,
         headers: { "Authorization": bearerToken }
-  
+
     }).done(function(res) {
         console.log("check response :", res)
         if (res.data != null && res.data != "") {
@@ -155,24 +153,24 @@ $(document).ready(function() {
         </tbody>
   
       `
-  
-  
+
+
             })
             theadProduct.insertAdjacentHTML('afterend', productContainerContent)
         }
-  
+
     });
     $('.selected-rating').text(1);
     $(".selected-rating").val(1)
     $('.rating').each(function(index, element) {
         element.getElementsByClassName('rating-star')[0].classList.add('active')
     })
-  
+
     //  let rating = document.getElementsByClassName('rating')
     //  Array.from(rating).map(function(currentItem){
     //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
     //  })
-  
+
     $('.rating-star').click(function() {
         $(this).addClass('active');
         $(this).prevAll('.rating-star').addClass('active');
@@ -191,7 +189,7 @@ $(document).ready(function() {
             } else {
                 let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
             }
-  
+
         })
         // submit form
     $(".btn-submit").click(function(event) {
@@ -200,7 +198,7 @@ $(document).ready(function() {
         let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
         let productId = $(this).attr("product-id")
         let isSuccess = false;
-  
+
         $.ajax({
                 method: "POST",
                 url: "http://localhost:8080/purchase/rate",
@@ -212,7 +210,7 @@ $(document).ready(function() {
                     productId: parseInt(productId)
                 },
                 headers: { "Authorization": bearerToken }
-  
+
             })
             .done(function() {
                 isSuccess = true
@@ -226,9 +224,9 @@ $(document).ready(function() {
         let productIdBuyAgain = $(this).attr("productId")
         event.preventDefault();
         let url = "detail.html?id=" + productIdBuyAgain
-  
+
         window.location.href = url
-  
+
     })
     let orderDetailIdNeedDelete
     $(".btn-delete-ordered").click(function() {
@@ -237,66 +235,33 @@ $(document).ready(function() {
         $("#btn-quick-view-confirm").addClass("btn-delete-ordered")
     })
     $("#btn-quick-view-confirm").click(function() {
-        let buttonQuickViewConfirm = $(this)
-        console.log("check buttonQuickViewConfirm :", buttonQuickViewConfirm)
-        if (buttonQuickViewConfirm.hasClass("btn-delete-ordered")) {
-            buttonQuickViewConfirm.removeClass("btn-delete-ordered")
-            let deleteIsSuccess = true;
-            $.ajax({
-                    method: "GET",
-                    url: "http://localhost:8080/order-detail/delete?id=" + orderDetailIdNeedDelete,
-                    headers: { "Authorization": bearerToken },
-                    async: false
-                })
-                .done(function(response) {
-                    console.log("check response:", response)
-                    if (response != "" && response != null) {
-                        if (response.statusCode == 200) {
-                            deleteIsSuccess = true
-                        } else {
-                            deleteIsSuccess = false;
+            let buttonQuickViewConfirm = $(this)
+            console.log("check buttonQuickViewConfirm :", buttonQuickViewConfirm)
+            if (buttonQuickViewConfirm.hasClass("btn-delete-ordered")) {
+                buttonQuickViewConfirm.removeClass("btn-delete-ordered")
+                let deleteIsSuccess = true;
+                $.ajax({
+                        method: "GET",
+                        url: "http://localhost:8080/order-detail/delete?id=" + orderDetailIdNeedDelete,
+                        headers: { "Authorization": bearerToken },
+                        async: false
+                    })
+                    .done(function(response) {
+                        console.log("check response:", response)
+                        if (response != "" && response != null) {
+                            if (response.statusCode == 200) {
+                                deleteIsSuccess = true
+                            } else {
+                                deleteIsSuccess = false;
+                            }
                         }
-                    }
-                });
-            if (deleteIsSuccess) {
-                let trProduct = $("a").filter(`[order-detail-id='${orderDetailIdNeedDelete}']`).closest("tr")
-                trProduct.next().remove()
-                trProduct.remove()
-            }
-  
-  
-        }
-    })
-    // Rest of your JavaScript code...
-  
-    /* Bắt đầu đếm số lượng items trong cart */
-    var cartTotal = $('small#totalQuantity');
-    var totalQuantity = 0;
-  
-    $(document).ready(function() {
-        var userId = localStorage.getItem("userId");
-        if(userId!=null&&userId!=""){
-            console.log("check userId :",userId)
-            $.ajax({
-                method: 'GET',
-                url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-                data: {
-                    userId: userId
-                },
-                success: function(response) {
-                    console.log(response.data + ' totalQuantity');
-                    totalQuantity = response.data;
-                   
-                },
-                error: function(error) {
-                    console.error("Error return productList", error);
+                    });
+                if (deleteIsSuccess) {
+                    let trProduct = $("a").filter(`[order-detail-id='${orderDetailIdNeedDelete}']`).closest("tr")
+                    trProduct.next().remove()
+                    trProduct.remove()
                 }
-            });
-        }
-        $(cartTotal).text('(' + totalQuantity + ')');
-        
-    });
-   
- });
-
-  
+            }
+        })
+        // Rest of your JavaScript code...
+});
