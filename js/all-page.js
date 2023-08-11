@@ -12,6 +12,7 @@
      },
 
      success: function(response) {
+         totalQuantity = response.data;
          console.log("count cart success");
          $(cartTotal).text('(' + totalQuantity + ')');
      },
