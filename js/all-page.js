@@ -12,7 +12,7 @@
      },
 
      success: function(response) {
-         console.error("count cart success");
+         console.log("count cart success");
          $(cartTotal).text('(' + totalQuantity + ')');
      },
      error: function(error) {
