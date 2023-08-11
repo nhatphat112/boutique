@@ -1,7 +1,6 @@
 $(document).ready(function () {
     $("#btn-submit-add-to-cart").addClass("d-none")
     $('#sold-out').addClass('d-none');
-
     let contentDetailMini = "";
     let contentDetailMain = "";
     let contentProductColor = "";
@@ -74,7 +73,7 @@ $(document).ready(function () {
                 url: "http://localhost:8080/category/" + result.data.categoryId,
             }).done(function (result) {
                 if (result != null && result != "") {
-                    let i = 1;
+                    let i = 0;
                     $.each(result.data, function (index, currentItem) {
                         if (i < 4) {
                             productRelatedList += `<div class="col-lg-3 col-sm-6">
