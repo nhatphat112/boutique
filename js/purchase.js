@@ -72,7 +72,7 @@ $(document).ready(function () {
         <tr>
           <th class="ps-0 py-3 border-light" scope="row">
             <div class="d-flex align-items-center">
-              <a class="reset-anchor d-block animsition-link" href="detail.html">
+              <a class="reset-anchor d-block animsition-link" href="detail.html?id=${currentItem.productId}">
                 <img src="img/${currentItem.productImage}" alt="..." width="70" />
               </a>
               <div class="ms-3">
