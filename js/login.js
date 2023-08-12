@@ -69,7 +69,7 @@ $(document).ready(function() {
                     accessLinkContinue = "index.html";
                 }
                 $("#login-warning").addClass("d-none");
-                if (roleId == 2) {
+                if (roleId == 1) {
                     window.location.href = "admin/index.html";
                 } else {
                     window.location.href = "index.html"

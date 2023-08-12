@@ -126,7 +126,7 @@ $(document).ready(function() {
 
                     productNameQuickView.textContent = currentItem.name;
                     priceQuickView.textContent = currentItem.price + "$";
-                    descriptionQuickView.textContent = currentItem.desciption;
+                    descriptionQuickView.textContent = currentItem.description;
 
 
                 }
