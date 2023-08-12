@@ -32,10 +32,6 @@ $(document).ready(function() {
     // }])
     //var checkedCart = localStorage.getItem('checkedCartJSON');
     //localStorage.setItem("checkedCartId", checkedCartList)
-
-
-    // localStorage.setItem("userId", "1")
-    // userId = localStorage.getItem("userId");
     // console.log(userId + " :userId");
     // console.log("check userId :", userId);
     // get list phone and list address by userId from localstorage
