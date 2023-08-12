@@ -10,7 +10,7 @@ $(document).ready(function() {
     let productId = parseInt(urlParams.get('id'))
     var stockResponseList = "";
     let productRelatedList = "";
-    let categoryName = "";
+    let categoryName = `<strong class="text-uppercase text-dark">Category:</strong>`;
     contentProductColor = `<option class="dropdown-item" selected>Select Color</option>`;
     $.ajax({
             method: "GET",
@@ -19,7 +19,9 @@ $(document).ready(function() {
         })
         .done(function(result) {
             if (result != null && result != "") {
-                // listProduct = result.data;
+                categoryId = parseInt(result.data.categoryId);
+                categoryName += `<a class="reset-anchor ms-2" href="shop.html?categoryId=${categoryId}">${result.data.categoryName}</a>`;
+                $('#category-name').append(categoryName);
                 stockResponseList = result.data.stockResponseList;
 
                 $.each(stockResponseList, function(index, currentItem) {

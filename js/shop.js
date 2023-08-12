@@ -25,42 +25,9 @@ $(document).ready(function() {
                 var a = $('a.category');
                 $(a).click(function() {
                     var id = $(this).attr('id');
-
-                    console.log('id ' + id);
-                    let contentProduct = "";
-                    jQuery.ajax({
-                        url: "http://localhost:8080/category/" + encodeURIComponent(id),
-                        type: "GET",
-                        data: {
-                            id: id
-                        },
-                        success: function(res) {
-                            if (res != null && res != "") {
-                                listCategoryProduct = res.data;
-                                res.data.map(function(currentItem, index, arr) {
-                                    console.log(currentItem.id + ' day la product id');
-                                    contentProduct += `<div class="product-item col-xl-3 col-lg-4 col-sm-6">
-                                        <div class="product text-center">
-                                            <div class="position-relative mb-3">
-                                                <div class="badge text-white bg-"></div>
-                                                <a class="d-block" href="detail.html?id=${currentItem.id}"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
-                                                <div class="product-overlay">
-                                                    <ul class="mb-0 list-inline">
-                                                    <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>                                                </ul>
-                                                </div>
-                                            </div>
-                                            <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
-                                            <p class="small text-muted">$${currentItem.price}</p>
-                                        </div>
-                                    </div>`;
-                                });
-                                productContainer.innerHTML = contentProduct;
-                            }
-                        },
-                        error: function(error) {
-                            console.error("Error category?id", error);
-                        }
-                    });
+                    var newUrl = 'shop.html?categoryId=' + id;
+                    // Chuyển hướng đến đường dẫn mới
+                    window.location.href = newUrl;
                 })
             })
 
@@ -275,23 +242,42 @@ window.onload = (function() {
         let categoryId = urlParams.get("categoryId")
         console.log("_____________check_cagrgoryId_________", categoryId)
         if (categoryId != null && categoryId != "") {
-            let buttonCategory;
-            if (categoryId == 1) {
-
-                //speaker
-                buttonCategory = $("#categogyList #4").click()
-                console.log(buttonCategory)
-            } else if (categoryId == 2) {
-                //camera
-                buttonCategory = $("#categogyList #2").click()
-
-            } else if (categoryId == 3) {
-                //watches
-                buttonCategory = $("#categogyList #1").click()
-            } else if (categoryId == 4) {
-                //headphone
-                buttonCategory = $("#categogyList #3").click()
-            }
+            let id = urlParams.get("categoryId");
+            let contentProduct = "";
+            let productContainer = document.getElementById("product-container");
+            jQuery.ajax({
+                url: "http://localhost:8080/category/" + encodeURIComponent(id),
+                type: "GET",
+                data: {
+                    id: id
+                },
+                success: function(res) {
+                    if (res != null && res != "") {
+                        listCategoryProduct = res.data;
+                        res.data.map(function(currentItem, index, arr) {
+                            console.log(currentItem.id + ' day la product id');
+                            contentProduct += `<div class="product-item col-xl-3 col-lg-4 col-sm-6">
+                                    <div class="product text-center">
+                                        <div class="position-relative mb-3">
+                                            <div class="badge text-white bg-"></div>
+                                            <a class="d-block" href="detail.html?id=${currentItem.id}"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
+                                            <div class="product-overlay">
+                                                <ul class="mb-0 list-inline">
+                                                <li class="list-inline-item m-0 p-0"><a product-id=${currentItem.id}  class="btn-add-to-cart btn btn-sm btn-dark" href="#productView" data-bs-toggle="modal">Add to cart</a></li>                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">${currentItem.name}</a></h6>
+                                        <p class="small text-muted">$${currentItem.price}</p>
+                                    </div>
+                                </div>`;
+                        });
+                        productContainer.innerHTML = contentProduct;
+                    }
+                },
+                error: function(error) {
+                    console.error("Error category?id", error);
+                }
+            });
         }
     })
     /* Kết thúc chuyển hướng từ category  */
