@@ -1,5 +1,3 @@
-var userId = localStorage.getItem("userId");
-// let bearerToken = "Bearer " + localStorage.getItem("token");
 var phoneList;
 let addressList;
 $(document).ready(function() {

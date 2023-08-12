@@ -1,6 +1,6 @@
 // let userId = 0;
-$(document).ready(function () {
-    localStorage.setItem("accessLinkContinue","index.html");
+$(document).ready(function() {
+    localStorage.setItem("accessLinkContinue", "index.html");
 
     // console.log("index.js active")
     let productContainer = document.getElementById("product-container");
@@ -8,16 +8,16 @@ $(document).ready(function () {
     let contentProduct = "";
     let stock = "";
     let productId = 0;
-    window.addEventListener("load", function () {
+    window.addEventListener("load", function() {
         $.ajax({
             url: "http://localhost:8080/product/bestseller",
             type: "GET",
             async: false,
-            success: function (res) {
+            success: function(res) {
                 if (res != null && res != "") {
                     listProduct = res.data;
                     let i = 0;
-                    res.data.map(function (currentItem, index, arr) {
+                    res.data.map(function(currentItem, index, arr) {
                         if (i < 10) {
                             contentProduct += `<div class="product-item col-xl-3 col-lg-4 col-sm-6">
                         <div class="product text-center">
@@ -45,7 +45,7 @@ $(document).ready(function () {
         var decButton = document.querySelector(".quantity .dec-btn");
         var incButton = document.querySelector(".quantity .inc-btn");
 
-        $(".btn-add-to-cart").click(function () {
+        $(".btn-add-to-cart").click(function() {
             document.getElementById("btn-submit-add-to-cart").classList.add("d-none")
             document.getElementById('sold-out').classList.add("d-none")
             let quantityQuickView = document
@@ -67,7 +67,7 @@ $(document).ready(function () {
                 "description-quick-view"
             );
 
-            listProduct.map(function (currentItem, index, arr) {
+            listProduct.map(function(currentItem, index, arr) {
                 if (currentItem.id == productId) {
                     imageProductQuickView.style.background = `url('/img/${currentItem.image}')`;
                     imageProductQuickView.setAttribute(
@@ -92,12 +92,12 @@ $(document).ready(function () {
                 url: "http://localhost:8080/stock/product?id=" + productId,
                 type: "GET",
                 async: false,
-                success: function (res) {
+                success: function(res) {
 
                     if (res != null && res != "") {
                         stock = res.data;
                         if (stock.length != 0) {
-                            res.data.map(function (currentItem, index, arr) {
+                            res.data.map(function(currentItem, index, arr) {
                                 contentColor += ` 
                              <option class="dropdown-item" value="${currentItem.colorId}">${currentItem.colorName}</option>
                              `;
@@ -121,7 +121,7 @@ $(document).ready(function () {
         let quantityQuickViewMax = "";
         this.document
             .getElementById("color-selector")
-            .addEventListener("change", function () {
+            .addEventListener("change", function() {
 
                 document.getElementById("btn-submit-add-to-cart").classList.remove("d-none")
 
@@ -136,7 +136,7 @@ $(document).ready(function () {
 
                 document.getElementById('input-quantity').value = 1
 
-                stock.map(function (currentItem, index, arr) {
+                stock.map(function(currentItem, index, arr) {
                     if (colorSelectorValue == currentItem.colorId) {
                         quantityQuickViewMax = currentItem.quantity
 
@@ -163,7 +163,7 @@ $(document).ready(function () {
             });
 
 
-        decButton.addEventListener("click", function () {
+        decButton.addEventListener("click", function() {
             var value = parseInt(inputElement.value);
             if (value >= quantityQuickViewMax) {
                 decButton.disabled = true
@@ -174,7 +174,7 @@ $(document).ready(function () {
             }
 
         });
-        incButton.addEventListener("click", function () {
+        incButton.addEventListener("click", function() {
             var value = parseInt(inputElement.value);
             if (value >= quantityQuickViewMax) {
                 incButton.disabled = true
@@ -184,27 +184,23 @@ $(document).ready(function () {
         });
     });
     /*Bắt đầu submit add to cart*/
-    $("#btn-submit-add-to-cart").click(function () {
+    $("#btn-submit-add-to-cart").click(function() {
         //console.log("hello bạn đã bấm vào nút submit");
         //console.log("đây là id của sp " + productId);
         var colorId = $("#color-selector").val();
         var quantity = $("#input-quantity").val();
-        //console.log("đây là id color của sp " + colorId);
-        //console.log("đây là quantity của sp " + quantity);
-        // let bearerToken = "Bearer " + localStorage.getItem("token");
-        let userId = 0;
         // get userId by jwt
         $.ajax({
-            method: "GET",
-            url: "http://localhost:8080/user/getid",
-            headers: { "Authorization": bearerToken },
-            async: false,
-            data: {
-                token: localStorage.getItem("token")
-            }
+                method: "GET",
+                url: "http://localhost:8080/user/getid",
+                headers: { "Authorization": bearerToken },
+                async: false,
+                data: {
+                    token: localStorage.getItem("token")
+                }
 
-        })
-            .done(function (response) {
+            })
+            .done(function(response) {
                 if (response != "" && response != null) {
                     if (response.statusCode == 200) {
                         userId = response.data;
@@ -230,7 +226,7 @@ $(document).ready(function () {
                 quantity: quantity,
                 userId: userId
             },
-            success: function (response) {
+            success: function(response) {
                 if (response != null && response != "") {
                     if (response.statusCode == 200) {
                         window.location.href = "cart.html"
@@ -239,7 +235,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function (error) {
+            error: function(error) {
                 console.error("Error creating user", error),
                     console.log("User created failed", data)
             }
@@ -252,7 +248,7 @@ $(document).ready(function () {
 //var totalQ = 0;
 var cartTotal = ('small#totalQuantity');
 var totalQuantity = 0;
-$(document).ready(function () {
+$(document).ready(function() {
 
     // get userId by jwt
     userId = localStorage.getItem("userId")
@@ -265,11 +261,11 @@ $(document).ready(function () {
                 userId: userId
             },
 
-            success: function (response) {
+            success: function(response) {
                 totalQuantity = response.data;
 
             },
-            error: function (error) {
+            error: function(error) {
                 console.error("Error return productList", error);
             }
 
