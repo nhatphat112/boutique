@@ -1,7 +1,5 @@
 // let userId = 0;
 $(document).ready(function() {
-    localStorage.setItem("accessLinkContinue", "index.html");
-
     // console.log("index.js active")
     let productContainer = document.getElementById("product-container");
     let listProduct = "";

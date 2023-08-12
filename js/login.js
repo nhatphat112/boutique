@@ -1,5 +1,8 @@
-$(document).ready(function() {
-    $("#btn-login").click(function() {
+$(document).ready(function () {
+    if (localStorage.getItem("token") != null && localStorage.getItem("token") != "") {
+        window.location.href = "index.html"
+    }
+    $("#btn-login").click(function () {
         // lấy gtri của thẻ input có id là user
         var email = $("#email").val();
         var password = $("#pass").val();
@@ -15,7 +18,7 @@ $(document).ready(function() {
                 email: email,
                 password: password,
             },
-        }).done(function(result) {
+        }).done(function (result) {
             //khi gọi API thì kết quả sẽ
             console.log(result);
             if (result.statusCode == 200) {
@@ -30,7 +33,7 @@ $(document).ready(function() {
                     data: {
                         token: localStorage.getItem("token"),
                     },
-                }).done(function(response) {
+                }).done(function (response) {
                     if (response != "" && response != null) {
                         if (response.statusCode == 200) {
                             localStorage.setItem("userId", response.data);
@@ -47,7 +50,7 @@ $(document).ready(function() {
                     data: {
                         token: localStorage.getItem("token"),
                     },
-                }).done(function(response) {
+                }).done(function (response) {
                     if (response != "" && response != null) {
                         if (response.statusCode == 200) {
                             roleId = response.data;
@@ -66,16 +69,28 @@ $(document).ready(function() {
                 ) {
                     localStorage.removeItem("accessLinkContinue");
                 } else {
-                    accessLinkContinue = "index.html";
+                    if (roleId == 1) {
+                        accessLinkContinue = "admin/index.html";
+                    }
+                    else {
+                        accessLinkContinue = "index.html"
+                    }
                 }
                 $("#login-warning").addClass("d-none");
-                if (roleId == 2) {
-                    window.location.href = "admin/index.html";
-                } else {
-                    window.location.href = "index.html"
-                        //accessLinkContinue;
+                if (roleId == 1) {
+                    if (!accessLinkContinue.startsWith("admin")) {
+                        window.location.href = "admin/index.html";
+                    } else {
+                        window.location.href = accessLinkContinue;
+                    }
                 }
-                // append: nối chuổi
+                else{
+                    if (accessLinkContinue.startsWith(location.origin+"/admin")) {
+                        window.location.href = "index.html";
+                    }else{
+                        window.location.href = accessLinkContinue;
+                    }
+                }
             } else {
                 $("#login-warning").removeClass("d-none");
             }

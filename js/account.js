@@ -1,17 +1,18 @@
 var phoneList;
 let addressList;
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/phone/user?id=" + userId,
         async: false,
         headers: { "Authorization": bearerToken }
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             if (response.statusCode == 200) {
                 phoneList = response.data;
             } else if (response.statusCode == 401) {
-                window.location.href = "login.html?#"
+                localStorage.setItem("accessLinkContinue", "account.html")
+                window.location.href = "login.html"
             } else if (response.statusCode == 403) {
 
             } else {
@@ -25,7 +26,7 @@ $(document).ready(function() {
         url: "http://localhost:8080/address/user?id=" + userId,
         headers: { "Authorization": bearerToken },
         async: false,
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             addressList = response.data;
         }
@@ -39,7 +40,7 @@ $(document).ready(function() {
         showAddress.classList.remove("d-none");
         //thêm address trong list
         var addressShowContent = "";
-        addressList.map(function(currentItem, index) {
+        addressList.map(function (currentItem, index) {
             if (currentItem.cityOrProvinceName == "") {
                 addressShowContent +=
                     `<p id="${currentItem.id}" style="white-space: nowrap;">${currentItem.detail}, ${currentItem.countryName}
@@ -61,7 +62,7 @@ $(document).ready(function() {
         showPhone.classList.remove("d-none");
         //thêm số trong list
         var phoneShowContent = "";
-        phoneList.map(function(currentItem, index) {
+        phoneList.map(function (currentItem, index) {
             phoneShowContent +=
                 `<p id="${currentItem.id}">${currentItem.phoneNumber}
             </p>`;
@@ -74,7 +75,7 @@ $(document).ready(function() {
     /*Kết thúc đếm số lượng items trong cart */
     $("#profile").show();
     // Ẩn hiện các trang khi bấm vào các đề mục
-    $('.toggle-link').click(function(event) {
+    $('.toggle-link').click(function (event) {
         event.preventDefault();
         var target = $(this).data('target');
         $('.toggle-page').hide();
@@ -89,7 +90,7 @@ $(document).ready(function() {
             userId: userId,
         },
         async: false,
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             console.log(response);
             var user = response.data;
@@ -107,7 +108,7 @@ $(document).ready(function() {
 });
 
 //Bắt đầu thay đổi mật khẩu
-$("#change-pass-form").on("submit", function(event) {
+$("#change-pass-form").on("submit", function (event) {
     event.preventDefault();
     var currentPass = $('#currentPass').val();
     var newPass = $('#newPass').val();
@@ -121,7 +122,7 @@ $("#change-pass-form").on("submit", function(event) {
             currentPass: currentPass,
             newPass: newPass
         },
-        success: function(response) {
+        success: function (response) {
             console.log(response.data);
             if (response.data == true) {
                 bootbox.alert('Your password has been successfully changed!');
@@ -130,7 +131,7 @@ $("#change-pass-form").on("submit", function(event) {
             }
             $('#change-pass-form')[0].reset();
         },
-        error: function(error) {
+        error: function (error) {
             console.error("change pass error", error);
         }
 
@@ -138,13 +139,13 @@ $("#change-pass-form").on("submit", function(event) {
     console.log('helllo')
 })
 
-$('#edit-profile-link').click(function(event) {
+$('#edit-profile-link').click(function (event) {
     event.preventDefault();
     console.log("day la edit profile");
 
     content = "";
     if (addressList != null) {
-        addressList.map(function(currentItem, index) {
+        addressList.map(function (currentItem, index) {
             if (currentItem.cityOrProvinceName == "") {
                 content +=
                     `<p style="display: flex; align-items: center;">
@@ -165,7 +166,7 @@ $('#edit-profile-link').click(function(event) {
     document.getElementById("address-id").innerHTML = content;
     //Bắt đầu xoá address
     var addressRemoveIdList = [];
-    $('.delete-address').click(function() {
+    $('.delete-address').click(function () {
         console.log('delete address')
         var pElement = $(this).parent();
         pElement.remove();
@@ -177,7 +178,7 @@ $('#edit-profile-link').click(function(event) {
 
     let phoneContent = "";
     if (phoneList != null) {
-        phoneList.map(function(currentItem, index) {
+        phoneList.map(function (currentItem, index) {
             phoneContent +=
                 `<p style="display: flex; align-items: center;" class="">
                 <button class="delete-phone btn btn-sm btn-secondary" style="margin-right: 7px; height: 20px;font-size: 15px; display: flex;
@@ -190,7 +191,7 @@ $('#edit-profile-link').click(function(event) {
     document.getElementById("phone-number-id").innerHTML = phoneContent;
     //Bắt đầu xoá phone
     var phoneRemoveIdList = [];
-    $('.delete-phone').click(function() {
+    $('.delete-phone').click(function () {
         console.log('delete phone')
         var pElement = $(this).parent();
         pElement.remove();
@@ -199,7 +200,7 @@ $('#edit-profile-link').click(function(event) {
         phoneRemoveIdList.push(removePhoneId);
         console.log(phoneRemoveIdList);
     })
-    $('#save-changes-submit').click(function() {
+    $('#save-changes-submit').click(function () {
         // $("#change-pass-form").on("submit", function(event) {
 
         console.log('save change button')
@@ -215,7 +216,7 @@ $('#edit-profile-link').click(function(event) {
                 data: JSON.stringify({
                     idList: phoneRemoveIdList
                 }),
-            }).done(function(response) {
+            }).done(function (response) {
                 if (response != null && response != "") {
                     // message = response.message
                     console.log("check response phone/delete:", response)
@@ -236,7 +237,7 @@ $('#edit-profile-link').click(function(event) {
                     idList: addressRemoveIdList
                 }),
 
-            }).done(function(response) {
+            }).done(function (response) {
                 if (response != null && response != "") {
                     // message = response.message
                     console.log("check response address/delete:", response)
@@ -260,7 +261,7 @@ $('#edit-profile-link').click(function(event) {
                     userId: userId,
                     phoneNumber: newPhoneNumber,
                 }),
-            }).done(function(response) {
+            }).done(function (response) {
                 if (response != null && response != "") {
                     // newPhoneNumber = response.data.id;
                     console.log("success add phone number " + response.data.id);
@@ -295,7 +296,7 @@ $('#edit-profile-link').click(function(event) {
                     cityProvinceId: cityProvinceId,
                     detail: $('#address').val(),
                 }),
-            }).done(function(response) {
+            }).done(function (response) {
                 if (response != null && response != "") {
                     idAddressSelected = response.data.id;
                 }
@@ -308,11 +309,11 @@ $('#edit-profile-link').click(function(event) {
     })
 
 })
-$('#addNumber').click(function() {
+$('#addNumber').click(function () {
     newNumberInput.style.display = "block";
 })
 
-$('#addAdress').click(function() {
+$('#addAdress').click(function () {
     newAddressInput.style.display = "block";
     let countryList;
     let townCityList;
@@ -321,7 +322,7 @@ $('#addAdress').click(function() {
         url: "http://localhost:8080/country",
         async: false,
         headers: { "Authorization": bearerToken },
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             countryList = response.data;
             console.log(countryList)
@@ -330,7 +331,7 @@ $('#addAdress').click(function() {
 
     var selectOption = "";
     var selectCountry = $('select#country');
-    $.each(countryList, function(index, currentItem) {
+    $.each(countryList, function (index, currentItem) {
         // countryList.map(function(currentItem, index) {
         selectOption += `<option value=${currentItem.id}>${currentItem.name}</option>`;
     });
@@ -341,7 +342,7 @@ $('#addAdress').click(function() {
         url: "http://localhost:8080/city-province",
         async: false,
         headers: { "Authorization": bearerToken },
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             townCityList = response.data;
             console.log(townCityList)
@@ -350,27 +351,27 @@ $('#addAdress').click(function() {
     });
     //Bắt đầu cho chọn town city
     var selectOption = "";
-    townCityList.map(function(currentItem, index) {
+    townCityList.map(function (currentItem, index) {
         selectOption += `<option value=${currentItem.id}>${currentItem.name}</option>`;
     });
     document.getElementById("townCity").insertAdjacentHTML("beforeend", selectOption);
     //Kết thúc cho chọn town city
 
-    $("#country").change(function() {
+    $("#country").change(function () {
         var idCountryAddress = $(this).val();
         let townCityContainer = Array.from($("#townCity-container"));
         if (idCountryAddress == "191") {
-            townCityContainer.map(function(currentItem) {
+            townCityContainer.map(function (currentItem) {
                 currentItem.classList.remove("d-none");
             });
             // $('.townCity').classList.remove("d-none");
         } else {
-            townCityContainer.map(function(currentItem) {
+            townCityContainer.map(function (currentItem) {
                 currentItem.classList.add("d-none");
             });
         }
         let addressLineContainer = Array.from($("#address-line-container")).map(
-            function(currentItem) {
+            function (currentItem) {
                 currentItem.classList.remove("d-none");
             }
         );
