@@ -10,6 +10,7 @@ $(document).ready(function() {
     let productId = parseInt(urlParams.get('id'))
     var stockResponseList = "";
     let productRelatedList = "";
+    let categoryName = "";
     contentProductColor = `<option class="dropdown-item" selected>Select Color</option>`;
     $.ajax({
             method: "GET",
@@ -45,7 +46,7 @@ $(document).ready(function() {
                 $.each(reviewList, function(index, currentItem) {
                     contentReview += `<div class="flex-shrink-0"><img class="rounded-circle" src="img/customer-1.png" alt="" width="50"/></div>
                     <div class="ms-3 flex-shrink-1">
-                        <h6 class="mb-0 text-uppercase">${currentItem.userName}</h6>`
+                        <h6 class="mb-0 text-uppercase">${currentItem.userName}</h6>`;
                     for (var i = 0; i < parseInt(currentItem.starNumber); ++i) {
                         contentReview += `<li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>`
                     }
@@ -80,13 +81,7 @@ $(document).ready(function() {
                         <div class="product text-center skel-loader">
                             <div class="d-block mb-3 position-relative">
                                 <a class="d-block" href="detail.html?id=${currentItem.id}"><img class="img-fluid w-100" src="img/${currentItem.image}" alt="..."></a>
-                                <div class="product-overlay">
-                                    <ul class="mb-0 list-inline">
-                                        <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">Add to cart</a></li>
-                                        <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i
-                                                    class="fas fa-expand"></i></a></li>
-                                    </ul>
-                                </div>
+                                
                             </div>
                             <h6> <a class="reset-anchor" href="detail.html?id=${currentItem.id}">Kui Ye Chen’s AirPods</a></h6>
                             <p class="small text-muted">$${currentItem.price}</p>

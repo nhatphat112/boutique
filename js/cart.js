@@ -1,4 +1,3 @@
-// let userId = localStorage.getItem("userId");
 $(document).ready(function() {
         // get userId by jwt
         $.ajax({
@@ -57,8 +56,6 @@ $(document).ready(function() {
 
 /*Bắt đầu API /cart*/
 $(document).ready(function() {
-
-    var userId = localStorage.getItem("userId");
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",

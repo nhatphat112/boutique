@@ -1,7 +1,5 @@
 $(document).ready(function() {
     // let bearerToken = "Bearer " + localStorage.getItem("token");
-    // let userId = 0;
-
     // get userId by jwt
     $.ajax({
         method: "GET",
@@ -58,8 +56,6 @@ $(document).ready(function() {
     //   });
     // show list product was ordered
     console.log("check bearerToken:", bearerToken)
-    localStorage.setItem('userId', '1')
-    userId = localStorage.getItem('userId');
     $.ajax({
         type: 'GET',
         url: "http://localhost:8080/order-detail/user?id=" + userId,
