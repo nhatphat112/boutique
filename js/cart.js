@@ -24,10 +24,11 @@ $(document).ready(function () {
                 }
             }
         });
-    /*Kết thúc đếm số lượng items trong cart */
-    /*Bắt đầu nút check all*/
-$(document).ready(function() {
-    $('#check-all').change(function() {
+})
+/*Kết thúc đếm số lượng items trong cart */
+/*Bắt đầu nút check all*/
+$(document).ready(function () {
+    $('#check-all').change(function () {
         if (this.checked) {
             $('.check-item').prop('checked', this.checked);
         } else {
@@ -56,10 +57,11 @@ $(document).ready(function () {
             var subTotal = ('#subtotal');
             $.each(carts, function (index, cart) {
                 console.log("max Quantity ", cart.maxQuantity)
+
                 console.log('stock_id ' + cart.stockId);
                 var row =
                     '<tr id="' + cart.id + '">' +
-                    '<td class="p-4 align-middle border-light">' +
+                    '<td class="p-3 align-middle border-light">' +
                     '<input id="' + cart.id + '" class="check-item form-check-input" type="checkbox">' +
                     '</td>' +
                     '<th class="ps-0 py-3 border-light" scope="row">' +
@@ -100,21 +102,6 @@ $(document).ready(function () {
 
                 var checkedItem = $(tr).find('input.check-item');
                 var changQuantity = $(div).find("button.changeQuantity");
-
-                // $('#check-all').change(function() {
-                //     if (this.checked) {
-                //         $('.check-item').prop('checked', this.checked);
-                //         console.log('checkAllPrice ' + checkAllPrice);
-                //         subtotalValue = checkAllPrice;
-                //         $(subTotal).text('$' + subtotalValue);
-
-                //     } else {
-                //         $('.check-item').prop('checked', false);
-                //         subtotalValue = 0;
-                //         $(subTotal).text('$' + subtotalValue);
-                //     }
-                // });
-
                 /*Bắt đầu tính subtotal*/
                 checkedItem.change(function () {
 
@@ -191,10 +178,9 @@ $(document).ready(function () {
                 //         quantity: currentQuantity
                 //     }
                 // listCart.push(cartIdQuantity);
-                
+
                 /*Kết bảng table các sản phẩm trong cart*/
             })
-
             $(subTotal).text('$' + subtotalValue);
 
             // $(cartTotal).text('(' + totalQ + ')');

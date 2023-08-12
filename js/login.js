@@ -94,7 +94,6 @@ $(document).ready(function () {
             } else {
                 $("#login-warning").removeClass("d-none");
             }
-            //   console.log( "Data : " , token );
         });
     });
 });
