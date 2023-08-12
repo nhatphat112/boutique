@@ -7,6 +7,7 @@ let listCategory = "";
 
 
 $(document).ready(function() {
+    localStorage.setItem("accessLinkContinue","shop.html");
 
 
     //Gửi yêu cầu GET đến API để lấy danh sách sản phẩm

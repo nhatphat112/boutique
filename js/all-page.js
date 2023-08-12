@@ -20,3 +20,17 @@
          console.error("Error return productList", error);
      }
  });
+ function getUserId(){
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/user/getid",
+        headers: { Authorization: bearerToken },
+        async: false,
+        data: {
+          token: localStorage.getItem("token"),
+        },
+      }).done(function (response) {
+        return response;
+      });
+ }
+
