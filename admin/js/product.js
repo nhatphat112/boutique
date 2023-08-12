@@ -1,5 +1,4 @@
 // var categoryList = [];
-let bearerToken = "Bearer " + localStorage.getItem("token");
 console.log('Bear token ' + bearerToken);
 $(document).ready(function() {
     console.log('xin chao')
