@@ -242,34 +242,3 @@ $(document).ready(function() {
     });
     /*Kết thúc submit add to cart*/
 });
-
-//var totalQ = 0;
-var cartTotal = ('small#totalQuantity');
-var totalQuantity = 0;
-$(document).ready(function() {
-
-    // get userId by jwt
-    userId = localStorage.getItem("userId")
-    if (userId != 0 && userId != null && userId != "") {
-        $.ajax({
-            method: 'GET',
-            url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-            headers: { "Authorization": bearerToken },
-            data: {
-                userId: userId
-            },
-
-            success: function(response) {
-                totalQuantity = response.data;
-
-            },
-            error: function(error) {
-                console.error("Error return productList", error);
-            }
-
-        });
-
-    }
-    $(cartTotal).text('(' + totalQuantity + ')');
-
-})

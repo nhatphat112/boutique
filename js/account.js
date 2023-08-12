@@ -32,9 +32,10 @@ $(document).ready(function () {
         }
 
     });
+    console.log(addressList + ' addressList')
 
     //Kiểm tra xem có số địa chỉ để show không
-    if (addressList !== null && addressList !== "") {
+    if (addressList != undefined && addressList != "") {
         //show hàng address
         var showAddress = document.getElementById("show-address-list");
         showAddress.classList.remove("d-none");
@@ -56,7 +57,7 @@ $(document).ready(function () {
     //Kết thúc kiểm tra xem có địa chỉ để show không
 
     //Kiểm tra xem có số điện thoại để show không
-    if (phoneList !== null && phoneList !== "") {
+    if (phoneList != undefined && phoneList != "") {
         //show hàng phone number
         var showPhone = document.getElementById("show-phone-list");
         showPhone.classList.remove("d-none");

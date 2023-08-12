@@ -9,7 +9,6 @@ $(document).ready(function () {
     data: {
       token: localStorage.getItem("token")
     }
-
   }).done(function (response) {
     if (response != "" && response != null) {
       if (response.statusCode == 200) {
