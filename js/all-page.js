@@ -31,17 +31,21 @@
          success: function(response) {
              var totalQuantity = response.data;
              if (typeof totalQuantity === "undefined") {
+                 $('#login').show();
+                 $('#logout').hide();
                  $(cartTotal).text('(0)');
              } else {
+                 $('#login').hide();
+                 $('#logout').show();
                  $(cartTotal).text('(' + totalQuantity + ')');
              }
-
              console.log("count cart success");
          },
          error: function(error) {
              console.error("Error return productList", error);
          }
      });
+     //  })
  })
 
  function Ulogout() {
