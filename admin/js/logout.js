@@ -7,28 +7,27 @@ function logout() {
 var username;
 //API get name
 let bearerToken = "Bearer " + localStorage.getItem("token");
-$.ajax({
-
-    method: "GET",
-    url: "http://localhost:8080/user/getUser",
-    headers: { Authorization: bearerToken },
-    async: false,
-    data: {
-        token: localStorage.getItem("token"),
-    },
-}).done(function(response) {
-    if (response != "" && response != null) {
-        if (response.statusCode == 200) {
-            username = response.data.name;
-        } else {
-            console.log("check response user/getId/token:", response);
-        }
-    }
-});
-//biến để thay tên
-$('.admin-name').text(username);
-
 $(document).ready(function() {
+    $.ajax({
+
+        method: "GET",
+        url: "http://localhost:8080/user/getUser",
+        headers: { Authorization: bearerToken },
+        async: false,
+        data: {
+            token: localStorage.getItem("token"),
+        },
+    }).done(function(response) {
+        if (response != "" && response != null) {
+            if (response.statusCode == 200) {
+                username = response.data.name;
+            } else {
+                console.log("check response user/getId/token:", response);
+            }
+        }
+    });
+    //biến để thay tên
+    $('.admin-name').text(username);
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/user/getRoleId",
