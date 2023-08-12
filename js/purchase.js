@@ -1,6 +1,7 @@
 $(document).ready(function () {
   // let bearerToken = "Bearer " + localStorage.getItem("token");
   // get userId by jwt
+  let userId = 0
   $.ajax({
     method: "GET",
     url: "http://localhost:8080/user/getid",
@@ -18,12 +19,11 @@ $(document).ready(function () {
       } else if (response.statusCode == 401) {
         localStorage.setItem("accessLinkContinue", "purchase.html");
         window.location.href = "login.html";
-      } else {  
+      } else {
         console.log("check response user/getId/token:", response);
       }
     }
   });
-  console.log("userId :", userId)
   // show list product was ordered
   // get userId by jwt
   // $.ajax({

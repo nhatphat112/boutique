@@ -2,7 +2,7 @@ $(document).ready(function () {
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/user/getRoleId",
-        // headers: { "Authorization": bearerToken },
+        headers: { "Authorization": bearerToken },
         async: false,
         data: {
             token: localStorage.getItem("token")

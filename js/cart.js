@@ -1,47 +1,29 @@
-$(document).ready(function() {
-        // get userId by jwt
-        $.ajax({
-                method: "GET",
-                url: "http://localhost:8080/user/getid",
-                headers: { "Authorization": bearerToken },
-                async: false,
-                data: {
-                    token: localStorage.getItem("token")
-                }
-            })
-            .done(function(response) {
-                if (response != "" && response != null) {
-                    if (response.statusCode == 200) {
-                        userId = response.data;
-                    } else if (response.statusCode == 403) {
-                        window.location.href = "403.html"
-                    } else if (response.statusCode == 401) {
-                        localStorage.setItem("accessLinkContinue", "cart.html")
-                        window.location.href = "login.html?#"
-                    } else {
-                        console.log("check response user/getId/token:", response)
-                    }
-                }
-            });
-        // $.ajax({
-        //     method: 'GET',
-        //     url: "http://localhost:8080/cart/count/" + encodeURIComponent(userId),
-        //     headers: { "Authorization": bearerToken },
-        //     data: {
-        //         userId: userId
-        //     },
-
-        //     success: function(response) {
-        //         console.log(response.data + ' totalQuantity');
-        //         totalQuantity = response.data;
-        //         $(cartTotal).text('(' + totalQuantity + ')');
-        //     },
-        //     error: function(error) {
-        //         console.error("Error return productList", error);
-        //     }
-
-        // });
+let userId = 0
+$(document).ready(function () {
+    // get userId by jwt
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/user/getid",
+        headers: { "Authorization": bearerToken },
+        async: false,
+        data: {
+            token: localStorage.getItem("token")
+        }
     })
+        .done(function (response) {
+            if (response != "" && response != null) {
+                if (response.statusCode == 200) {
+                    userId = response.data;
+                } else if (response.statusCode == 403) {
+                    window.location.href = "403.html"
+                } else if (response.statusCode == 401) {
+                    localStorage.setItem("accessLinkContinue", "cart.html")
+                    window.location.href = "login.html?#"
+                } else {
+                    console.log("check response user/getId/token:", response)
+                }
+            }
+        });
     /*Kết thúc đếm số lượng items trong cart */
     /*Bắt đầu nút check all*/
 $(document).ready(function() {
@@ -56,7 +38,7 @@ $(document).ready(function() {
 /*Kết thúc nút check all*/
 
 /*Bắt đầu API /cart*/
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
@@ -64,7 +46,7 @@ $(document).ready(function() {
         data: {
             userId: userId
         },
-        success: function(response) {
+        success: function (response) {
             /*Bắt đầu bảng table các sản phẩm trong cart*/
             var carts = response.data;
             var cartTable = $('#cart-table tbody');
@@ -72,7 +54,7 @@ $(document).ready(function() {
 
             var subtotalValue = 0;
             var subTotal = ('#subtotal');
-            $.each(carts, function(index, cart) {
+            $.each(carts, function (index, cart) {
                 console.log("max Quantity ", cart.maxQuantity)
                 console.log('stock_id ' + cart.stockId);
                 var row =
@@ -134,7 +116,7 @@ $(document).ready(function() {
                 // });
 
                 /*Bắt đầu tính subtotal*/
-                checkedItem.change(function() {
+                checkedItem.change(function () {
 
                     var b = totalItem.text().replace('$', '');
                     var c = parseInt(b);
@@ -149,7 +131,7 @@ $(document).ready(function() {
 
                 // totalQ += currentQuantity;
                 // console.log(totalQ);
-                incBtn.on('click', function() {
+                incBtn.on('click', function () {
                     if (currentQuantity < cart.maxQuantity) {
                         console.log('tang roi');
                         input.val(currentQuantity += 1);
@@ -166,7 +148,7 @@ $(document).ready(function() {
                     }
                 })
 
-                decBtn.on('click', function() {
+                decBtn.on('click', function () {
                     console.log('giam roi');
                     if (currentQuantity > 1) {
                         input.val(currentQuantity -= 1);
@@ -181,41 +163,36 @@ $(document).ready(function() {
                         // $(cartTotal).text('(' + totalQ + ')');
                     }
                 });
-                changQuantity.on('click', function() {
-                        console.log('btn change Quantity')
-                        var quantity = $(this).closest('tr').find('.stock-quantity').val();
-                        console.log(quantity);
-                        console.log('cartId ' + cart.id);
-                        var id = cart.id;
-                        $.ajax({
-                            method: "GET",
-                            url: 'http://localhost:8080/cart/update/' + encodeURIComponent(id) + '/' + quantity,
-                            headers: { "Authorization": bearerToken },
-                            data: {
-                                id: id,
-                                quantity: quantity
-                            },
-                            success: function(response) {
-                                console.log("User created successfully", response);
-                                console.log("User created successfully", response.data);
-                            },
-                            error: function(error) {
-                                console.error("Error creating user", error);
-                            }
-                        })
+                changQuantity.on('click', function () {
+                    console.log('btn change Quantity')
+                    var quantity = $(this).closest('tr').find('.stock-quantity').val();
+                    console.log(quantity);
+                    console.log('cartId ' + cart.id);
+                    var id = cart.id;
+                    $.ajax({
+                        method: "GET",
+                        url: 'http://localhost:8080/cart/update/' + encodeURIComponent(id) + '/' + quantity,
+                        headers: { "Authorization": bearerToken },
+                        data: {
+                            id: id,
+                            quantity: quantity
+                        },
+                        success: function (response) {
+                            console.log("User created successfully", response);
+                            console.log("User created successfully", response.data);
+                        },
+                        error: function (error) {
+                            console.error("Error creating user", error);
+                        }
                     })
-                    // var cartIdQuantity = {
-                    //         id: cart.id,
-                    //         quantity: currentQuantity
-                    //     }
-                    // listCart.push(cartIdQuantity);
-
-
+                })
+                // var cartIdQuantity = {
+                //         id: cart.id,
+                //         quantity: currentQuantity
+                //     }
+                // listCart.push(cartIdQuantity);
+                
                 /*Kết bảng table các sản phẩm trong cart*/
-
-
-
-
             })
 
             $(subTotal).text('$' + subtotalValue);
@@ -224,7 +201,7 @@ $(document).ready(function() {
 
 
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Error return productList", error);
         }
     })
@@ -233,15 +210,15 @@ $(document).ready(function() {
 /*Kết thúc API /cart*/
 /*Bắt đầu nút procceed to checkout */
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $('#to-checkout-btn').click(function() {
+    $('#to-checkout-btn').click(function () {
         var checkboxes = $('input[type="checkbox"].check-item');
         console.log("checkboxs size II " + checkboxes.length);
         console.log("hello checkout btn")
         var listCheckedCart = [];
 
-        $(checkboxes).each(function() {
+        $(checkboxes).each(function () {
             if (this.checked) {
                 var tr = $(this).closest("tr");
                 var quantity = $(tr).find('input.stock-quantity').val();
@@ -294,7 +271,7 @@ $(document).ready(function() {
 //     $(this).closest("tr").remove();
 //     console.log('da remove');
 // });
-$('#cart-table').on('click', '.fa-trash-alt', function() {
+$('#cart-table').on('click', '.fa-trash-alt', function () {
     console.log($(this).attr("cartId"));
     //console.log($(this).closest('tr').attr('id'));
     var cartId = $(this).closest('tr').attr('id');
@@ -308,10 +285,10 @@ $('#cart-table').on('click', '.fa-trash-alt', function() {
             cartId: cartId
         },
 
-        success: function(response) {
+        success: function (response) {
             console.log(response.data);
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Error return productList", error);
         }
 
