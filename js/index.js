@@ -206,7 +206,7 @@ $(document).ready(function() {
                         window.location.href = "403.html"
                     } else if (response.statusCode == 401) {
                         localStorage.setItem("accessLinkContinue", "index.html")
-                        window.location.href = "login.html?#"
+                        window.location.href = "login.html"
                     } else {
                         console.log("check response user/getId/token:", response)
                     }
