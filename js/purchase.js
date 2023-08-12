@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // let bearerToken = "Bearer " + localStorage.getItem("token");
     // get userId by jwt
     $.ajax({
         method: "GET",

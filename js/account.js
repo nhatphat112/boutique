@@ -1,6 +1,59 @@
 var phoneList;
 let addressList;
 $(document).ready(function() {
+    /*Kết thúc đếm số lượng items trong cart */
+    $("#profile").show();
+    // Ẩn hiện các trang khi bấm vào các đề mục
+    $('.toggle-link').click(function(event) {
+        event.preventDefault();
+        var target = $(this).data('target');
+        $('.toggle-page').hide();
+        $('#' + target).show();
+    });
+    // Kết thúc ẩn hiện các trang khi bấm vào các đề mục
+
+    // //Bắt đầu getId
+    // var userId;
+    // //  function getUserId() {
+    // $.ajax({
+    //     method: "GET",
+    //     url: "http://localhost:8080/user/getid",
+    //     headers: { Authorization: bearerToken },
+    //     async: false,
+    //     data: {
+    //         token: localStorage.getItem("token"),
+    //     },
+    // }).done(function(response) {
+    //     userId = response.data;
+    //     console.log('userId ' + userId);
+    //     return response;
+    // });
+    //Kết thúc getId
+    $.ajax({
+            method: "GET",
+            url: "http://localhost:8080/user/getUser",
+            headers: { "Authorization": bearerToken },
+            data: {
+                token: localStorage.getItem("token"),
+            },
+            async: false,
+        })
+        .done(function(response) {
+            if (response != "" && response != null) {
+                if (response.statusCode == 200) {
+                    console.log(response);
+                    var user = response.data;
+                    var email = user.email;
+                    console.log(user.name + ' username');
+                    $('.username').text(user.name);
+                    $('.email').text(user.email);
+                    $('input#username').val(user.name);
+                    console.log(email);
+                } else {
+                    console.log("check response user/getUser/token:", response);
+                }
+            }
+        });
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/phone/user?id=" + userId,
@@ -31,9 +84,10 @@ $(document).ready(function() {
         }
 
     });
+    console.log(addressList + ' addressList')
 
     //Kiểm tra xem có số địa chỉ để show không
-    if (addressList !== null && addressList !== "") {
+    if (addressList != undefined && addressList != "") {
         //show hàng address
         var showAddress = document.getElementById("show-address-list");
         showAddress.classList.remove("d-none");
@@ -55,7 +109,7 @@ $(document).ready(function() {
     //Kết thúc kiểm tra xem có địa chỉ để show không
 
     //Kiểm tra xem có số điện thoại để show không
-    if (phoneList !== null && phoneList !== "") {
+    if (phoneList != undefined && phoneList != "") {
         //show hàng phone number
         var showPhone = document.getElementById("show-phone-list");
         showPhone.classList.remove("d-none");
@@ -70,39 +124,6 @@ $(document).ready(function() {
 
     }
     //Kết thúc kiểm tra xem có số điện thoại để show không
-
-    /*Kết thúc đếm số lượng items trong cart */
-    $("#profile").show();
-    // Ẩn hiện các trang khi bấm vào các đề mục
-    $('.toggle-link').click(function(event) {
-        event.preventDefault();
-        var target = $(this).data('target');
-        $('.toggle-page').hide();
-        $('#' + target).show();
-    });
-    // Kết thúc ẩn hiện các trang khi bấm vào các đề mục
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:8080/user/getUser",
-        headers: { "Authorization": bearerToken },
-        data: {
-            userId: userId,
-        },
-        async: false,
-    }).done(function(response) {
-        if (response != null && response != "") {
-            console.log(response);
-            var user = response.data;
-            var email = user.email;
-            console.log(username);
-            // $('.username').text(user.name);
-            $('.email').text(user.email);
-            $('input#username').val(user.name);
-            console.log(email);
-        } else {
-            console.log('error');
-        }
-    });
 
 });
 

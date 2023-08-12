@@ -33,7 +33,7 @@ $(document).ready(function() {
                 }).done(function(response) {
                     if (response != "" && response != null) {
                         if (response.statusCode == 200) {
-                            localStorage.setItem("userId", response.data);
+                            // localStorage.setItem("userId", response.data);
                         } else {
                             console.log("check response user/getId/token:", response);
                         }
