@@ -607,6 +607,11 @@ function getUserId() {
             if (response != null && response != "") {
                 if (response.statusCode == 200) {
                     userId = response.data;
+                }else if (response.statusCode == 403) {
+                    window.location.href = "403.html"
+                } else if (response.statusCode == 401) {
+                    localStorage.setItem("accessLinkContinue", "checkout.html")
+                    window.location.href = "login.html?#"
                 }
             }
         },
