@@ -1,10 +1,12 @@
+import { getToken,getBearerToken } from "./token.js";
 let userId = 0
 $(document).ready(function () {
     // get userId by jwt
+    console.log("OK")
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/user/getid",
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
         async: false,
         data: {
             token: localStorage.getItem("token")
@@ -43,12 +45,18 @@ $(document).ready(function () {
     $.ajax({
         method: 'POST',
         url: "http://localhost:8080/cart",
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
         data: {
             userId: userId
         },
         success: function (response) {
             /*Bắt đầu bảng table các sản phẩm trong cart*/
+         if (response.statusCode == 403) {
+            window.location.href = "403.html"
+        } else if (response.statusCode == 401) {
+            localStorage.setItem("accessLinkContinue", "cart.html")
+            window.location.href = "login.html?#"
+        }
             var carts = response.data;
             var cartTable = $('#cart-table tbody');
             console.log("success congratulation", carts)
@@ -156,15 +164,22 @@ $(document).ready(function () {
                     console.log(quantity);
                     console.log('cartId ' + cart.id);
                     var id = cart.id;
+                    
                     $.ajax({
                         method: "GET",
                         url: 'http://localhost:8080/cart/update/' + encodeURIComponent(id) + '/' + quantity,
-                        headers: { "Authorization": bearerToken },
+                        headers: { "Authorization": getBearerToken() },
                         data: {
                             id: id,
                             quantity: quantity
                         },
                         success: function (response) {
+                         if (response.statusCode == 403) {
+                            window.location.href = "403.html"
+                        } else if (response.statusCode == 401) {
+                            localStorage.setItem("accessLinkContinue", "cart.html")
+                            window.location.href = "login.html?#"
+                        }
                             console.log("User created successfully", response);
                             console.log("User created successfully", response.data);
                         },
@@ -262,16 +277,21 @@ $('#cart-table').on('click', '.fa-trash-alt', function () {
     //console.log($(this).closest('tr').attr('id'));
     var cartId = $(this).closest('tr').attr('id');
     $(this).closest('tr').remove();
-
     $.ajax({
         method: 'GET',
         url: "http://localhost:8080/cart/delete/" + encodeURIComponent(cartId),
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
         data: {
             cartId: cartId
         },
 
         success: function (response) {
+        if (response.statusCode == 403) {
+            window.location.href = "403.html"
+        } else if (response.statusCode == 401) {
+            localStorage.setItem("accessLinkContinue", "cart.html")
+            window.location.href = "login.html?#"
+        }
             console.log(response.data);
         },
         error: function (error) {

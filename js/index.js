@@ -1,3 +1,5 @@
+import { getBearerToken, getToken } from "./token.js";
+
 // let userId = 0;
 $(document).ready(function() {
     // console.log("index.js active")
@@ -188,36 +190,12 @@ $(document).ready(function() {
         var colorId = $("#color-selector").val();
         var quantity = $("#input-quantity").val();
         // get userId by jwt
-        $.ajax({
-                method: "GET",
-                url: "http://localhost:8080/user/getid",
-                headers: { "Authorization": bearerToken },
-                async: false,
-                data: {
-                    token: localStorage.getItem("token")
-                }
-
-            })
-            .done(function(response) {
-                if (response != "" && response != null) {
-                    if (response.statusCode == 200) {
-                        userId = response.data;
-                    } else if (response.statusCode == 403) {
-                        window.location.href = "403.html"
-                    } else if (response.statusCode == 401) {
-                        localStorage.setItem("accessLinkContinue", "index.html")
-                        window.location.href = "login.html"
-                    } else {
-                        console.log("check response user/getId/token:", response)
-                    }
-                }
-            });
-
+        let userId =  getUserId()
         $.ajax({
             method: "GET",
-            url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
+            url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + Number(userId),
             async: false,
-            headers: { "Authorization": bearerToken },
+            headers: { "Authorization": getBearerToken() },
             data: {
                 productId: productId,
                 colorId: colorId,
@@ -227,7 +205,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response != null && response != "") {
                     if (response.statusCode == 200) {
-                        window.location.href = "cart.html"
+                         window.location.href = "cart.html"
                     } else {
                         console.log("ERROR :", response)
                     }
@@ -242,3 +220,26 @@ $(document).ready(function() {
     });
     /*Kết thúc submit add to cart*/
 });
+function getUserId() {
+    let userId = "";
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/user/getid",
+        headers: { Authorization: getBearerToken() },
+        async: false,
+        data: {
+            token: localStorage.getItem("token"),
+        },
+        success: function(response) {
+            if (response != null && response != "") {
+                if (response.statusCode == 200) {
+                    userId = response.data;
+                }
+            }
+        },
+        error: function(error) {
+            console.error("Error getting user ID", error);
+        }
+    });
+    return userId;
+}

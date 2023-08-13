@@ -1,29 +1,8 @@
+import { getBearerToken, getToken } from "./token.js";
+
 $(document).ready(function() {
     // get userId by jwt
-    $.ajax({
-            method: "GET",
-            url: "http://localhost:8080/user/getid",
-            headers: { "Authorization": bearerToken },
-            async: false,
-            data: {
-                token: localStorage.getItem("token")
-            }
-
-        })
-        .done(function(response) {
-            if (response != "" && response != null) {
-                if (response.statusCode == 200) {
-                    userId = response.data;
-                } else if (response.statusCode == 403) {
-                    window.location.href = "403.html"
-                } else if (response.statusCode == 401) {
-                    localStorage.setItem("accessLinkContinue", "checkout.html")
-                    window.location.href = "login.html?#"
-                } else {
-                    console.log("check response user/getId/token:", response)
-                }
-            }
-        });
+    let userId = getUserId()
     // checkedCartList = JSON.stringify([{
     //     "id": 1,
     //     "name": "OontZ Angle 3 Bluetooth Speaker",
@@ -63,7 +42,7 @@ $(document).ready(function() {
         method: "GET",
         url: "http://localhost:8080/phone/user?id=" + userId,
         async: false,
-        headers: { "Authorization": bearerToken }
+        headers: { "Authorization": getBearerToken() }
     }).done(function(response) {
         if (response != null && response != "") {
             if (response.statusCode == 200) {
@@ -95,7 +74,7 @@ $(document).ready(function() {
         method: "GET",
         url: "http://localhost:8080/country",
         async: false,
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
     }).done(function(response) {
         if (response != null && response != "") {
             countryList = response.data;
@@ -105,7 +84,7 @@ $(document).ready(function() {
         method: "GET",
         url: "http://localhost:8080/city-province",
         async: false,
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
     }).done(function(response) {
         if (response != null && response != "") {
             townCityList = response.data;
@@ -440,7 +419,7 @@ $(document).ready(function() {
                     method: "POST",
                     url: "http://localhost:8080/phone/save",
                     async: false,
-                    headers: { "Authorization": bearerToken },
+                    headers: { "Authorization": getBearerToken() },
                     dataType: "json", // Cấu hình kiểu dữ liệu là JSON
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({
@@ -465,7 +444,7 @@ $(document).ready(function() {
                 $.ajax({
                     method: "POST",
                     url: "http://localhost:8080/address/save",
-                    headers: { "Authorization": bearerToken },
+                    headers: { "Authorization": getBearerToken() },
                     async: false,
                     dataType: "json", // Cấu hình kiểu dữ liệu là JSON
                     contentType: "application/json; charset=utf-8",
@@ -495,13 +474,13 @@ $(document).ready(function() {
                     Number(currentItem.price) * Number(currentItem.quantity);
             });
             // save order
-            idOrderSaved = "";
-            saveOrderIsSuccess = false;
-            saveOrderDetailIsSuccess = false;
+            let idOrderSaved = "";
+            let saveOrderIsSuccess = false;
+             let saveOrderDetailIsSuccess = false;
             let message = ""
             $.ajax({
                 method: "POST",
-                headers: { "Authorization": bearerToken },
+                headers: { "Authorization": getBearerToken() },
                 url: "http://localhost:8080/order/save",
                 async: false,
                 dataType: "json", // Cấu hình kiểu dữ liệu là JSON
@@ -528,7 +507,7 @@ $(document).ready(function() {
                     // delete cart at database
                 $.ajax({
                     method: "POST",
-                    headers: { "Authorization": bearerToken },
+                    headers: { "Authorization": getBearerToken() },
                     url: "http://localhost:8080/cart/delete/ids",
                     async: true,
                     dataType: "json", // Cấu hình kiểu dữ liệu là JSON
@@ -614,3 +593,26 @@ $(document).ready(function() {
         $("#total-order").text("$" + total)
     })
 });
+function getUserId() {
+    let userId = "";
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8080/user/getid",
+        headers: { Authorization: getBearerToken() },
+        async: false,
+        data: {
+            token: localStorage.getItem("token"),
+        },
+        success: function(response) {
+            if (response != null && response != "") {
+                if (response.statusCode == 200) {
+                    userId = response.data;
+                }
+            }
+        },
+        error: function(error) {
+            console.error("Error getting user ID", error);
+        }
+    });
+    return userId;
+}
