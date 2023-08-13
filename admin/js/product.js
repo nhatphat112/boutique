@@ -1,5 +1,4 @@
 // var categoryList = [];
-console.log('Bear token ' + bearerToken);
 $(document).ready(function() {
     console.log('xin chao')
     var productTable = $('#product-table tbody');
@@ -70,7 +69,7 @@ $(document).ready(function() {
         $("#form-display").show();
         $("#product-list").hide();
         $('#save-btn').click(function(event) {
-            event.preventDefault();
+            // event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
             var soldQuantity = $('#sold-quantity').val();
@@ -162,7 +161,7 @@ $(document).ready(function() {
         $("#product-list").hide();
         $("#sold-quantity-group").addClass("d-none");
         $('#save-btn').click(function(event) {
-            event.preventDefault();
+            // event.preventDefault();
             var name = $('input#name').val();
             console.log(name);
             var soldQuantity = 0;

@@ -8,6 +8,7 @@ var username;
 //API get name
 let bearerToken = "Bearer " + localStorage.getItem("token");
 $(document).ready(function() {
+    bearerToken = "Bearer " + localStorage.getItem("token");
     $.ajax({
 
         method: "GET",
