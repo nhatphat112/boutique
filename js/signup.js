@@ -5,18 +5,12 @@ $(document).ready(function () {
         let formIsValue = true
         // get all item in form
         let email = $("#email").val()
-        console.log("check email :", email)
         let username = $("#username").val()
-        console.log("check username :", username)
         let password = $("#pass").val()
-        console.log("check password :", password)
         let confirmPassword = $("#confirmPass").val()
-        console.log("check confirmPassword :", confirmPassword)
         let alternateAddressCheckbox = $("#alternateAddressCheckbox").prop("checked")
-        console.log("check alternateAddressCheckbox :", alternateAddressCheckbox)
         // catch exception email
         let emailWarning = $("#email-warning")
-        console.log("check emailWarning :", emailWarning)
         if (email == "") {
             formIsValue = false;
             emailWarning.text("The email is not empty!")
@@ -98,11 +92,7 @@ $(document).ready(function () {
         }
 
         if (alternateAddressCheckbox == true && formIsValue == true) {
-            console.log("Form Is Validated")
             let submitWarning = $("#submit-warning")
-
-
-
             $.ajax({
                 url: 'http://localhost:8080/signup',
                 type: 'POST',
@@ -118,7 +108,6 @@ $(document).ready(function () {
                 async: false,
                 success: function (response) {
                     if (response != "" && response != "") {
-                        console.log("check response :", response)
                         if (response.statusCode == 200) {
                             localStorage.setItem("userInfo", JSON.stringify(response.data.userInfo))
                             localStorage.setItem("token", response.data.token)
@@ -137,8 +126,6 @@ $(document).ready(function () {
         }
 
     })
-
-
 })
 function isValidEmail(email) {
     // Regex kiểm tra định dạng email
@@ -148,7 +135,6 @@ function isValidEmail(email) {
 function isSpecialCharacter(char) {
     // Sử dụng biểu thức chính quy để kiểm tra ký tự đặc biệt
     const specialCharacterRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-
     return specialCharacterRegex.test(char);
 }
 function isWhitespace(str) {

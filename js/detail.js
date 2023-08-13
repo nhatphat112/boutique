@@ -26,8 +26,6 @@ $(document).ready(function () {
                 stockResponseList = result.data.stockResponseList;
 
                 $.each(stockResponseList, function (index, currentItem) {
-                    console.log(" maxQuantityStock_ONe " + currentItem.quantity);
-
                     contentDetailMini += `<div class="swiper h-auto mb-3"><img stock-id=${currentItem.id} class="w-100"
                      src = "img/${currentItem.image}" alt = "..." ></div >`;
                     contentDetailMain = `<div id=${currentItem.colorId}>
@@ -38,9 +36,6 @@ $(document).ready(function () {
                     price = currentItem.price;
 
                     contentProductColor += `<option stock-id=${currentItem.id} img=${currentItem.image} class="dropdown-item" value=${currentItem.colorId} maxQuantity=${currentItem.quantity} >${currentItem.colorName}</option>`;
-
-                    //contentProductColor += `<a color-id=${currentItem.colorId} class="dropdown-item"
-                    //href = "#!" > $ { currentItem.colorName } < /a>`
                 });
                 let reviewList = result.data.reviewList;
                 let starAverage = 0;
@@ -101,14 +96,11 @@ $(document).ready(function () {
     let quantityDisplay = $('#product-quantity').addClass('d-none');
     $('#color-selector').change(function () {
         var maxQuantityStock = $('#color-selector option:selected').attr("maxQuantity");
-        console.log(" maxQuantityStock " + maxQuantityStock);
         if (maxQuantityStock > 0) {
-            console.log('lon hon 0 roi');
             $('#sold-out').addClass('d-none');
             $("#btn-submit-add-to-cart").removeClass("d-none")
             quantityDisplay.removeClass('d-none');
         } else {
-            console.log('nho hon 0 roi');
             $('#sold-out').removeClass('d-none');
             $("#btn-submit-add-to-cart").addClass("d-none")
             $('#product-quantity').toggleClass('d-none');
@@ -116,12 +108,7 @@ $(document).ready(function () {
         }
     })
     $("img.w-100").click(function () {
-        // console.log('you click on swiper')
         var miniImg = $(this);
-        // var imgSrc = miniImg.attr('src');
-        // console.log(imgSrc)
-
-
         $.each(stockResponseList, function (index, stock) {
             if ($(miniImg).attr('stock-id') == stock.id) {
                 console.log('xin chao2')
@@ -141,7 +128,6 @@ $(document).ready(function () {
     $('#color-selector').change(function () {
         var selectStock = $('#color-selector option:selected').attr('stock-id');
         var img = $('#color-selector option:selected').attr('img');
-        console.log(img + ' img');
         contentDetailMain = `<div>
                 <a class="glightbox product-view" href="img/${img}"
                 data-gallery="gallery2" data-glightbox="Product item 1"><img
@@ -150,7 +136,6 @@ $(document).ready(function () {
         $("#wrapper-main").html(contentDetailMain)
         $.each(stockResponseList, function (index, stock) {
             if (selectStock == stock.id) {
-                console.log('xin chao3')
                 price = stock.price;
                 $('#price').text('$' + price);
                 contentDetailMain = `<div>
@@ -165,14 +150,10 @@ $(document).ready(function () {
 
         });
         $("#btn-submit-add-to-cart").click(function () {
-            console.log("click on add to cartx");
             var colorId = $("#color-selector").val();
             // var selectedOption = $('#color-selector option:selected');
             // console.log(selectedOption.value);
-            console.log(" colorId " + colorId);
             var quantity = $("#input-quantity").val();
-            console.log(" quantity " + quantity);
-            console.log(" productId " + productId);
             $.ajax({
                 method: "GET",
                 url: "http://localhost:8080/user/getid",
@@ -209,8 +190,6 @@ $(document).ready(function () {
                     userId: userId
                 },
                 success: function (response) {
-                    console.log("User created successfully", response)
-                    console.log("User created successfully", response.data)
                     window.location.href = "cart.html"
                 },
                 error: function (error) {

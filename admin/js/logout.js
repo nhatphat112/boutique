@@ -2,7 +2,6 @@ function logout() {
     window.location.href = "/index.html"
     localStorage.clear();
 }
-
 //mặc định tên là username;
 var username;
 //API get name

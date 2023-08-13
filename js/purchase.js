@@ -1,45 +1,12 @@
 import { getBearerToken, getToken } from "./token.js";
 $(document).ready(function () {
-  // let bearerToken = "Bearer " + localStorage.getItem("token");
-  // get userId by jwt
   let userId = getUserId();
-  // show list product was ordered
-  // get userId by jwt
-  // $.ajax({
-  //   method: "GET",
-  //   url: "http://localhost:8080/user/getId/token" + orderDetailIdNeedDelete,
-  //   headers: { "Authorization": bearerToken },
-  //   async: false,
-  //   dataType:"json",
-  //   contentType:"application/json",
-
-  //   data:JSON.stringify(
-  //     {"token":localStorage.getItem("token")}
-  //   )
-
-  // })
-  //   .done(function (response) {
-  //     if (response != "" && response != null) {
-  //       if (response.statusCode == 200) {
-  //         userId = response.data;
-  //       } else if(response.statusCode==403){
-  //         window.location.href="403.html"
-  //       } else if(response.statusCode==401){
-  //         window.location.href="login.html"
-  //       }
-  //       else {
-  //         console.log("check response user/getId/token:",response)
-  //       }
-  //     }
-  //   });
-  // show list product was ordered
   $.ajax({
     type: "GET",
     url: "http://localhost:8080/order-detail/user?id=" + userId,
     async: false,
     headers: { Authorization: getBearerToken() },
   }).done(function (res) {
-    console.log("check response :", res);
     if (res.data != null && res.data != "") {
       let theadProduct = document.getElementById("thead-product");
       let productContainerContent = "";
@@ -162,7 +129,6 @@ $(document).ready(function () {
         .closest("tr")
         .find(".alert-warning")
         .addClass("d-none");
-      console.log("check warningAlert:", warningAlert);
     } else {
       let reviewForm = $(this)
         .closest(".product-item")
@@ -221,7 +187,6 @@ $(document).ready(function () {
   });
   $("#btn-quick-view-confirm").click(function () {
     let buttonQuickViewConfirm = $(this);
-    console.log("check buttonQuickViewConfirm :", buttonQuickViewConfirm);
     if (buttonQuickViewConfirm.hasClass("btn-delete-ordered")) {
       buttonQuickViewConfirm.removeClass("btn-delete-ordered");
       let deleteIsSuccess = true;
@@ -233,7 +198,6 @@ $(document).ready(function () {
         headers: { Authorization: getBearerToken() },
         async: false,
       }).done(function (response) {
-        console.log("check response:", response);
         if (response != "" && response != null) {
           if (response.statusCode == 200) {
             deleteIsSuccess = true;
@@ -273,7 +237,6 @@ function getUserId() {
           localStorage.setItem("accessLinkContinue", "purchase.html");
           window.location.href = "login.html";
         } else {
-          console.log("check response user/getId/token:", response);
         }
       }
     },

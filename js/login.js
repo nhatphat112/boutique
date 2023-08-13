@@ -3,14 +3,9 @@ $(document).ready(function () {
         window.location.href = "index.html"
     }
     $("#btn-login").click(function () {
-        // lấy gtri của thẻ input có id là user
         var email = $("#email").val();
         var password = $("#pass").val();
         let roleId = 0;
-        // Xuất giá trị ra trên tab console trên trình duyệt
-        // console.log("username : ",username, " password : ",password);
-
-        // ajax sẽ cho phép gọi đường dẫn web ngầm và lấy gtri của đg dẫn đó
         $.ajax({
             method: "POST",
             url: "http://localhost:8080/signin",
@@ -20,7 +15,6 @@ $(document).ready(function () {
             },
         }).done(function (result) {
             //khi gọi API thì kết quả sẽ
-            console.log(result);
             if (result.statusCode == 200) {
                 let bearerToken = "Bearer " + result.data;
                 // lưu token vào bộ nhớ của browser
@@ -84,10 +78,10 @@ $(document).ready(function () {
                         window.location.href = accessLinkContinue;
                     }
                 }
-                else{
-                    if (accessLinkContinue.startsWith(location.origin+"/admin")) {
+                else {
+                    if (accessLinkContinue.startsWith(location.origin + "/admin")) {
                         window.location.href = "index.html";
-                    }else{
+                    } else {
                         window.location.href = accessLinkContinue;
                     }
                 }

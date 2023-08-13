@@ -1,25 +1,12 @@
 import { getBearerToken, getToken } from "./token.js";
 
-$(document).ready(function() {
+$(document).ready(function () {
     // get userId by jwt
     let userId = getUserId()
-    // checkedCartList = JSON.stringify([{
-    //     "id": 1,
-    //     "name": "OontZ Angle 3 Bluetooth Speaker",
-    //     "quantity": 10,
-    //     "price": 28
-    // }])
-    //var checkedCart = localStorage.getItem('checkedCartJSON');
-    //localStorage.setItem("checkedCartId", checkedCartList)
-    // console.log(userId + " :userId");
-    // console.log("check userId :", userId);
-    // get list phone and list address by userId from localstorage
-
     let phoneList;
     let addressList;
     // get checkedCartList
     var checkedCartList = JSON.parse(localStorage.getItem("checkedCart"));
-    console.log("check checkedCartList:", checkedCartList);
     if (checkedCartList == null || checkedCartList == "") {
         $("#place-order").addClass("d-none")
         $("#order-warning").removeClass("d-none")
@@ -43,7 +30,7 @@ $(document).ready(function() {
         url: "http://localhost:8080/phone/user?id=" + userId,
         async: false,
         headers: { "Authorization": getBearerToken() }
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             if (response.statusCode == 200) {
                 phoneList = response.data;
@@ -61,7 +48,7 @@ $(document).ready(function() {
         url: "http://localhost:8080/address/user?id=" + userId,
         headers: { "Authorization": bearerToken },
         async: false,
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             addressList = response.data;
         }
@@ -75,7 +62,7 @@ $(document).ready(function() {
         url: "http://localhost:8080/country",
         async: false,
         headers: { "Authorization": getBearerToken() },
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             countryList = response.data;
         }
@@ -85,19 +72,14 @@ $(document).ready(function() {
         url: "http://localhost:8080/city-province",
         async: false,
         headers: { "Authorization": getBearerToken() },
-    }).done(function(response) {
+    }).done(function (response) {
         if (response != null && response != "") {
             townCityList = response.data;
         }
     });
-    console.log("check phoneList :", phoneList);
-    console.log("check addressList:", addressList);
-    console.log("check countryList:", countryList);
-    console.log("check townCityList:", townCityList);
-
     // show phone number
     let content = "";
-    phoneList.map(function(currentItem, index) {
+    phoneList.map(function (currentItem, index) {
         content += `
           <input
           type="radio"
@@ -111,7 +93,7 @@ $(document).ready(function() {
     document.getElementById("phone-number-id").innerHTML = content;
     // show address
     content = "";
-    addressList.map(function(currentItem, index) {
+    addressList.map(function (currentItem, index) {
         if (currentItem.cityOrProvinceName == "") {
             content += `
           <input
@@ -143,14 +125,14 @@ $(document).ready(function() {
     document.getElementById("address-id").innerHTML = content;
     // show country
     content = "";
-    countryList.map(function(currentItem, index) {
+    countryList.map(function (currentItem, index) {
         content += `<option value=${currentItem.id}>${currentItem.name}</option>`;
     });
     document.getElementById("country").insertAdjacentHTML("beforeend", content);
 
     // show town/city
     content = "";
-    townCityList.map(function(currentItem, index) {
+    townCityList.map(function (currentItem, index) {
         content += `<option value=${currentItem.id}>${currentItem.name}</option>`;
     });
     document.getElementById("townCity").insertAdjacentHTML("beforeend", content);
@@ -162,14 +144,10 @@ $(document).ready(function() {
     let total = 0;
     //$.each(list, function(currentItem)
     if (checkedCartList != null && checkedCartList != "") {
-        checkedCartList.forEach(function(currentItem) {
+        checkedCartList.forEach(function (currentItem) {
             //checkedCartList.map(function(currentItem, index, arr) {
             subTotal = currentItem.quantity * currentItem.price;
             totalOrder += subTotal;
-            console.log("gia sp " + subTotal);
-            console.log("tong gia sp " + total);
-            console.log("currenTotal :", total);
-
             content += `    
                           <li
                             class="d-flex align-items-center justify-content-between"
@@ -218,13 +196,11 @@ $(document).ready(function() {
 
     // })
     options.forEach((option) => {
-        option.addEventListener("change", function() {
+        option.addEventListener("change", function () {
             if (this.value === "newAddress") {
-                console.log("Option new is selected");
                 newAddressInput.style.display = "block";
             }
             if (this.value !== "newAddress") {
-                console.log("Option old is fail selected" + this.value);
                 newAddressInput.style.display = "none";
             }
         });
@@ -232,20 +208,18 @@ $(document).ready(function() {
 
     const numberOption = document.getElementsByName("numberOption");
     numberOption.forEach((option) => {
-        option.addEventListener("change", function() {
+        option.addEventListener("change", function () {
             if (this.value === "newNumber") {
-                console.log("Option number new is selected");
                 newNumberInput.style.display = "block";
             }
             if (this.value !== "newNumber") {
-                console.log("Option number old is fail selected" + this.value);
                 newNumberInput.style.display = "none";
             }
         });
     });
 
     // reset follow fee address
-    $("input[name='addressOption']").click(function(event) {
+    $("input[name='addressOption']").click(function (event) {
         // event.preventDefault()
 
         if ($(this).val() != "newAddress") {
@@ -258,37 +232,36 @@ $(document).ready(function() {
         }
     });
 
-    $("#country").change(function() {
+    $("#country").change(function () {
         idCountryAddress = $(this).val();
         let townCityContainer = Array.from($("#townCity-container"));
         if (idCountryAddress == "191") {
-            townCityContainer.map(function(currentItem) {
+            townCityContainer.map(function (currentItem) {
                 currentItem.classList.remove("d-none");
             });
         } else {
-            townCityContainer.map(function(currentItem) {
+            townCityContainer.map(function (currentItem) {
                 currentItem.classList.add("d-none");
             });
         }
         let addressLineContainer = Array.from($("#address-line-container")).map(
-            function(currentItem) {
+            function (currentItem) {
                 currentItem.classList.remove("d-none");
             }
         );
     });
-    $("#townCity").change(function() {
+    $("#townCity").change(function () {
         idTownAddress = $(this).val();
-        console.log("check idtownAddress :", idTownAddress);
     });
 
     let checkoutPhoneValid = true;
     let checkoutAddressValid = true;
     let phoneIsSelect = false;
-    $("#place-order").click(function(event) {
+    $("#place-order").click(function (event) {
         checkoutAddressValid = true;
         checkoutPhoneValid = true;
         // hidden message require select phone number
-        Array.from(document.getElementsByClassName("phone-required")).map(function(
+        Array.from(document.getElementsByClassName("phone-required")).map(function (
             currentItem
         ) {
             currentItem.classList.add("d-none");
@@ -307,27 +280,22 @@ $(document).ready(function() {
 
         event.preventDefault();
         let phoneNumbers = document.getElementsByName("numberOption");
-        console.log("check phoneNumbers", phoneNumbers);
-        Array.from(phoneNumbers).map(function(currentItem) {
+        Array.from(phoneNumbers).map(function (currentItem) {
             if (currentItem.checked) {
-                console.log("check currentItem :", currentItem.value);
                 if (currentItem.value != "newNumber") {
                     idPhoneNumberSelected = currentItem.value;
                 } else {
                     newPhoneNumber = document.getElementById("newPhoneNumber").value;
-                    console.log("checkout newPhoneNumber:", newPhoneNumber);
                     if (newPhoneNumber == null || newPhoneNumber == "") {
                         checkoutPhoneValid = false;
-                        // document.getElementsByClassName('phone-warnning')[0].classList.remove('d-none')
-                        // console.log(document.getElementsByClassName('phone-warnning'))
                         Array.from(document.getElementsByClassName("phone-warnning")).map(
-                            function(currentItem) {
+                            function (currentItem) {
                                 currentItem.classList.remove("d-none");
                             }
                         );
                     } else {
                         Array.from(document.getElementsByClassName("phone-warnning")).map(
-                            function(currentItem) {
+                            function (currentItem) {
                                 currentItem.classList.add("d-none");
                             }
                         );
@@ -340,7 +308,7 @@ $(document).ready(function() {
         if (phoneIsSelect == false) {
             checkoutPhoneValid = false;
             Array.from(document.getElementsByClassName("phone-required")).map(
-                function(currentItem) {
+                function (currentItem) {
                     currentItem.classList.remove("d-none");
                 }
             );
@@ -348,10 +316,8 @@ $(document).ready(function() {
 
         // address
         let address = document.getElementsByName("addressOption");
-        console.log("check phoneNumbers", address);
-        Array.from(address).map(function(currentItem) {
+        Array.from(address).map(function (currentItem) {
             if (currentItem.checked) {
-                console.log("check currentItem :", currentItem.value);
                 if (currentItem.value != "newAddress") {
                     idAddressSelected = currentItem.value;
                 } else {
@@ -409,9 +375,6 @@ $(document).ready(function() {
                 checkoutAddressValid = false;
             }
         }
-        console.log("checkoutAddressValid :", checkoutAddressValid)
-        console.log("checkoutPhoneValid :", checkoutPhoneValid)
-
         if (checkoutAddressValid == true && checkoutPhoneValid == true) {
 
             if (idPhoneNumberSelected == null || idPhoneNumberSelected == "") {
@@ -426,21 +389,15 @@ $(document).ready(function() {
                         userId: userId,
                         phoneNumber: newPhoneNumber,
                     }),
-                }).done(function(response) {
+                }).done(function (response) {
                     if (response != null && response != "") {
                         idPhoneNumberSelected = response.data.id;
                     }
                 });
             }
-            console.log("check idPhoneNumberSelected:", idPhoneNumberSelected);
             if (newAddress == true) {
                 idTownAddress =
                     idTownAddress == "" || idTownAddress == "null" ? 64 : idTownAddress;
-                console.log(userId);
-                console.log(idCountryAddress);
-                console.log(idTownAddress);
-                console.log(newDetailAddress);
-
                 $.ajax({
                     method: "POST",
                     url: "http://localhost:8080/address/save",
@@ -449,34 +406,27 @@ $(document).ready(function() {
                     dataType: "json", // Cấu hình kiểu dữ liệu là JSON
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({
-                            userId: userId,
-                            countryId: idCountryAddress,
-                            cityProvinceId: idTownAddress,
-                            detail: newDetailAddress,
-                        }
-                        //   {
-                        //     "userId":userId,
-                        //     "countryId":idCountryAddress,
-                        //     "cityProvinceId":idTownAddress,
-                        //     "detail":newDetailAddress
-                        // }
+                        userId: userId,
+                        countryId: idCountryAddress,
+                        cityProvinceId: idTownAddress,
+                        detail: newDetailAddress,
+                    }
                     ),
-                }).done(function(response) {
+                }).done(function (response) {
                     if (response != null && response != "") {
                         idAddressSelected = response.data.id;
                     }
                 });
             }
             // save orderDetail
-            console.log("Validation");
-            checkedCartList.forEach(function(currentItem) {
+            checkedCartList.forEach(function (currentItem) {
                 currentItem.price =
                     Number(currentItem.price) * Number(currentItem.quantity);
             });
             // save order
             let idOrderSaved = "";
             let saveOrderIsSuccess = false;
-             let saveOrderDetailIsSuccess = false;
+            let saveOrderDetailIsSuccess = false;
             let message = ""
             $.ajax({
                 method: "POST",
@@ -493,18 +443,17 @@ $(document).ready(function() {
                     total: total,
                     orderDetailSaveRequests: checkedCartList
                 }),
-            }).done(function(response) {
+            }).done(function (response) {
                 if (response != null && response != "") {
                     message = response.message
                     saveOrderIsSuccess = (response.statusCode == 200) ? true : false
                 }
             });
-            console.log("check saveOrderIsSuccess:", saveOrderIsSuccess)
             if (saveOrderIsSuccess) {
                 console.log(JSON.stringify({
-                        checkedCartListIds: checkedCartList
-                    }))
-                    // delete cart at database
+                    checkedCartListIds: checkedCartList
+                }))
+                // delete cart at database
                 $.ajax({
                     method: "POST",
                     headers: { "Authorization": getBearerToken() },
@@ -515,8 +464,7 @@ $(document).ready(function() {
                     data: JSON.stringify({
                         ids: checkedCartList
                     }),
-                }).done(function(response) {
-                    console.log("check response cart/delete:", response)
+                }).done(function (response) {
                     if (response != null && response != "") {
                         message = response.message
 
@@ -532,13 +480,9 @@ $(document).ready(function() {
             }
         }
     });
-    $("#confirm-address").click(function(event) {
-        console.log("active confirm address")
-        console.log("check checkoutAddressValid before:", checkoutAddressValid)
-
+    $("#confirm-address").click(function (event) {
         event.preventDefault()
         checkoutAddressValid = true
-        console.log("check newAddress:", newAddress)
         if (newAddress == true) {
             newDetailAddress = document.getElementById("address").value;
             if (idCountryAddress == null || idCountryAddress == "") {
@@ -554,8 +498,6 @@ $(document).ready(function() {
 
             if (idCountryAddress == "191") {
                 if (idTownAddress == null || idTownAddress == "") {
-                    console.log("check checkoutAddressValid after1:", checkoutAddressValid)
-
                     checkoutAddressValid = false;
                     document
                         .getElementById("town-ity-address-required")
@@ -567,8 +509,6 @@ $(document).ready(function() {
                 }
             }
             if (newDetailAddress == null || newDetailAddress == "") {
-                console.log("check checkoutAddressValid after2:", checkoutAddressValid)
-
                 checkoutAddressValid = false;
                 document
                     .getElementById("address-line-warnning")
@@ -579,15 +519,12 @@ $(document).ready(function() {
                     .classList.add("d-none");
             }
         }
-        console.log("check checkoutAddressValid after3:", checkoutAddressValid)
-
         if (idCountryAddress == 191) {
             feeAddress = (idTownAddress == 58) ? 0 : 30;
         } else {
             feeAddress = 50;
         }
         isConfirmAddress = (checkoutAddressValid) ? true : false;
-        console.log("check isConfirmAddress :", isConfirmAddress)
         total = totalOrder + Number(feeAddress)
         $("#fee-address").text("$" + feeAddress)
         $("#total-order").text("$" + total)
@@ -603,11 +540,11 @@ function getUserId() {
         data: {
             token: localStorage.getItem("token"),
         },
-        success: function(response) {
+        success: function (response) {
             if (response != null && response != "") {
                 if (response.statusCode == 200) {
                     userId = response.data;
-                }else if (response.statusCode == 403) {
+                } else if (response.statusCode == 403) {
                     window.location.href = "403.html"
                 } else if (response.statusCode == 401) {
                     localStorage.setItem("accessLinkContinue", "checkout.html")
@@ -615,7 +552,7 @@ function getUserId() {
                 }
             }
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Error getting user ID", error);
         }
     });
