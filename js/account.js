@@ -1,6 +1,7 @@
 var phoneList;
 let addressList;
 var userId;
+import { getBearerToken,getToken } from "./token.js";
 $(document).ready(function() {
     /*Kết thúc đếm số lượng items trong cart */
     $("#profile").show();
@@ -13,10 +14,11 @@ $(document).ready(function() {
     });
     //Kết thúc ẩn hiện các trang khi bấm vào các đề mục
     //Bắt đầu getId
+   
     $.ajax({
             method: "GET",
             url: "http://localhost:8080/user/getid",
-            headers: { "Authorization": bearerToken },
+            headers: { "Authorization": getBearerToken() },
             async: false,
             data: {
                 token: localStorage.getItem("token")
@@ -26,11 +28,13 @@ $(document).ready(function() {
         .done(function(response) {
             if (response != "" && response != null) {
                 if (response.statusCode == 200) {
+                  
                     userId = response.data;
                     console.log('userIdFromToken ' + userId);
                 } else if (response.statusCode == 403) {
                     window.location.href = "403.html"
                 } else if (response.statusCode == 401) {
+                  
                     localStorage.setItem("accessLinkContinue", "account.html")
                     window.location.href = "login.html?#"
                 } else {
@@ -44,9 +48,9 @@ $(document).ready(function() {
     $.ajax({
             method: "GET",
             url: "http://localhost:8080/user/getUser",
-            headers: { "Authorization": bearerToken },
+            headers: { "Authorization": getBearerToken() },
             data: {
-                token: localStorage.getItem("token"),
+                token: getToken,
             },
             async: false,
         })
@@ -61,6 +65,7 @@ $(document).ready(function() {
                     $('.email').text(user.email);
                     $('input#username').val(user.name);
                     console.log(email);
+                    
                 } else if (response.statusCode == 403) {
                     window.location.href = "403.html"
                 } else if (response.statusCode == 401) {
@@ -75,7 +80,7 @@ $(document).ready(function() {
         method: "GET",
         url: "http://localhost:8080/phone/user?id=" + userId,
         async: false,
-        headers: { "Authorization": bearerToken }
+        headers: { "Authorization": getBearerToken() }
     }).done(function(response) {
         if (response != null && response != "") {
             if (response.statusCode == 200) {
@@ -93,7 +98,7 @@ $(document).ready(function() {
     $.ajax({
         method: "GET",
         url: "http://localhost:8080/address/user?id=" + userId,
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
         async: false,
     }).done(function(response) {
         if (response != null && response != "") {
@@ -160,7 +165,7 @@ $("#change-pass-form").on("submit", function(event) {
     $.ajax({
         method: "POST",
         url: "http://localhost:8080/user/changepass",
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
         async: false,
         data: {
             id: userId,
@@ -259,7 +264,7 @@ $('#edit-profile-link').click(function(event) {
         if (phoneRemoveIdList.length != 0) {
             $.ajax({
                 method: "POST",
-                headers: { "Authorization": bearerToken },
+                headers: { "Authorization": getBearerToken() },
                 url: "http://localhost:8080/phone/delete",
                 async: true,
                 dataType: "json", // Cấu hình kiểu dữ liệu là JSON
@@ -278,7 +283,7 @@ $('#edit-profile-link').click(function(event) {
         if (addressRemoveIdList.length != 0) {
             $.ajax({
                 method: "POST",
-                headers: { "Authorization": bearerToken },
+                headers: { "Authorization": getBearerToken() },
                 url: "http://localhost:8080/address/delete/",
                 async: true,
                 dataType: "json", // Cấu hình kiểu dữ liệu là JSON
@@ -304,7 +309,7 @@ $('#edit-profile-link').click(function(event) {
                 method: "POST",
                 url: "http://localhost:8080/phone/save",
                 async: false,
-                headers: { "Authorization": bearerToken },
+                headers: { "Authorization": getBearerToken() },
                 dataType: "json", // Cấu hình kiểu dữ liệu là JSON
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
@@ -336,7 +341,7 @@ $('#edit-profile-link').click(function(event) {
             $.ajax({
                 method: "POST",
                 url: "http://localhost:8080/address/save",
-                headers: { "Authorization": bearerToken },
+                headers: { "Authorization": getBearerToken() },
                 async: false,
                 dataType: "json", // Cấu hình kiểu dữ liệu là JSON
                 contentType: "application/json; charset=utf-8",
@@ -371,7 +376,7 @@ $('#addAdress').click(function() {
         method: "GET",
         url: "http://localhost:8080/country",
         async: false,
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
     }).done(function(response) {
         if (response != null && response != "") {
             countryList = response.data;
@@ -391,7 +396,7 @@ $('#addAdress').click(function() {
         method: "GET",
         url: "http://localhost:8080/city-province",
         async: false,
-        headers: { "Authorization": bearerToken },
+        headers: { "Authorization": getBearerToken() },
     }).done(function(response) {
         if (response != null && response != "") {
             townCityList = response.data;
@@ -425,5 +430,8 @@ $('#addAdress').click(function() {
                 currentItem.classList.remove("d-none");
             }
         );
+    })
+    $("#logoutAccount").click(function(){
+        
     })
 })

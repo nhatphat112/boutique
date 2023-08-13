@@ -1,3 +1,4 @@
+import { getToken,getBearerToken } from "./token.js";
 let listAllProduct = "";
 let listCategoryProduct = "";
 let listCategory = "";
@@ -93,7 +94,7 @@ $(document).ready(function() {
 
         $('#product-container').on('click', '.btn-add-to-cart', function() {
             console.log("active quickview 2")
-
+            $("#btn-submit-add-to-cart").addClass("d-none")
             document.getElementById('sold-out').classList.add("d-none")
             let quantityQuickView = document
                 .getElementById("product-quantity-quick-view")
@@ -134,28 +135,35 @@ $(document).ready(function() {
 
             let contentColor = `<option class="dropdown-item" selected>Select Color</option>`;
             /*Bắt đầu submit add to cart*/
+            let userId = getUserId()
             $("#btn-submit-add-to-cart").click(function() {
                 var colorId = $("#color-selector").val();;
                 var quantity = $("#input-quantity").val();
                 $.ajax({
                     method: "GET",
-                    url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + userId,
+                    url: "http://localhost:8080/cart/addToCart/" + encodeURIComponent(productId) + '/' + colorId + '/' + quantity + '/' + Number(userId),
+                    async: false,
+                    headers: { "Authorization": getBearerToken() },
                     data: {
                         productId: productId,
                         colorId: colorId,
                         quantity: quantity,
                         userId: userId
                     },
-                    async: false,
                     success: function(response) {
-                        console.log("User created successfully", response)
-                        console.log("User created successfully", response.data)
+                        if (response != null && response != "") {
+                            if (response.statusCode == 200) {
+                                  window.location.href = "cart.html"
+                            } else {
+                                console.log("ERROR :", response)
+                            }
+                        }
                     },
                     error: function(error) {
                         console.error("Error creating user", error),
                             console.log("User created failed", data)
                     }
-
+        
                 });
             });
             /*Kết thúc submit add to cart*/
@@ -198,9 +206,12 @@ $(document).ready(function() {
                         "image-product-quick-view"
                     ).style.background = `url('/img/${currentItem.image}')`;
                     if (currentItem.quantity > 1) {
+                        console.log("change")
+                        $("#btn-submit-add-to-cart").removeClass("d-none")
                         productQuantity.classList.remove("d-none");
                         document.getElementById('sold-out').classList.add("d-none")
                     } else {
+                        $("#btn-submit-add-to-cart").addClass("d-none")
                         document.getElementById('sold-out').classList.remove("d-none")
                         document.getElementById('product-quantity-quick-view').classList.add("d-none")
                     }
@@ -281,3 +292,28 @@ window.onload = (function() {
         }
     })
     /* Kết thúc chuyển hướng từ category  */
+    /* start function get user id by token*/
+    function getUserId() {
+        let userId = "";
+        $.ajax({
+            method: "GET",
+            url: "http://localhost:8080/user/getid",
+            headers: { Authorization: getBearerToken() },
+            async: false,
+            data: {
+                token: localStorage.getItem("token"),
+            },
+            success: function(response) {
+                if (response != null && response != "") {
+                    if (response.statusCode == 200) {
+                        userId = response.data;
+                    }
+                }
+            },
+            error: function(error) {
+                console.error("Error getting user ID", error);
+            }
+        });
+        return userId;
+    }
+        /* end function get user id by token*/

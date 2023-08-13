@@ -1,29 +1,8 @@
+import { getBearerToken, getToken } from "./token.js";
 $(document).ready(function () {
   // let bearerToken = "Bearer " + localStorage.getItem("token");
   // get userId by jwt
-  let userId = 0
-  $.ajax({
-    method: "GET",
-    url: "http://localhost:8080/user/getid",
-    headers: { "Authorization": bearerToken },
-    async: false,
-    data: {
-      token: localStorage.getItem("token")
-    }
-  }).done(function (response) {
-    if (response != "" && response != null) {
-      if (response.statusCode == 200) {
-        userId = response.data;
-      } else if (response.statusCode == 403) {
-        window.location.href = "403.html";
-      } else if (response.statusCode == 401) {
-        localStorage.setItem("accessLinkContinue", "purchase.html");
-        window.location.href = "login.html";
-      } else {
-        console.log("check response user/getId/token:", response);
-      }
-    }
-  });
+  let userId = getUserId();
   // show list product was ordered
   // get userId by jwt
   // $.ajax({
@@ -54,21 +33,18 @@ $(document).ready(function () {
   //     }
   //   });
   // show list product was ordered
-  console.log("check bearerToken:", bearerToken)
   $.ajax({
-    type: 'GET',
+    type: "GET",
     url: "http://localhost:8080/order-detail/user?id=" + userId,
     async: false,
-    headers: { "Authorization": bearerToken }
-
+    headers: { Authorization: getBearerToken() },
   }).done(function (res) {
-    console.log("check response :", res)
+    console.log("check response :", res);
     if (res.data != null && res.data != "") {
-      let theadProduct = document.getElementById('thead-product')
+      let theadProduct = document.getElementById("thead-product");
       let productContainerContent = "";
       res.data.map(function (currentItem, index, arr) {
-        productContainerContent +=
-          `<tbody class="product-item">
+        productContainerContent += `<tbody class="product-item">
         <tr>
           <th class="ps-0 py-3 border-light" scope="row">
             <div class="d-flex align-items-center">
@@ -147,51 +123,65 @@ $(document).ready(function () {
         </tr>
         </tbody>
   
-      `
-
-
-      })
-      theadProduct.insertAdjacentHTML('afterend', productContainerContent)
+      `;
+      });
+      theadProduct.insertAdjacentHTML("afterend", productContainerContent);
     }
-
   });
-  $('.selected-rating').text(1);
-  $(".selected-rating").val(1)
-  $('.rating').each(function (index, element) {
-    element.getElementsByClassName('rating-star')[0].classList.add('active')
-  })
+  $(".selected-rating").text(1);
+  $(".selected-rating").val(1);
+  $(".rating").each(function (index, element) {
+    element.getElementsByClassName("rating-star")[0].classList.add("active");
+  });
 
   //  let rating = document.getElementsByClassName('rating')
   //  Array.from(rating).map(function(currentItem){
   //   currentItem.getElementsByClassName('rating-star')[0].classList.add('active')
   //  })
 
-  $('.rating-star').click(function () {
-    $(this).addClass('active');
-    $(this).prevAll('.rating-star').addClass('active');
-    $(this).nextAll('.rating-star').removeClass('active');
+  $(".rating-star").click(function () {
+    $(this).addClass("active");
+    $(this).prevAll(".rating-star").addClass("active");
+    $(this).nextAll(".rating-star").removeClass("active");
     var selectedRating = $(this).index() + 1;
-    $(this).closest('.product-item').find('.selected-rating').text(selectedRating);
-    $(this).closest('.product-item').find('.selected-rating').val(selectedRating);
+    $(this)
+      .closest(".product-item")
+      .find(".selected-rating")
+      .text(selectedRating);
+    $(this)
+      .closest(".product-item")
+      .find(".selected-rating")
+      .val(selectedRating);
   });
   // hidden / appear form review
-  $('.btn-rate').click(function (event) {
-    event.preventDefault()
+  $(".btn-rate").click(function (event) {
+    event.preventDefault();
     if ($(this).attr("statusId") == 2) {
-      console.log("status Id :", $(this).attr("statusId"))
-      let warningAlert = $(this).closest("tr").find(".alert-warning").addClass("d-none")
-      console.log("check warningAlert:", warningAlert)
+      console.log("status Id :", $(this).attr("statusId"));
+      let warningAlert = $(this)
+        .closest("tr")
+        .find(".alert-warning")
+        .addClass("d-none");
+      console.log("check warningAlert:", warningAlert);
     } else {
-      let reviewForm = $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
+      let reviewForm = $(this)
+        .closest(".product-item")
+        .find(".reviewForm")[0]
+        .classList.toggle("d-none");
     }
-
-  })
+  });
   // submit form
   $(".btn-submit").click(function (event) {
-    event.preventDefault()
-    let reviewText = $(this).closest('.product-item').find("textarea[name='review-text']").val()
-    let reviewStar = $(this).closest('.product-item').find(".selected-rating")[0].textContent
-    let productId = $(this).attr("product-id")
+    userId = getUserId()
+    event.preventDefault();
+    let reviewText = $(this)
+      .closest(".product-item")
+      .find("textarea[name='review-text']")
+      .val();
+    let reviewStar = $(this)
+      .closest(".product-item")
+      .find(".selected-rating")[0].textContent;
+    let productId = $(this).attr("product-id");
     let isSuccess = false;
 
     $.ajax({
@@ -202,61 +192,94 @@ $(document).ready(function () {
         content: reviewText,
         starNumber: parseInt(reviewStar),
         userId: parseInt(userId),
-        productId: parseInt(productId)
+        productId: parseInt(productId),
       },
-      headers: { "Authorization": bearerToken }
-
-    })
-      .done(function () {
-        isSuccess = true
-      });
+      headers: { Authorization: getBearerToken() },
+    }).done(function () {
+      isSuccess = true;
+    });
     if (isSuccess == true) {
-      $(this).closest('.product-item').find('.reviewForm')[0].classList.toggle('d-none')
-      bootbox.alert("Review Successfully !")
+      $(this)
+        .closest(".product-item")
+        .find(".reviewForm")[0]
+        .classList.toggle("d-none");
+      bootbox.alert("Review Successfully !");
     }
-  })
+  });
   $(".btn-buy-again").click(function (event) {
-    let productIdBuyAgain = $(this).attr("productId")
+    let productIdBuyAgain = $(this).attr("productId");
     event.preventDefault();
-    let url = "detail.html?id=" + productIdBuyAgain
+    let url = "detail.html?id=" + productIdBuyAgain;
 
-    window.location.href = url
-
-  })
-  let orderDetailIdNeedDelete
+    window.location.href = url;
+  });
+  let orderDetailIdNeedDelete;
   $(".btn-delete-ordered").click(function () {
-    orderDetailIdNeedDelete = $(this).attr("order-detail-id")
-    $("#content-quick-view-confirm").text("Are you sure delete?")
-    $("#btn-quick-view-confirm").addClass("btn-delete-ordered")
-  })
+    orderDetailIdNeedDelete = $(this).attr("order-detail-id");
+    $("#content-quick-view-confirm").text("Are you sure delete?");
+    $("#btn-quick-view-confirm").addClass("btn-delete-ordered");
+  });
   $("#btn-quick-view-confirm").click(function () {
-    let buttonQuickViewConfirm = $(this)
-    console.log("check buttonQuickViewConfirm :", buttonQuickViewConfirm)
+    let buttonQuickViewConfirm = $(this);
+    console.log("check buttonQuickViewConfirm :", buttonQuickViewConfirm);
     if (buttonQuickViewConfirm.hasClass("btn-delete-ordered")) {
-      buttonQuickViewConfirm.removeClass("btn-delete-ordered")
+      buttonQuickViewConfirm.removeClass("btn-delete-ordered");
       let deleteIsSuccess = true;
       $.ajax({
         method: "GET",
-        url: "http://localhost:8080/order-detail/delete?id=" + orderDetailIdNeedDelete,
-        headers: { "Authorization": bearerToken },
-        async: false
-      })
-        .done(function (response) {
-          console.log("check response:", response)
-          if (response != "" && response != null) {
-            if (response.statusCode == 200) {
-              deleteIsSuccess = true
-            } else {
-              deleteIsSuccess = false;
-            }
+        url:
+          "http://localhost:8080/order-detail/delete?id=" +
+          orderDetailIdNeedDelete,
+        headers: { Authorization: getBearerToken() },
+        async: false,
+      }).done(function (response) {
+        console.log("check response:", response);
+        if (response != "" && response != null) {
+          if (response.statusCode == 200) {
+            deleteIsSuccess = true;
+          } else {
+            deleteIsSuccess = false;
           }
-        });
+        }
+      });
       if (deleteIsSuccess) {
-        let trProduct = $("a").filter(`[order-detail-id='${orderDetailIdNeedDelete}']`).closest("tr")
-        trProduct.next().remove()
-        trProduct.remove()
+        let trProduct = $("a")
+          .filter(`[order-detail-id='${orderDetailIdNeedDelete}']`)
+          .closest("tr");
+        trProduct.next().remove();
+        trProduct.remove();
       }
     }
-  })
+  });
   // Rest of your JavaScript code...
 });
+function getUserId() {
+  let userId = "";
+  $.ajax({
+    method: "GET",
+    url: "http://localhost:8080/user/getid",
+    headers: { Authorization: getBearerToken() },
+    async: false,
+    data: {
+      token: localStorage.getItem("token"),
+    },
+    success: function (response) {
+      if (response != null && response != "") {
+        if (response.statusCode == 200) {
+          userId = response.data;
+        } else if (response.statusCode == 403) {
+          window.location.href = "403.html";
+        } else if (response.statusCode == 401) {
+          localStorage.setItem("accessLinkContinue", "purchase.html");
+          window.location.href = "login.html";
+        } else {
+          console.log("check response user/getId/token:", response);
+        }
+      }
+    },
+    error: function (error) {
+      console.error("Error getting user ID", error);
+    },
+  });
+  return userId;
+}
